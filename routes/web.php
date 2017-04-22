@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
     CRUD::resource('guru', 'Admin\GuruCrudController');
     CRUD::resource('siswa', 'Admin\SiswaCrudController');
     CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
+    CRUD::resource('hafalan', 'Admin\HafalanCrudController');
   
   // [...] other routes
 });

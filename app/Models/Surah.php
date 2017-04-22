@@ -38,6 +38,10 @@ class Surah extends Model
     {
         return $this->belongsToMany('App\Models\Juz');
     }
+    public function hafalan()
+    {
+        return $this->belongsToMany('App\Models\Hafalan');
+    }
 
     /*
     |--------------------------------------------------------------------------

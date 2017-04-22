@@ -26,9 +26,7 @@
                      <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/guru') }}"><i class="fa fa-dashboard"></i> <span>Data Guru</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/siswa') }}"><i class="fa fa-dashboard"></i> <span>Data Siswa</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/juz') }}"><i class="fa fa-dashboard"></i> <span>Daftar Juz</span></a></li>
-                    <li>
-                        <a href="{{url("input")}}"> Input Hafalan</a>
-                    </li>
+                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/hafalan') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
                     <li>
                         <a href="{{url("program-hafalan")}}"> Program hafalan </a>
                     </li>
