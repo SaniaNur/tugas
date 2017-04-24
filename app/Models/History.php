@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Hafalan extends Model
+class History extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Hafalan extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'hafalan';
-    protected $primaryKey = 'id_hafalan';
+    //protected $table = 'historys';
+    //protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['NIS','no_guru','jenis','tanggal'];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -34,18 +34,6 @@ class Hafalan extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function siswa()
-    {
-        return $this->belongsTo('App\Models\Siswa', 'NIS');
-    }
-    public function guru()
-    {
-        return $this->belongsTo('App\Models\Guru', 'no_guru');
-    }
-    public function surah()
-    {
-        return $this->belongsToMany('App\Models\Surah');
-    }
 
     /*
     |--------------------------------------------------------------------------

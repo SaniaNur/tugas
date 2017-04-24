@@ -38,6 +38,8 @@ Route::get('/history-guru', 'GuruController@history_guru');
 Route::get('/index-siswa', 'SiswaController@index_siswa');
 Route::get('/tabel-hasil', 'SiswaController@tabel_hasil');
 
+// Route::get('/admin/input-hafalan', 'HafalanController@input');
+
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {
@@ -46,6 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
     CRUD::resource('siswa', 'Admin\SiswaCrudController');
     CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
     CRUD::resource('hafalan', 'Admin\HafalanCrudController');
+    CRUD::resource('pencapaian', 'Admin\PencapaianCrudController');
   
   // [...] other routes
 });

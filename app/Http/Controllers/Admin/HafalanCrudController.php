@@ -7,7 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\HafalanRequest as StoreRequest;
 use App\Http\Requests\HafalanRequest as UpdateRequest;
-
+use App\Models\Siswa;
+use App\Models\Surah;
 class HafalanCrudController extends CrudController
 {
 
@@ -30,6 +31,8 @@ class HafalanCrudController extends CrudController
         */
 
         // $this->crud->setFromDb();
+        $this->crud->dataSiswa=Siswa::get();
+        $this->crud->dataSurah=Surah::get();
 
         // ------ CRUD FIELDS
         $this->crud->addField([  // Select2
@@ -187,6 +190,7 @@ class HafalanCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+        $this->crud->setListView('vendor/backpack/hafalan');
     }
 
     public function store(StoreRequest $request)

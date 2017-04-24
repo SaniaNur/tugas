@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\SiswaRequest as StoreRequest;
-use App\Http\Requests\SiswaRequest as UpdateRequest;
+use App\Http\Requests\PencapaianRequest as StoreRequest;
+use App\Http\Requests\PencapaianRequest as UpdateRequest;
 
-class SiswaCrudController extends CrudController
+class PencapaianCrudController extends CrudController
 {
 
     public function setUp()
@@ -19,9 +19,9 @@ class SiswaCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Siswa');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/siswa');
-        $this->crud->setEntityNameStrings('Data Siswa', 'Data Siswa');
+        $this->crud->setModel('App\Models\Hafalan');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/pencapaian');
+        $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
         |--------------------------------------------------------------------------
@@ -32,114 +32,39 @@ class SiswaCrudController extends CrudController
         // $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
-        $this->crud->addField([ // Text
-                'name' => 'NIS',
-                'label' => "NIS",
-                'type' => 'number',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'no_guru',
-                'label' => "No. Guru",
-                'type' => 'text',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'nama',
-                'label' => "Nama",
-                'type' => 'text',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([ // select_from_array
-                'name' => 'kelas',
-                'label' => "Kelas",
-                'type' => 'select_from_array',
-                'options' => ['X' => 'Kelas X', 'XI IPA 1' => 'Kelas XI IPA 1', 'XI IPA 2' => 'Kelas XI IPA 2'],
-                'allows_null' => false,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-            ], 'both');
-        $this->crud->addField([
-               // 1-n relationship
-               'label' => "Guru Pembimbing", // Table column heading
-               'type' => "select2",
-               'name' => 'no_guru', // the column that contains the ID of that connected entity;
-               'entity' => 'guru', // the method that defines the relationship in your Model
-               'attribute' => "nama", // foreign key attribute that is shown to user
-               'model' => "App\Models\Guru", // foreign key model
-            ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'alamat',
-                'label' => "Alamat",
-                'type' => 'textarea',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([   // Number
-                'name' => 'noHp',
-                'label' => 'Handphone',
-                'type' => 'number',
-                // optionals
-                // 'attributes' => ["step" => "any"], // allow decimals
-                // 'prefix' => "$",
-                // 'suffix' => ".00",
-            ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'namaIbu',
-                'label' => "Nama Ibu",
-                'type' => 'text',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
+        // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
-           'name' => 'NIS', // The db column name
-           'label' => "NIS" // Table column heading
+           // 1-n relationship
+           'label' => "NIS", // Table column heading
+           'type' => "select",
+           'name' => 'NIS', // the column that contains the ID of that connected entity;
+           'entity' => 'siswa', // the method that defines the relationship in your Model
+           'attribute' => "NIS", // foreign key attribute that is shown to user
+           'model' => "App\Models\Siswa", // foreign key model
         ]);
-        //  $this->crud->addColumn([
-        //    'name' => 'no_guru', // The db column name
-        //    'label' => "No. Guru" // Table column heading
-        // ]);
-        $this->crud->addColumn([
-           'name' => 'nama', // The db column name
-           'label' => "Nama" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'kelas', // The db column name
-           'label' => "Kelas" // Table column heading
-        ]);
-        $this->crud->addColumn([
-               // 1-n relationship
-               'label' => "Guru Pembimbing", // Table column heading
-               'type' => "select",
-               'name' => 'no_guru', // the column that contains the ID of that connected entity;
-               'entity' => 'guru', // the method that defines the relationship in your Model
-               'attribute' => "nama", // foreign key attribute that is shown to user
-               'model' => "App\Models\Guru", // foreign key model
-            ]);
-        $this->crud->addColumn([
-           'name' => 'alamat', // The db column name
-           'label' => "Alamat" // Table column heading
+         $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Nama", // Table column heading
+           'type' => "select",
+           'name' => 'NIS', // the column that contains the ID of that connected entity;
+           'entity' => 'siswa', // the method that defines the relationship in your Model
+           'attribute' => "nama", // foreign key attribute that is shown to user
+           'model' => "App\Models\Siswa", // foreign key model
         ]);
         $this->crud->addColumn([
-           'name' => 'noHp', // The db column name
-           'label' => "Handphone" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'namaIbu', // The db column name
-           'label' => "Nama Ibu" // Table column heading
-        ]);
+           // 1-n relationship
+           'label' => "Guru Pembimbing", // Table column heading
+           'type' => "select",
+           'name' => 'no_guru', // the column that contains the ID of that connected entity;
+           'entity' => 'guru', // the method that defines the relationship in your Model
+           'attribute' => "nama", // foreign key attribute that is shown to user
+           'model' => "App\Models\Guru", // foreign key model
+        ]); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack

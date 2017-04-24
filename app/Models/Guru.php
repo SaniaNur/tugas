@@ -38,6 +38,10 @@ class Guru extends Model
     {
         return $this->hasMany('App\Models\Siswa');
     }
+    public function hafalan()
+    {
+        return $this->hasMany('App\Models\Hafalan','id_hafalan');
+    }
 
     /*
     |--------------------------------------------------------------------------
