@@ -39,7 +39,7 @@ Route::get('/index-siswa', 'SiswaController@index_siswa');
 Route::get('/tabel-hasil', 'SiswaController@tabel_hasil');
 
 // Route::get('/admin/input-hafalan', 'HafalanController@input');
-
+Route::post('/hafalan/tambah', 'Admin\HafalanCrudController@tambahHafalan');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {

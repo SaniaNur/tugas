@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Illuminate\Http\Request;
 use App\Http\Requests\HafalanRequest as StoreRequest;
 use App\Http\Requests\HafalanRequest as UpdateRequest;
 use App\Models\Siswa;
 use App\Models\Surah;
+use App\Models\Hafalan;
+use App\Models\Guru;
 class HafalanCrudController extends CrudController
 {
 
@@ -33,6 +36,7 @@ class HafalanCrudController extends CrudController
         // $this->crud->setFromDb();
         $this->crud->dataSiswa=Siswa::get();
         $this->crud->dataSurah=Surah::get();
+        $this->crud->dataGuru=Guru::get();
 
         // ------ CRUD FIELDS
         $this->crud->addField([  // Select2
@@ -208,6 +212,37 @@ class HafalanCrudController extends CrudController
         $redirect_location = parent::updateCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
+
         return $redirect_location;
+    }
+    public function tambahHafalan(Request $request){
+        $hafalan = new Hafalan;
+        $hafalan -> NIS=$request-> NIS;
+        $hafalan -> jenis=$request-> jenis ;
+        $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
+        $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
+        $hafalan -> save(); 
+
+        $sukses=\DB::table('detail_hafalan')->insert([[
+            'id_hafalan'=> $hafalan-> id_hafalan,
+            'id_surah'=>$request-> surahAwal,
+            'ayat'=>$request-> ayatAwal,
+            'jenisAyat'=>'awal'
+            ],[
+            'id_hafalan'=> $hafalan-> id_hafalan,
+            'id_surah'=>$request-> surahAkhir,
+            'ayat'=>$request-> ayatAkhir,
+            'jenisAyat'=>'akhir'
+            ]]);
+        if($sukses){
+          \Alert::success('Data Berhasil Ditambahkan')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
+        return \Redirect::to('admin/hafalan');
+
+
+
     }
 }

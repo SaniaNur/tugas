@@ -39,6 +39,11 @@ class PencapaianCrudController extends CrudController
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
+           'name' => 'tanggal', // The db column name
+           'label' => "Tanggal",
+           'type' => 'date'// Table column heading
+        ]);
+        $this->crud->addColumn([
            // 1-n relationship
            'label' => "NIS", // Table column heading
            'type' => "select",
