@@ -40,14 +40,14 @@ class SiswaCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'no_guru',
-                'label' => "No. Guru",
-                'type' => 'text',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
+        // $this->crud->addField([  // Select2
+        //    'label' => "No Guru",
+        //    'type' => 'select2',
+        //    'name' => 'category_id', // the db column for the foreign key
+        //    'entity' => 'category', // the method that defines the relationship in your Model
+        //    'attribute' => 'name', // foreign key attribute that is shown to user
+        //    'model' => "App\Models\Tag" // foreign key model
+        // ], 'both');
         $this->crud->addField([ // Text
                 'name' => 'nama',
                 'label' => "Nama",
@@ -119,15 +119,15 @@ class SiswaCrudController extends CrudController
            'name' => 'kelas', // The db column name
            'label' => "Kelas" // Table column heading
         ]);
-        $this->crud->addColumn([
-               // 1-n relationship
-               'label' => "Guru Pembimbing", // Table column heading
-               'type' => "select",
-               'name' => 'no_guru', // the column that contains the ID of that connected entity;
-               'entity' => 'guru', // the method that defines the relationship in your Model
-               'attribute' => "nama", // foreign key attribute that is shown to user
-               'model' => "App\Models\Guru", // foreign key model
-            ]);
+        // $this->crud->addColumn([
+        //        // 1-n relationship
+        //        'label' => "Guru Pembimbing", // Table column heading
+        //        'type' => "select",
+        //        'name' => 'no_guru', // the column that contains the ID of that connected entity;
+        //        'entity' => 'guru', // the method that defines the relationship in your Model
+        //        'attribute' => "nama", // foreign key attribute that is shown to user
+        //        'model' => "App\Models\Guru", // foreign key model
+        //     ]);
         $this->crud->addColumn([
            'name' => 'alamat', // The db column name
            'label' => "Alamat" // Table column heading

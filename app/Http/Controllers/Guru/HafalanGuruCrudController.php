@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Guru;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\HafalanRequest as StoreRequest;
 use App\Http\Requests\HafalanRequest as UpdateRequest;
 use App\Models\Siswa;
 use App\Models\Surah;
 use App\Models\Hafalan;
 use App\Models\Guru;
-class HafalanCrudController extends CrudController
+class HafalanGuruCrudController extends CrudController
 {
-
-    public function setUp()
+     public function setUp()
     {
 
         /*
@@ -245,4 +245,6 @@ class HafalanCrudController extends CrudController
 
 
     }
+
+
 }

@@ -19,7 +19,7 @@ class PencapaianCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Hafalan');
+        $this->crud->setModel('App\Models\Siswa');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/pencapaian');
         $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
@@ -38,28 +38,24 @@ class PencapaianCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn([
-           'name' => 'tanggal', // The db column name
-           'label' => "Tanggal",
-           'type' => 'date'// Table column heading
-        ]);
+        // $this->crud->addColumn([
+        //    'name' => 'tanggal', // The db column name
+        //    'label' => "Tanggal",
+        //    'type' => 'date'// Table column heading
+        // ]);
         $this->crud->addColumn([
            // 1-n relationship
            'label' => "NIS", // Table column heading
-           'type' => "select",
+           
            'name' => 'NIS', // the column that contains the ID of that connected entity;
-           'entity' => 'siswa', // the method that defines the relationship in your Model
-           'attribute' => "NIS", // foreign key attribute that is shown to user
-           'model' => "App\Models\Siswa", // foreign key model
+           // foreign key model
         ]);
          $this->crud->addColumn([
            // 1-n relationship
            'label' => "Nama", // Table column heading
-           'type' => "select",
+           
            'name' => 'NIS', // the column that contains the ID of that connected entity;
-           'entity' => 'siswa', // the method that defines the relationship in your Model
-           'attribute' => "nama", // foreign key attribute that is shown to user
-           'model' => "App\Models\Siswa", // foreign key model
+           
         ]);
         $this->crud->addColumn([
            // 1-n relationship
@@ -80,13 +76,13 @@ class PencapaianCrudController extends CrudController
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
-        // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
+        $this->crud->addButtonFromView('line', 'history', 'history'); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->crud->denyAccess(['create', 'update', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);

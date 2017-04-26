@@ -29,16 +29,12 @@
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/hafalan') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
                     @elseif(Auth::user()->level == "guru")   
-                      <li>
-                        <a href="{{url("input")}}"> Input Hafalan</a>
-                    </li>
-                    <li>
-                        <a href="{{url("program-hafalan")}}"> Program hafalan </a>
-                    </li>
+                      <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+                    <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/hafalan') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
+                    <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
                     @elseif( Auth::user()->level == "siswa" )
-                    <li>
-                        <a href="{{url("program-hafalan")}}"> Program hafalan </a>
-                    </li>
+                     <li><a href="{{ url(config('backpack.base.route_prefix', 'siswa').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+                    <li><a href="{{ url(config('backpack.base.route_prefix', 'siswa').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
                     @else           
                     @endif
 

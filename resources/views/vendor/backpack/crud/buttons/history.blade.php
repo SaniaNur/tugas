@@ -1,0 +1,1 @@
+<a href="{{ url('admin/pencapaian/'.$entry->getKey().'/history') }}" class="btn btn-xs btn-default"><i class="fa fa-history"></i> History Hafalan</a>

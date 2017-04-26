@@ -34,7 +34,7 @@
                              Hafalan Siswa
                         </div>
                                     <form role="form"style="padding-left:10px; margin-top:10px; padding-right:10px" action={{url('/hafalan/tambah')}} method='post' >
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" >
                                             <div class="form-group">
                                                 <label>Tanggal</label>
                                                 <div class="input-group date" data-provide="datepicker">
@@ -107,7 +107,7 @@
                                             </div>
                                         </div>
                                             <button type="submit" class="btn btn-primary" >Simpan</button>
-                                            <button type="submit" class="btn btn-primary">Batal</button>
+                                            <a href="{{url('/admin/hafalan')}}" class="btn btn-primary">Batal</a>
                                         
                                     </form>
                 </div>
@@ -120,13 +120,15 @@
                 <script src="{{ asset('/vendor/backpack/select2/select2.js') }}"></script>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
-                      $(".select2").select2();
+                      $("#select2").select2();
                     });
                     $('#datepicker').datepicker({
                         format: 'dd/MM/yyyy',
                         endDate: '0d', 
-                        todayBtn: "linked"
+                        todayBtn: "linked",
+                        autoClose: true
                     });
+                    
                 </script>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
