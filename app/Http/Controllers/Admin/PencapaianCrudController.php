@@ -54,7 +54,14 @@ class PencapaianCrudController extends CrudController
            // 1-n relationship
            'label' => "Nama", // Table column heading
            
-           'name' => 'NIS', // the column that contains the ID of that connected entity;
+           'name' => 'nama', // the column that contains the ID of that connected entity;
+           
+        ]);
+         $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Kelas", // Table column heading
+           
+           'name' => 'kelas', // the column that contains the ID of that connected entity;
            
         ]);
         $this->crud->addColumn([
@@ -105,7 +112,7 @@ class PencapaianCrudController extends CrudController
         // $this->crud->enableAjaxTable();
 
         // ------ DATATABLE EXPORT BUTTONS
-        // Show export to PDF, CSV, XLS and Print buttons on the table view.
+        // Show export to PDF, CSV, XLS and Print buttons on the table view. 
         // Does not work well with AJAX datatables.
         // $this->crud->enableExportButtons();
 

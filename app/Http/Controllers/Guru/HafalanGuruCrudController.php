@@ -34,7 +34,7 @@ class HafalanGuruCrudController extends CrudController
         */
 
         // $this->crud->setFromDb();
-        $this->crud->dataSiswa=Siswa::get();
+        $this->crud->dataSiswa=Siswa::where ('no_guru','=',1)->get();
         $this->crud->dataSurah=Surah::get();
         $this->crud->dataGuru=Guru::get();
 

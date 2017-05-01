@@ -19,9 +19,9 @@ class HistoryCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\History');
+        $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/history');
-        $this->crud->setEntityNameStrings('history', 'histories');
+        $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
 
         /*
         |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ class HistoryCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setFromDb();
+        // $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
@@ -38,6 +38,14 @@ class HistoryCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
+        $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Tanggal", // Table column heading
+           
+           'name' => 'tanggal',
+           'type' => 'date' // the column that contains the ID of that connected entity;
+           // foreign key model
+        ]);
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
@@ -55,7 +63,7 @@ class HistoryCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->crud->denyAccess([ 'create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -96,6 +104,7 @@ class HistoryCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+        $this->crud->setListView('vendor/backpack/historyHafalan');
     }
 
     public function store(StoreRequest $request)

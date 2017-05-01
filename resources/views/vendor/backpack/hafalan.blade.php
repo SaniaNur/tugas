@@ -120,7 +120,7 @@
                 <script src="{{ asset('/vendor/backpack/select2/select2.js') }}"></script>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
-                      $("#select2").select2();
+                      $(".select2").select2();
                     });
                     $('#datepicker').datepicker({
                         format: 'dd/MM/yyyy',
