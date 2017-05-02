@@ -84,7 +84,7 @@ class PencapaianGuruCrudController extends CrudController
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
-        $this->crud->addButtonFromView('line', 'history', 'history'); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
+        $this->crud->addButtonFromView('line', 'historyHafalanGuru', 'historyGuru '); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
 

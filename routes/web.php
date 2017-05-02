@@ -68,5 +68,20 @@ Route::group(['prefix' => 'guru'], function()
 
 	CRUD::resource('hafalan', 'Guru\HafalanGuruCrudController');
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
+    CRUD::resource('history', 'Guru\HistoryGuruCrudController');
+
+    Route::GET('/pencapaian/{id_hafalan}/history', 'Guru\HistoryGuruCrudController@index');
+    Route::GET('/pencapaian/{id_hafalan}/history/{id}/edit', 'Guru\HistoryGuruCrudController@edit');
+    Route::PUT('/pencapaian/{id_hafalan}/history/{history}', 'Guru\HistoryGuruCrudController@update');
+    Route::DELETE('/pencapaian/{id_hafalan}/history/{history}', 'Guru\HistoryGuruCrudController@destroy');
+
+});
+
+Route::group(['prefix' => 'siswa'], function()
+{
+
+    
+    CRUD::resource('history', 'Siswa\PencapaianSiswaCrudController');
+    
 
 });

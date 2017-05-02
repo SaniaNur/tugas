@@ -106,6 +106,10 @@
                                                 <input name="ayatAkhir" class="form-control" />
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                                <label>Nilai</label>
+                                                <input name="nilai" class="form-control" />
+                                            </div>
                                             <button type="submit" class="btn btn-primary" >Simpan</button>
                                             <a href="{{url('/admin/hafalan')}}" class="btn btn-primary">Batal</a>
                                         

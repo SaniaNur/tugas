@@ -221,18 +221,21 @@ class HafalanCrudController extends CrudController
         $hafalan -> jenis=$request-> jenis ;
         $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
+        $hafalan -> nilai=$request->nilai;
         $hafalan -> save(); 
 
         $sukses=\DB::table('detail_hafalan')->insert([[
             'id_hafalan'=> $hafalan-> id_hafalan,
             'id_surah'=>$request-> surahAwal,
             'ayat'=>$request-> ayatAwal,
-            'jenisAyat'=>'awal'
+            'jenisAyat'=>'awal',
+            
             ],[
             'id_hafalan'=> $hafalan-> id_hafalan,
             'id_surah'=>$request-> surahAkhir,
             'ayat'=>$request-> ayatAkhir,
-            'jenisAyat'=>'akhir'
+            'jenisAyat'=>'akhir',
+            
             ]]);
         if($sukses){
           \Alert::success('Data Berhasil')->flash();  
