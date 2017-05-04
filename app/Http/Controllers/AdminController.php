@@ -17,9 +17,9 @@ class AdminController extends Controller
     }
     
     public function index(){
-        if (auth::user()->level == "admin") {
+        if (auth::user()->level == "Admin") {
             return view('admin.dashboard');
-        }elseif (auth::user()->level == "guru") {
+        }elseif (auth::user()->level == "Guru") {
             return view('guru.indexGuru');
         }else{
             return view('siswa.indexSiswa');

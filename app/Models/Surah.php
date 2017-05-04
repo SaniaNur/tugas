@@ -38,9 +38,9 @@ class Surah extends Model
     {
         return $this->belongsToMany('App\Models\Juz');
     }
-    public function hafalan()
+    public function detailHafalan()
     {
-        return $this->belongsToMany('App\Models\Hafalan');
+        return $this->hasMany('App\Models\DetailHafalan');
     }
 
     /*

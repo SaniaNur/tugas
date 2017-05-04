@@ -7,6 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\HistoryRequest as StoreRequest;
 use App\Http\Requests\HistoryRequest as UpdateRequest;
+use App\Models\Hafalan;
+use App\Models\DetailHafalan;
 
 class HistoryCrudController extends CrudController
 {
@@ -105,6 +107,16 @@ class HistoryCrudController extends CrudController
         // $this->crud->groupBy();
         // $this->crud->limit();
         $this->crud->setListView('vendor/backpack/historyHafalan');
+
+        // $NIS = \Route::current()-> parameter('NIS');
+        // $id_hafalan=Hafalan::select('id')->where ([['NIS','=',$NIS],['jenis','=','ziadah']])->get();
+        // foreach ($id_hafalan as $id) {
+        //     $awalZiadah=DetailHafalan::where ([['id_hafalan','=',$id],['jenisAyat','=','awal']])->first();
+        //     $akhirZiadah=DetailHafalan::where ([['id_hafalan','=',$id],['jenisAyat','=','akhir']])->first();
+        //     $ziadah=(["awal"=>[$awalZiadah->surah, $awalZiadah->ayat],["akhir"->[$akhirZiadah->surah, $akhirZiadah->ayat]
+
+        //         ])
+        // }
     }
 
     public function store(StoreRequest $request)

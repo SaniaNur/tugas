@@ -43,7 +43,7 @@ Route::post('/hafalan/tambah', 'Admin\HafalanCrudController@tambahHafalan');
 
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
+Route::group(['prefix' => 'admin', 'middleware' => 'admin' ], function()
 {
   // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     CRUD::resource('guru', 'Admin\GuruCrudController');
@@ -55,10 +55,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 
     
 
-    Route::GET('/pencapaian/{id_hafalan}/history', 'Admin\HistoryCrudController@index');
-    Route::GET('/pencapaian/{id_hafalan}/history/{id}/edit', 'Admin\HistoryCrudController@edit');
-    Route::PUT('/pencapaian/{id_hafalan}/history/{history}', 'Admin\HistoryCrudController@update');
-    Route::DELETE('/pencapaian/{id_hafalan}/history/{history}', 'Admin\HistoryCrudController@destroy');
+    Route::GET('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController@index');
+    Route::GET('/pencapaian/{NIS}/history/{id}/edit', 'Admin\HistoryCrudController@edit');
+    Route::PUT('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@update');
+    Route::DELETE('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@destroy');
     
   // [...] other routes
 });

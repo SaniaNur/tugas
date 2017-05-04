@@ -44,9 +44,9 @@ class Hafalan extends Model
     {
         return $this->belongsTo('App\Models\Guru', 'no_guru');
     }
-    public function surah()
+    public function detailHafalan()
     {
-        return $this->belongsToMany('App\Models\Surah');
+        return $this->hasMany('App\Models\DetailHafalan');
     }
     // public function setTanggalAttribute($value){
     //     $this->attributes['tanggal']=Carbon::createFromFormat('mm/dd/yyyy', $value)->toDateString;

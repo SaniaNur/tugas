@@ -7,6 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SiswaRequest as StoreRequest;
 use App\Http\Requests\SiswaRequest as UpdateRequest;
+use App\User;
+use App\Models\SiswaUpdate as Siswa;
 
 class SiswaCrudController extends CrudController
 {
@@ -19,7 +21,7 @@ class SiswaCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Siswa');
+        $this->crud->setModel('App\Models\SiswaUpdate');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/siswa');
         $this->crud->setEntityNameStrings('Data Siswa', 'Data Siswa');
 
@@ -40,6 +42,14 @@ class SiswaCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'id_user',
+                'label' => "ID",
+                'type' => 'hidden',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'update');
         // $this->crud->addField([  // Select2
         //    'label' => "No Guru",
         //    'type' => 'select2',
@@ -98,6 +108,12 @@ class SiswaCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+        $this->crud->addField([   // Password
+            'name' => 'password',
+            'label' => 'Password',
+            'type' => 'password'
+        ], 'both');
+
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -202,18 +218,52 @@ class SiswaCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
-        $redirect_location = parent::storeCrud();
+        $user= new User;
+        $user->name=$request->nama;
+        $user->password=$request->password;
+        $user->save();
+        $siswa=new Siswa;
+        $siswa->NIS=$request->NIS;
+        $siswa->id_user=$user->id;
+        $siswa->no_guru=$request->no_guru;
+        $siswa->nama=$request->nama;
+        $siswa->kelas=$request->kelas;
+        $siswa->alamat=$request->alamat;
+        $siswa->noHp=$request->noHp;
+        $siswa->namaIbu=$request->namaIbu;
+        $siswa->save();
+        return \Redirect::to ('admin/siswa');
+        
+
+
+        // $redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        // return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
         // your additional operations before save here
-        $redirect_location = parent::updateCrud();
+        // $redirect_location = parent::updateCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        // return $redirect_location;
+        $siswa=[
+        'NIS'=>$request->NIS,
+        'id_user'=>$request->id_user,
+        'no_guru'=>$request->no_guru,
+        'nama'=>$request->nama,
+        'kelas'=>$request->kelas,
+        'alamat'=>$request->alamat,
+        'noHp'=>$request->noHp,
+        'namaIbu'=>$request->namaIbu,
+        ];
+        Siswa::where('id_user','=',$request->id_user)->update($siswa);
+        return \Redirect::to ('admin/siswa');
+
     }
+
+
+
 }

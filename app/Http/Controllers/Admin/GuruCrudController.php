@@ -7,6 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\GuruRequest as StoreRequest;
 use App\Http\Requests\GuruRequest as UpdateRequest;
+use App\User;
+use App\Models\GuruUpdate as Guru;
 
 class GuruCrudController extends CrudController
 {
@@ -19,7 +21,7 @@ class GuruCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Guru');
+        $this->crud->setModel('App\Models\GuruUpdate');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/guru');
         $this->crud->setEntityNameStrings('Data Guru', 'Data Guru');
 
@@ -35,6 +37,14 @@ class GuruCrudController extends CrudController
         $this->crud->addField([ // Text
                 'name' => 'no_guru',
                 'label' => "No. Guru",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'id_user',
+                'label' => "ID",
                 'type' => 'text',
                 // optional
                 //'prefix' => '',
@@ -65,6 +75,11 @@ class GuruCrudController extends CrudController
                 // 'prefix' => "$",
                 // 'suffix' => ".00",
             ], 'both');
+        $this->crud->addField([   // Password
+            'name' => 'password',
+            'label' => 'Password',
+            'type' => 'password'
+        ], 'both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -147,19 +162,40 @@ class GuruCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
+        $user= new User;
+        $user->name=$request->nama;
+        $user->password=$request->password;
+        $user->save();
+        $guru=new Guru;
+        $guru->no_guru=$request->no_guru;
+        $guru->id_user=$user->id;
+        $guru->nama=$request->nama;
+        $guru->alamat=$request->alamat;
+        $guru->noHp=$request->noHp;
+        $guru->save();
+        return \Redirect::to ('admin/guru');
         // your additional operations before save here
-        $redirect_location = parent::storeCrud();
+        // $redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        // return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
         // your additional operations before save here
-        $redirect_location = parent::updateCrud();
+        // $redirect_location = parent::updateCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        // return $redirect_location;
+        $guru=[
+        'no_guru'=>$request->no_guru,
+        'id_user'=>$request->id_user,
+        'nama'=>$request->nama,
+        'alamat'=>$request->alamat,
+        'noHp'=>$request->noHp,
+        ];
+        Guru::where('id_user','=',$request->id_user)->update($guru);
+        return \Redirect::to ('admin/guru');
     }
 }
