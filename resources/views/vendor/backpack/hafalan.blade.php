@@ -67,13 +67,10 @@
                                                 </select>
                                             </div>
                                             
+                                            
+                                            
                                             <div class="form-group">
-                                                <label>Awal :</label>
-                                                
-                                            </div>
-                                            <div style="padding-left:30px">
-                                            <div class="form-group">
-                                                <label>Surah</label>
+                                                <label>Juz</label>
                                                 <select name="surahAwal" class="form-control select2" style="width:100%">
                                                     @foreach($crud->dataSurah as $data)
 
@@ -82,30 +79,18 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>Dari Ayat</label>
+                                                <label>Dari Halaman</label>
                                                 <input name="ayatAwal" class="form-control" />
                                             </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Akhir :</label>
-                                                
-                                            </div>
-                                            <div style="padding-left:30px">
-                                            <div class="form-group">
-                                                <label>Surah</label>
-                                                <select name="surahAkhir" class="form-control select2" style="width:100%">
-                                                    @foreach($crud->dataSurah as $data)
-
-                                                  <option value="{{$data->id}}">{{$data->nama}}</option>
-                                                   @endforeach
-                                                </select>
-                                            </div>
+                                          
+                                      
+                                            
                                              
                                             <div class="form-group">
-                                                <label>Sampai Ayat</label>
+                                                <label>Sampai Halaman</label>
                                                 <input name="ayatAkhir" class="form-control" />
                                             </div>
-                                        </div>
+                                        
                                         <div class="form-group">
                                                 <label>Nilai</label>
                                                 <input name="nilai" class="form-control" />

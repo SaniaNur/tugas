@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Guru;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
-
+use Backpack\CRUD\CrudPanel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HafalanRequest as StoreRequest;
@@ -15,6 +15,22 @@ use App\Models\Hafalan;
 use App\Models\Guru;
 class HafalanGuruCrudController extends CrudController
 {
+    public function __construct()
+    {
+        if (! $this->crud) {
+            $this->crud = app()->make(CrudPanel::class);
+
+            // call the setup function inside this closure to also have the request there
+            // this way, developers can use things stored in session (auth variables, etc)
+            $this->middleware([function ($request, $next) {
+                $this->request = $request;
+                $this->crud->request = $request;
+                $this->setup();
+
+                return $next($request);
+            },'levelguru']);
+        }
+    }
      public function setUp()
     {
 

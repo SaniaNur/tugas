@@ -99,18 +99,16 @@
                                                         <tr>
                                                             <th rowspan="2" style="vertical-align:top">No</th>
                                                             <th rowspan="2" style="vertical-align:top">Tanggal</th>
-                                                            <th colspan="5" style="text-align:center;">Ziadah</th>
-                                                            <th colspan="5" style="text-align:center;">Murojaah</th>
+                                                            <th colspan="4" style="text-align:center;">Ziadah</th>
+                                                            <th colspan="4" style="text-align:center;">Murojaah</th>
                                                             <th rowspan="2" style="vertical-align:top">Aksi</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Juz</th>
-                                                            <th>Surat</th>
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
                                                             <th>Juz</th>
-                                                            <th>Surat</th>
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
@@ -119,9 +117,6 @@
                                                     </center>
                                                     </thead>
                                                     <tbody>
-                                                        
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
                                                         <td>gfgnh</td>
                                                         <td>gfgnh</td>
                                                         <td>gfgnh</td>

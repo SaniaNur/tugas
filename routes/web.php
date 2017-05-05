@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/forbidden', function () {
+    return view('salahHakAkses');
+});
 
 
 Auth::routes();
@@ -62,6 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin' ], function()
     
   // [...] other routes
 });
+
 
 Route::group(['prefix' => 'guru'], function()
 {
