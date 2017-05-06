@@ -98,55 +98,49 @@ class HafalanCrudController extends CrudController
         //     ], 'both');
         
         $this->crud->addField([ // Text
-                'name' => 'awal',
-                'label' => "AWAL :",
-                'type' => 'label',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
-            'label' => "Nama Surah",
-            'type' => 'select2_multiple',
-            'name' => 'surah', // the method that defines the relationship in your Model
-            'entity' => 'surah', // the method that defines the relationship in your Model
-            'attribute' => 'nama', // foreign key attribute that is shown to user
-            'model' => "App\Models\Surah", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'ayat',
-                'label' => "Ayat",
-                'type' => 'number',
+                'name' => 'noJuz',
+                'label' => "Juz",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'akhir',
-                'label' => "AKHIR :",
-                'type' => 'label',
+                'name' => 'noHalamanA',
+                'label' => "Dari Halaman",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
-        $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
-            'label' => "Nama Surah",
-            'type' => 'select2_multiple',
-            'name' => 'surah', // the method that defines the relationship in your Model
-            'entity' => 'surah', // the method that defines the relationship in your Model
-            'attribute' => 'nama', // foreign key attribute that is shown to user
-            'model' => "App\Models\Surah", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'ayat',
-                'label' => "Ayat",
-                'type' => 'number',
+                'name' => 'noHalamanB',
+                'label' => "Sampai Halaman",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+         $this->crud->addField([ // Text
+                'name' => 'nilai',
+                'label' => "Nilai",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        // $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
+        //     'label' => "Juz",
+        //     'type' => 'select2_multiple',
+        //     'name' => 'surah', // the method that defines the relationship in your Model
+        //     'entity' => 'surah', // the method that defines the relationship in your Model
+        //     'attribute' => 'nama', // foreign key attribute that is shown to user
+        //     'model' => "App\Models\Surah", // foreign key model
+        //     'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+        // ], 'both');
+       
+        
+        
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -210,7 +204,7 @@ class HafalanCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
-        $this->crud->setListView('vendor/backpack/hafalan');
+        // $this->crud->setListView('vendor/backpack/hafalan');
     }
 
     public function store(StoreRequest $request)
@@ -240,7 +234,7 @@ class HafalanCrudController extends CrudController
         $hafalan -> nilai=$request->nilai;
         $hafalan -> save(); 
 
-        $sukses=\DB::table('detail_hafalan')->insert([[
+        $sukses=\DB::table('juz')->insert([[
             'id_hafalan'=> $hafalan-> id_hafalan,
             'id_surah'=>$request-> surahAwal,
             'ayat'=>$request-> ayatAwal,

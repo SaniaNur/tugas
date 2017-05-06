@@ -62,6 +62,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin' ], function()
     Route::GET('/pencapaian/{NIS}/history/{id}/edit', 'Admin\HistoryCrudController@edit');
     Route::PUT('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@update');
     Route::DELETE('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@destroy');
+
+    // Route::GET('/hafalan/create','Admin\HafalanCrudController@create');
+    // Route::GET('/hafalan','Admin\HafalanCrudController@index');
+    // Route::POST('/hafalan','Admin\HafalanCrudController@store');
     
   // [...] other routes
 });
