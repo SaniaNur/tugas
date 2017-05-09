@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Guru;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
-
+use Backpack\CRUD\CrudPanel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Backpack\CRUD\CrudPanel;

@@ -26,12 +26,19 @@ class HafalanCrudController extends CrudController
                 $this->request = $request;
                 $this->crud->request = $request;
                 $this->setup();
+<<<<<<< HEAD
 
                 return $next($request);
             },'leveladmin']);
         }
     }
+=======
+>>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 
+                return $next($request);
+            },'leveladmin']);
+        }
+    }
     public function setUp()
     {
 
@@ -135,7 +142,10 @@ class HafalanCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+<<<<<<< HEAD
         
+=======
+>>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
          $this->crud->addField([ // Text
                 'name' => 'nilai',
                 'label' => "Nilai",
@@ -144,6 +154,18 @@ class HafalanCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+        // $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
+        //     'label' => "Juz",
+        //     'type' => 'select2_multiple',
+        //     'name' => 'surah', // the method that defines the relationship in your Model
+        //     'entity' => 'surah', // the method that defines the relationship in your Model
+        //     'attribute' => 'nama', // foreign key attribute that is shown to user
+        //     'model' => "App\Models\Surah", // foreign key model
+        //     'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+        // ], 'both');
+       
+        
+        
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -230,7 +252,31 @@ class HafalanCrudController extends CrudController
         $hafalan -> save(); 
         return \Redirect::to('admin/hafalan/create');
 
+<<<<<<< HEAD
     }
+=======
+        $sukses=\DB::table('juz')->insert([[
+            'id_hafalan'=> $hafalan-> id_hafalan,
+            'id_surah'=>$request-> surahAwal,
+            'ayat'=>$request-> ayatAwal,
+            'jenisAyat'=>'awal',
+            
+            ],[
+            'id_hafalan'=> $hafalan-> id_hafalan,
+            'id_surah'=>$request-> surahAkhir,
+            'ayat'=>$request-> ayatAkhir,
+            'jenisAyat'=>'akhir',
+            
+            ]]);
+        if($sukses){
+          \Alert::success('Data Berhasil')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
+        return \Redirect::to('admin/hafalan');
+
+>>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 
     public function update(UpdateRequest $request)
     {

@@ -56,9 +56,15 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+<<<<<<< HEAD
         'leveladmin'=> \App\Http\Middleware\LevelAdmin::class,
        'levelguru'=> \App\Http\Middleware\LevelGuru::class,
        'levelsiswa'=> \App\Http\Middleware\LevelSiswa::class,
 //        'admin'=> \App\Http\Middleware\admin::class,
+=======
+       'leveladmin'=> \App\Http\Middleware\LevelAdmin::class,
+       'levelguru'=> \App\Http\Middleware\LevelGuru::class,
+       'levelsiswa'=> \App\Http\Middleware\LevelSiswa::class,
+>>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
     ];
 }

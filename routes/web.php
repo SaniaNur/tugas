@@ -17,6 +17,10 @@ Route::get('/', function () {
 Route::get('/forbidden', function () {
     return view('salahHakAkses');
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 
 Auth::routes();
 
@@ -63,9 +67,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin' ], function()
     Route::GET('/pencapaian/{NIS}/history/{id}/edit', 'Admin\HistoryCrudController@edit');
     Route::PUT('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@update');
     Route::DELETE('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@destroy');
+
+    // Route::GET('/hafalan/create','Admin\HafalanCrudController@create');
+    // Route::GET('/hafalan','Admin\HafalanCrudController@index');
+    // Route::POST('/hafalan','Admin\HafalanCrudController@store');
     
   // [...] other routes
 });
+
 
 Route::group(['prefix' => 'guru'], function()
 {
