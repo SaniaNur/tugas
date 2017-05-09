@@ -105,18 +105,12 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Juz</th>
-<<<<<<< HEAD
-                                                            
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
                                                             <th>Juz</th>
-<<<<<<< HEAD
-                                                           
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
@@ -125,11 +119,7 @@
                                                     </center>
                                                     </thead>
                                                     <tbody>
-<<<<<<< HEAD
-                                                        
-                                                        
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
                                                         <td>gfgnh</td>
                                                         <td>gfgnh</td>
                                                         <td>gfgnh</td>

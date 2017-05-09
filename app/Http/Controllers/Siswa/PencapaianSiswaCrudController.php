@@ -13,11 +13,10 @@ use App\Http\Controllers\Controller;
 
 class PencapaianSiswaCrudController extends CrudController
 {
-<<<<<<< HEAD
-    public function __construct()
-=======
+
+   
+
      public function __construct()
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
     {
         if (! $this->crud) {
             $this->crud = app()->make(CrudPanel::class);

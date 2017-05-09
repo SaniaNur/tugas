@@ -27,10 +27,7 @@ class Daftar_surahCrudController extends CrudController
             },'leveladmin']);
         }
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
     public function setUp()
     {
 

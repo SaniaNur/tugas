@@ -17,10 +17,7 @@ Route::get('/', function () {
 Route::get('/forbidden', function () {
     return view('salahHakAkses');
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 
 Auth::routes();
 

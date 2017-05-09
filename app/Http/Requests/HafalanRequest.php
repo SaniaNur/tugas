@@ -26,7 +26,7 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'tanggal'=>'required',
-            'nama'=>'required',
+            'NIS'=>'required',
             'jenis'=>'required',
             'noJuz'=>'required',
             'noHalamanA'=>'required',
@@ -57,7 +57,7 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'tanggal.required' => 'Tanggal Harus Diisi',
-            'nama.required' => 'Nama Siswa Harus Diisi',
+            'NIS.required' => 'Nama Siswa Harus Diisi',
             'jenis.required' => 'Jenis Hafalan Harus Diisi',
             'noJuz.required' => 'Juz Harus Diisi',
             'noHalamanA.required' => 'Dari Halaman Harus Diisi',

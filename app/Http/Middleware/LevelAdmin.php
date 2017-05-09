@@ -3,11 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-<<<<<<< HEAD
-use auth;
-=======
+
 use Auth;
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
 
 class LevelAdmin
 {
@@ -28,8 +26,5 @@ class LevelAdmin
         
         return $next($request);
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 }

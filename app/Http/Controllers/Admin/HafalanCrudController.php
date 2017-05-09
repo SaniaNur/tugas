@@ -26,19 +26,15 @@ class HafalanCrudController extends CrudController
                 $this->request = $request;
                 $this->crud->request = $request;
                 $this->setup();
-<<<<<<< HEAD
+
 
                 return $next($request);
             },'leveladmin']);
         }
     }
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
 
-                return $next($request);
-            },'leveladmin']);
-        }
-    }
+
+               
     public function setUp()
     {
 
@@ -142,10 +138,7 @@ class HafalanCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
-<<<<<<< HEAD
-        
-=======
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
          $this->crud->addField([ // Text
                 'name' => 'nilai',
                 'label' => "Nilai",
@@ -249,34 +242,25 @@ class HafalanCrudController extends CrudController
         $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
-        $hafalan -> save(); 
-        return \Redirect::to('admin/hafalan/create');
-
-<<<<<<< HEAD
-    }
-=======
-        $sukses=\DB::table('juz')->insert([[
-            'id_hafalan'=> $hafalan-> id_hafalan,
-            'id_surah'=>$request-> surahAwal,
-            'ayat'=>$request-> ayatAwal,
-            'jenisAyat'=>'awal',
-            
-            ],[
-            'id_hafalan'=> $hafalan-> id_hafalan,
-            'id_surah'=>$request-> surahAkhir,
-            'ayat'=>$request-> ayatAkhir,
-            'jenisAyat'=>'akhir',
-            
-            ]]);
+        $sukses= $hafalan -> save();
+         
         if($sukses){
           \Alert::success('Data Berhasil')->flash();  
         }
         else{
             \Alert::error('Data Gagal Ditambahkan')->flash();
         }
-        return \Redirect::to('admin/hafalan');
+        
+        return \Redirect::to('admin/hafalan/create');
 
->>>>>>> 533e9e9adb055c277fc5e76d67e9aefdb59e3463
+
+
+    }
+
+        
+        
+
+
 
     public function update(UpdateRequest $request)
     {
@@ -287,6 +271,7 @@ class HafalanCrudController extends CrudController
 
         return $redirect_location;
     }
+    
     // public function index(){
     //     return \Redirect::to('admin/hafalan/create')
     // }
