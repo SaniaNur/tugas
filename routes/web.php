@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('auth.login');
 });
-
+Route::get('/forbidden', function () {
+    return view('salahHakAkses');
+});
 
 Auth::routes();
 
@@ -39,16 +41,18 @@ Route::get('/index-siswa', 'SiswaController@index_siswa');
 Route::get('/tabel-hasil', 'SiswaController@tabel_hasil');
 
 // Route::get('/admin/input-hafalan', 'HafalanController@input');
-Route::post('/hafalan/tambah', 'Admin\HafalanCrudController@tambahHafalan');
+// Route::post('/hafalan/tambah', 'Admin\HafalanCrudController@tambahHafalan');
 
-
+    // Route::GET('/hafalan/create','Admin\HafalanCrudController@create');
+    // Route::GET('/hafalan','Admin\HafalanCrudController@index');
+    // Route::POST('/hafalan','Admin\HafalanCrudController@store');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin' ], function()
 {
   // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     CRUD::resource('guru', 'Admin\GuruCrudController');
     CRUD::resource('siswa', 'Admin\SiswaCrudController');
-    CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
+    // CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
     CRUD::resource('hafalan', 'Admin\HafalanCrudController');
     CRUD::resource('pencapaian', 'Admin\PencapaianCrudController');
     CRUD::resource('history', 'Admin\HistoryCrudController');

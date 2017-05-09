@@ -69,7 +69,7 @@
               <!-- small box -->
                     <div class="small-box bg-red" style="text-align:center">
                       <div class="inner">
-                        <h3>3</h3>
+                        <h3>{{$hafalan}}</h3>
                         <p>Jumlah Hafalan Hari Ini</p>
                       </div>
                         <div class="icon">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Siswa;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\HistoryRequest as StoreRequest;
 use App\Http\Requests\HistoryRequest as UpdateRequest;
 use Illuminate\Http\Request;
@@ -12,6 +13,22 @@ use App\Http\Controllers\Controller;
 
 class PencapaianSiswaCrudController extends CrudController
 {
+    public function __construct()
+    {
+        if (! $this->crud) {
+            $this->crud = app()->make(CrudPanel::class);
+
+            // call the setup function inside this closure to also have the request there
+            // this way, developers can use things stored in session (auth variables, etc)
+            $this->middleware([function ($request, $next) {
+                $this->request = $request;
+                $this->crud->request = $request;
+                $this->setup();
+
+                return $next($request);
+            },'levelsiswa']);
+        }
+    }
     public function setUp()
     {
 

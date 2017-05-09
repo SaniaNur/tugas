@@ -25,6 +25,13 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
+            'tanggal'=>'required',
+            'nama'=>'required',
+            'jenis'=>'required',
+            'noJuz'=>'required',
+            'noHalamanA'=>'required',
+            'noHalamanB'=>'required',
+            'nilai'=>'required',
             // 'name' => 'required|min:5|max:255'
         ];
     }
@@ -49,6 +56,14 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function messages()
     {
         return [
+            'tanggal.required' => 'Tanggal Harus Diisi',
+            'nama.required' => 'Nama Siswa Harus Diisi',
+            'jenis.required' => 'Jenis Hafalan Harus Diisi',
+            'noJuz.required' => 'Juz Harus Diisi',
+            'noHalamanA.required' => 'Dari Halaman Harus Diisi',
+            'noHalamanB.required' => 'Sampai Halaman Harus Diisi',
+            'nilai.required' => 'Nilai Harus Diisi'
+            
             //
         ];
     }

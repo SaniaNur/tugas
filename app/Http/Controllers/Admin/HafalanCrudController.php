@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\CrudPanel;
 use Illuminate\Http\Request;
 use App\Http\Requests\HafalanRequest as StoreRequest;
 use App\Http\Requests\HafalanRequest as UpdateRequest;
@@ -14,6 +15,22 @@ use App\Models\Hafalan;
 use App\Models\Guru;
 class HafalanCrudController extends CrudController
 {
+    public function __construct()
+    {
+        if (! $this->crud) {
+            $this->crud = app()->make(CrudPanel::class);
+
+            // call the setup function inside this closure to also have the request there
+            // this way, developers can use things stored in session (auth variables, etc)
+            $this->middleware([function ($request, $next) {
+                $this->request = $request;
+                $this->crud->request = $request;
+                $this->setup();
+
+                return $next($request);
+            },'leveladmin']);
+        }
+    }
 
     public function setUp()
     {
@@ -34,11 +51,24 @@ class HafalanCrudController extends CrudController
         */
 
         // $this->crud->setFromDb();
-        $this->crud->dataSiswa=Siswa::get();
-        $this->crud->dataSurah=Surah::get();
-        $this->crud->dataGuru=Guru::get();
+        // $this->crud->dataSiswa=Siswa::get();
+        // $this->crud->dataSurah=Surah::get();
+        // $this->crud->dataGuru=Guru::get();
 
         // ------ CRUD FIELDS
+        $this->crud->addField([   // date_picker
+               'name' => 'tanggal',
+               'type' => 'date_picker',
+               'label' => 'Tanggal',
+               // optional:
+               'date_picker_options' => [
+                'todayHighlight'=>true,
+                  'todayBtn' => 'linked',
+                  'format' => 'dd MM yyyy',
+                  'language' => 'id',
+                  'autoclose'=>true
+               ],
+            ], 'both');
         $this->crud->addField([  // Select2
            'label' => "Nama Siswa",
            'type' => 'select2',
@@ -82,51 +112,34 @@ class HafalanCrudController extends CrudController
         //     ], 'both');
         
         $this->crud->addField([ // Text
-                'name' => 'awal',
-                'label' => "AWAL :",
-                'type' => 'label',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
-            'label' => "Nama Surah",
-            'type' => 'select2_multiple',
-            'name' => 'surah', // the method that defines the relationship in your Model
-            'entity' => 'surah', // the method that defines the relationship in your Model
-            'attribute' => 'nama', // foreign key attribute that is shown to user
-            'model' => "App\Models\Surah", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'ayat',
-                'label' => "Ayat",
-                'type' => 'number',
+                'name' => 'noJuz',
+                'label' => "Juz",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'akhir',
-                'label' => "AKHIR :",
-                'type' => 'label',
+                'name' => 'noHalamanA',
+                'label' => "Dari Halaman",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
-        $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
-            'label' => "Nama Surah",
-            'type' => 'select2_multiple',
-            'name' => 'surah', // the method that defines the relationship in your Model
-            'entity' => 'surah', // the method that defines the relationship in your Model
-            'attribute' => 'nama', // foreign key attribute that is shown to user
-            'model' => "App\Models\Surah", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'ayat',
-                'label' => "Ayat",
-                'type' => 'number',
+                'name' => 'noHalamanB',
+                'label' => "Sampai Halaman",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        
+         $this->crud->addField([ // Text
+                'name' => 'nilai',
+                'label' => "Nilai",
+                'type' => 'text',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
@@ -153,7 +166,7 @@ class HafalanCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->crud->denyAccess(['list','update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -194,16 +207,29 @@ class HafalanCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
-        $this->crud->setListView('vendor/backpack/hafalan');
+        // $this->crud->setListView('vendor/backpack/hafalan');
     }
 
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
-        $redirect_location = parent::storeCrud();
+        //$redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        //return $redirect_location;
+
+        $hafalan = new Hafalan;
+        $hafalan -> noJuz=$request-> noJuz;
+        $hafalan -> NIS=$request-> NIS;
+        $hafalan -> jenis=$request-> jenis ;
+        $hafalan -> noHalamanA=$request->noHalamanA;
+        $hafalan -> noHalamanB=$request->noHalamanB;
+        $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
+        $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
+        $hafalan -> nilai=$request->nilai;
+        $hafalan -> save(); 
+        return \Redirect::to('admin/hafalan/create');
+
     }
 
     public function update(UpdateRequest $request)
@@ -215,37 +241,7 @@ class HafalanCrudController extends CrudController
 
         return $redirect_location;
     }
-    public function tambahHafalan(Request $request){
-        $hafalan = new Hafalan;
-        $hafalan -> NIS=$request-> NIS;
-        $hafalan -> jenis=$request-> jenis ;
-        $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
-        $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
-        $hafalan -> nilai=$request->nilai;
-        $hafalan -> save(); 
-
-        $sukses=\DB::table('detail_hafalan')->insert([[
-            'id_hafalan'=> $hafalan-> id_hafalan,
-            'id_surah'=>$request-> surahAwal,
-            'ayat'=>$request-> ayatAwal,
-            'jenisAyat'=>'awal',
-            
-            ],[
-            'id_hafalan'=> $hafalan-> id_hafalan,
-            'id_surah'=>$request-> surahAkhir,
-            'ayat'=>$request-> ayatAkhir,
-            'jenisAyat'=>'akhir',
-            
-            ]]);
-        if($sukses){
-          \Alert::success('Data Berhasil')->flash();  
-        }
-        else{
-            \Alert::error('Data Gagal Ditambahkan')->flash();
-        }
-        return \Redirect::to('admin/hafalan');
-
-
-
-    }
+    // public function index(){
+    //     return \Redirect::to('admin/hafalan/create')
+    // }
 }

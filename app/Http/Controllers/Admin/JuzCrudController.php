@@ -5,11 +5,28 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\JuzRequest as StoreRequest;
 use App\Http\Requests\JuzRequest as UpdateRequest;
 
 class JuzCrudController extends CrudController
 {
+    public function __construct()
+    {
+        if (! $this->crud) {
+            $this->crud = app()->make(CrudPanel::class);
+
+            // call the setup function inside this closure to also have the request there
+            // this way, developers can use things stored in session (auth variables, etc)
+            $this->middleware([function ($request, $next) {
+                $this->request = $request;
+                $this->crud->request = $request;
+                $this->setup();
+
+                return $next($request);
+            },'leveladmin']);
+        }
+    }
 
     public function setUp()
     {
@@ -29,11 +46,84 @@ class JuzCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // $this->crud->setFromDb();
+         $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
+        // $this->crud->addField([  // Select2
+        //    'label' => "Nama Siswa",
+        //    'type' => 'select2',
+        //    'name' => 'NIS', // the db column for the foreign key
+        //    'entity' => 'siswa', // the method that defines the relationship in your Model
+        //    'attribute' => 'nama', // foreign key attribute that is shown to user
+        //    'model' => "App\Models\Siswa" // foreign key model
+        // ], '/both');
+        // $this->crud->addField([ // select_from_array
+        //     'name' => 'jenis',
+        //     'label' => "Jenis Hafalan",
+        //     'type' => 'select2_from_array',
+        //     'options' => ['ziadah' => 'Ziadah', 'murojaah' => 'Murojaah'],
+        //     'allows_null' => false,
+        //     // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        // ], 'both');
+        // // $this->crud->addField([       // Select2Multiple = n-n relationship (with pivot table)
+        // //     'label' => "Nama Surah",
+        // //     'type' => 'select2_multiple',
+        // //     'name' => 'surah', // the method that defines the relationship in your Model
+        // //     'entity' => 'surah', // the method that defines the relationship in your Model
+        // //     'attribute' => 'nama', // foreign key attribute that is shown to user
+        // //     'model' => "App\Models\Surah", // foreign key model
+        // //     'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+        // // ], 'both');
+        // // $this->crud->addField([ // Text
+        // //         'name' => 'namaIbu',
+        // //         'label' => "Nama Ibu",
+        // //         'type' => 'text',
+        // //         // optional
+        // //         //'prefix' => '',
+        // //         //'suffix' => ''
+        // //     ], 'both');
+        // // $this->crud->addField([ // Text
+        // //         'name' => 'namaIbu',
+        // //         'label' => "Nama Ibu",
+        // //         'type' => 'text',
+        // //         // optional
+        // //         //'prefix' => '',
+        // //         //'suffix' => ''
+        // //     ], 'both');
         
-        // $this->crud->addFields($array_of_arrays, 'update/create/both');
+        // $this->crud->addField([ // Text
+        //         'name' => 'noJuz',
+        //         'label' => "Juz",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
+        // $this->crud->addField([ // Text
+        //         'name' => 'noHalamanA',
+        //         'label' => "Dari Halaman",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
+        // $this->crud->addField([ // Text
+        //         'name' => 'noHalamanB',
+        //         'label' => "Sampai Halaman",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
+        //  $this->crud->addField([ // Text
+        //         'name' => 'nilai',
+        //         'label' => "Nilai",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
+        // // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use Carbon\Carbon;
+
 class Hafalan extends Model
 {
     use CrudTrait;
@@ -15,12 +15,12 @@ class Hafalan extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'hafalan';
+    protected $table = 'inputhafalan';
     protected $primaryKey = 'id_hafalan';
     public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = ['NIS','no_guru','jenis','tanggal'];
-    // protected $hidden = [];
+    protected $guarded = ['id'];
+    protected $fillable = ['noJuz','NIS','no_guru','jenis','noHalamanA','noHalamanB','tanggal','nilai'];
+    protected $hidden = [];
     protected $dates = ['tanggal'];
 
     /*
@@ -44,10 +44,7 @@ class Hafalan extends Model
     {
         return $this->belongsTo('App\Models\Guru', 'no_guru');
     }
-    public function detailHafalan()
-    {
-        return $this->hasMany('App\Models\DetailHafalan');
-    }
+   
     // public function setTanggalAttribute($value){
     //     $this->attributes['tanggal']=Carbon::createFromFormat('mm/dd/yyyy', $value)->toDateString;
     // }

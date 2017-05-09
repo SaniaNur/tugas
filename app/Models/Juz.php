@@ -16,10 +16,10 @@ class Juz extends Model
     */
 
     protected $table = 'juz';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'noJuz';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = [ 'noJuz', 'ayatTerakhir'];
+    protected $fillable = [ 'noJuz', 'jumlahHalaman'];
     // protected $hidden = [];
     // protected $dates = [];
 

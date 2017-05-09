@@ -52,11 +52,11 @@
                                 </div>
                             </div>
                             <div class="form-bottom">
-                                <form role="form" action="{{ route('login') }}" method="post" class="login-form" >
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Username</label>
-                                        <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
+                                        <input type="text" name="email" placeholder="Username..." class="form-username form-control" id="form-username">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-password">Password</label>

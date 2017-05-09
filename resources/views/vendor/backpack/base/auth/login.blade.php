@@ -1,66 +1,91 @@
-@extends('backpack::layout')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <div class="box-title">{{ trans('backpack::base.login') }}</div>
-                </div>
-                <div class="box-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
-                        {!! csrf_field() !!}
+    <head>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">{{ trans('backpack::base.email_address') }}</label>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login</title>
 
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="{{asset("/form-1/assets/bootstrap/css/bootstrap.min.css")}}">
+        <link rel="stylesheet" href="{{asset("/form-1/assets/font-awesome/css/font-awesome.min.css")}}">
+        <link rel="stylesheet" href="{{asset("/form-1/assets/css/form-elements.css")}}">
+        <link rel="stylesheet" href="{{asset("/form-1/assets/css/style.css")}}">
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">{{ trans('backpack::base.password') }}</label>
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="{{asset("/form-1/assets/ico/favicon.png")}}">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{asset("/form-1/assets/ico/apple-touch-icon-144-precomposed.png")}}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{asset("/form-1/assets/ico/apple-touch-icon-114-precomposed.png")}}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset("/form-1/assets/ico/apple-touch-icon-72-precomposed.png")}}">
+        <link rel="apple-touch-icon-precomposed" href="{{asset("/form-1/assets/ico/apple-touch-icon-57-precomposed.png")}}">
 
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
+    </head>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+    <body>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> {{ trans('backpack::base.remember_me') }}
-                                    </label>
+        <!-- Top content -->
+        <div class="top-content">
+        
+            <div class="inner-bg">
+                <h3>Assalamualaikum Wr. Wb.</h3>
+                <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul</h4>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3>Login</h3>
+                                    
+                                </div>
+                                <div class="form-top-right">
+                                    <i class="fa fa-key"></i>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ trans('backpack::base.login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url(config('backpack.base.route_prefix', 'admin').'/password/reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
+                            <div class="form-bottom">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
+                                    {{ csrf_field() }}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-username">Username</label>
+                                        <input type="text" name="email" placeholder="Username..." class="form-username form-control" id="form-username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-password">Password</label>
+                                        <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                    </div>
+                                   <!-- <a type="submit" class="btn btn-primary"  style="width:100px">Login</a> -->
+                                   <button type="submit" class="btn btn-primary"  style="width:100px">Login</button>
+                                    
+                                </form>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
+             Jika terjadi kesalahan harap hubungi Administrator  
             </div>
+             
         </div>
-    </div>
-@endsection
+
+
+        <!-- Javascript -->
+        <script src="{{asset("/form-1/assets/js/jquery-1.11.1.min.js")}}"></script>
+        <script src="{{asset("/form-1/assets/bootstrap/js/bootstrap.min.js")}}"></script>
+        <script src="{{asset("/form-1/assets/js/jquery.backstretch.min.js")}}"></script>
+        <script src="{{asset("/form-1/assets/js/scripts.js")}}"></script>
+        
+        <!--[if lt IE 10]>
+            <script src="{{asset("/form-1/assets/js/placeholder.js")}}"></script>
+        <![endif]-->
+
+    </body>
+
+</html>

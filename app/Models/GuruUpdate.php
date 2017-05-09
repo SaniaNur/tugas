@@ -25,5 +25,5 @@ class GuruUpdate extends Model
     public function hafalan()
     {
         return $this->hasMany('App\Models\Hafalan','id_hafalan');
-    }
+    } 
 }

@@ -25,8 +25,8 @@
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
                      <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/guru') }}"><i class="fa fa-dashboard"></i> <span>Data Guru</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/siswa') }}"><i class="fa fa-dashboard"></i> <span>Data Siswa</span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/juz') }}"><i class="fa fa-dashboard"></i> <span>Daftar Juz</span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/hafalan') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
+                    <!-- <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/juz') }}"><i class="fa fa-dashboard"></i> <span>Daftar Juz</span></a></li> -->
+                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
                     @elseif(Auth::user()->level == "Guru")   
                       <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
