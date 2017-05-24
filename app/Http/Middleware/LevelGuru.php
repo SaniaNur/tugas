@@ -18,14 +18,13 @@ class LevelGuru
      */
     public function handle($request, Closure $next)
     {
-        
+        if(Auth::user()){
         if(Auth::user()->level != "Guru"){
             return redirect ('/forbidden');
         }
 
         
-         if(Auth::user()->level != "Guru"){
-            return redirect ('/forbidden');
+         
         }
 
         return $next($request);

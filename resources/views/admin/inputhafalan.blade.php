@@ -85,7 +85,7 @@
                                     </form>
                 </div>
 
-                </div>     
+</div>     
                  <!-- /. ROW  -->           
 @endsection   
                  <!-- /. ROW  -->           

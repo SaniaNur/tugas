@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Backpack\CRUD\CrudPanel;
+
 use App\Http\Requests\PencapaianRequest as StoreRequest;
 use App\Http\Requests\PencapaianRequest as UpdateRequest;
 

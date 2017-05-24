@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,11 +52,11 @@
                                 </div>
                             </div>
                             <div class="form-bottom">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Username</label>
-                                        <input type="text" name="email" placeholder="Username..." class="form-username form-control" id="form-username">
+                                        <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-password">Password</label>

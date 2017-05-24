@@ -22,23 +22,23 @@
           
           
                     @if(Auth::user()->level == "Admin") 
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/guru') }}"><i class="fa fa-dashboard"></i> <span>Data Guru</span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/siswa') }}"><i class="fa fa-dashboard"></i> <span>Data Siswa</span></a></li>
+                    <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+                     <li><a href="{{ url('admin/guru') }}"><i class="fa fa-dashboard"></i> <span>Data Guru</span></a></li>
+                    <li><a href="{{ url('admin/siswa') }}"><i class="fa fa-dashboard"></i> <span>Data Siswa</span></a></li>
                     <!-- <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/juz') }}"><i class="fa fa-dashboard"></i> <span>Daftar Juz</span></a></li> -->
 
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
+                    <li><a href="{{ url('admin/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan</span></a></li>
                     
 
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
+                    <li><a href="{{ url('admin/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
                     @elseif(Auth::user()->level == "Guru")   
-                      <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/hafalan') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan </span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'guru').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
-                    @elseif( Auth::user()->level == "Siswa" )
-                     <li><a href="{{ url(config('backpack.base.route_prefix', 'siswa').'/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-                    <li><a href="{{ url(config('backpack.base.route_prefix', 'siswa').'/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
-                    @else           
+                      <li><a href="{{ url('guru/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+                    <li><a href="{{ url('guru/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan </span></a></li>
+                    <li><a href="{{ url('guru/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
+                    @else( Auth::user()->level == "Siswa" )
+                     <li><a href="{{ url('siswa/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+                    <li><a href="{{ url('siswa/history') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
+                   
                     @endif
 
 

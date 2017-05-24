@@ -22,9 +22,7 @@ class LevelSiswa
         }
 
         
-        if(Auth::user()->level != 'Siswa'){
-             return redirect ('/forbidden');
-        }
+        
         return $next($request);
     }
 }

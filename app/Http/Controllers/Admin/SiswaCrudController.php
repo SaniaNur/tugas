@@ -238,6 +238,8 @@ class SiswaCrudController extends CrudController
         $user= new User;
         $user->name=$request->nama;
         $user->password=$request->password;
+        $user->username=$request->NIS;
+        $user->level='siswa';
         $user->save();
         $siswa=new Siswa;
         $siswa->NIS=$request->NIS;
@@ -276,7 +278,20 @@ class SiswaCrudController extends CrudController
         'noHp'=>$request->noHp,
         'namaIbu'=>$request->namaIbu,
         ];
+        // dd($siswa);
         Siswa::where('id_user','=',$request->id_user)->update($siswa);
+        if(!empty($request->password)){
+         $user=[
+        'username'=>$request->NIS,
+        'password'=>bcrypt($request->password)
+        ];   
+    }else{
+        $user=[
+        'username'=>$request->NIS,
+        ];
+    }
+        
+        User::where('id','=',$request->id_user)->update($user);
         return \Redirect::to ('admin/siswa');
 
     }

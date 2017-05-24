@@ -38,7 +38,7 @@
         
             <div class="inner-bg">
                 <h3>Assalamualaikum Wr. Wb.</h3>
-                <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul</h4>
+                <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul {{--Auth::user()->name--}}</h4>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="form-bottom">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ url(config('backpack.base.route_prefix').'/login') }}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Username</label>

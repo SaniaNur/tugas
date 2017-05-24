@@ -18,11 +18,13 @@ class LevelAdmin
      */
     public function handle($request, Closure $next)
     {
-        
-        if(Auth::user()->level != "Admin"){
-            return redirect ('/forbidden');
+        if(Auth::user()){
+         if( Auth::user()->level != "Admin"){
+          return redirect ('/forbidden');
         }
-
+        
+        }
+        
         
         return $next($request);
     }

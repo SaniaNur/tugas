@@ -56,14 +56,55 @@ class HistoryGuruCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn([
-           // 1-n relationship
-           'label' => "Tanggal", // Table column heading
-           
-           'name' => 'tanggal',
-           'type' => 'date' // the column that contains the ID of that connected entity;
-           // foreign key model
-        ]);
+       $this->crud->addField([   // date_picker
+               'name' => 'tanggal',
+               'type' => 'date_picker',
+               'label' => 'Tanggal',
+               // optional:
+               'date_picker_options' => [
+                'todayHighlight'=>true,
+                  'todayBtn' => 'linked',
+                  'format' => 'dd mm yyyy',
+                  // 'language' => 'id',
+                  'autoclose'=>true
+               ],
+            ], 'both');
+        
+        
+        
+        $this->crud->addField([ // Text
+                'name' => 'noJuz',
+                'label' => "Juz",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'noHalamanA',
+                'label' => "Dari Halaman",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'noHalamanB',
+                'label' => "Sampai Halaman",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+
+         $this->crud->addField([ // Text
+                'name' => 'nilai',
+                'label' => "Nilai",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
@@ -81,7 +122,7 @@ class HistoryGuruCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        $this->crud->denyAccess([ 'create', 'update', 'reorder', 'delete']);
+        $this->crud->denyAccess([ 'create', 'reorder']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -122,8 +163,57 @@ class HistoryGuruCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+        
+        $this->crud->NIS=\Route::current()->parameter('NIS');
+        
+       $murojaah = \DB::table('hafalanziadah')
+                    ->select('hafalanziadah.id_hafalan as idZiadah','hafalanziadah.tanggal as tglziadah', 'hafalanziadah.noJuz as juzZiadah', 'hafalanziadah.noHalamanA as hlmAZiadah', 'hafalanziadah.noHalamanB as hlmBZiadah', 'hafalanziadah.nilai as nilaiZ', 'hafalanmurojaah.id_hafalan as idMurojaah','hafalanmurojaah.tanggal as tglM', 'hafalanmurojaah.noJuz as juzM', 'hafalanmurojaah.noHalamanA as hlmAM', 'hafalanmurojaah.noHalamanB as hlmBM', 'hafalanmurojaah.nilai as nilaiM')
+                    ->rightJoin('hafalanmurojaah', 'hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                    ->where('hafalanmurojaah.NIS', '=', $NIS);
+        $this->crud->jenisHafalan = \DB::table('hafalanmurojaah')
+                        ->select('hafalanziadah.id_hafalan as idZiadah','hafalanziadah.tanggal as tglziadah', 'hafalanziadah.noJuz as juzZiadah', 'hafalanziadah.noHalamanA as hlmAZiadah', 'hafalanziadah.noHalamanB as hlmBZiadah', 'hafalanziadah.nilai as nilaiZ', 'hafalanmurojaah.id_hafalan as idMurojaah','hafalanmurojaah.tanggal as tglM', 'hafalanmurojaah.noJuz as juzM', 'hafalanmurojaah.noHalamanA as hlmAM', 'hafalanmurojaah.noHalamanB as hlmBM', 'hafalanmurojaah.nilai as nilaiM')
+                        ->rightJoin('hafalanziadah', 'hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                        ->where('hafalanziadah.NIS', '=', $NIS)
+                        ->union($murojaah)
+                        ->get();
         $this->crud->setListView('vendor/backpack/historyHafalanGuru');
+
+        // $NIS = \Route::current()-> parameter('NIS');
+        // $id_hafalan=Hafalan::select('id')->where ([['NIS','=',$NIS],['jenis','=','ziadah']])->get();
+        // foreach ($id_hafalan as $id) {
+        //     $awalZiadah=DetailHafalan::where ([['id_hafalan','=',$id],['jenisAyat','=','awal']])->first();
+        //     $akhirZiadah=DetailHafalan::where ([['id_hafalan','=',$id],['jenisAyat','=','akhir']])->first();
+        //     $ziadah=(["awal"=>[$awalZiadah->surah, $awalZiadah->ayat],["akhir"->[$akhirZiadah->surah, $akhirZiadah->ayat]
+
+        //         ])
+        // }
     }
+    
+    
+    public function edit($id)
+    {
+        $this->crud->hasAccessOrFail('update');
+        $id=\Route::current()->parameter('id');
+        // get the info for that entry
+        $this->data['entry'] = $this->crud->getEntry($id);
+        $this->data['crud'] = $this->crud;
+        $this->data['saveAction'] = $this->getSaveAction();
+        $this->data['fields'] = $this->crud->getUpdateFields($id);
+        $this->data['title'] = trans('backpack::crud.edit').' '.$this->crud->entity_name;
+
+        $this->data['id'] = $id;
+
+        // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
+        return view($this->crud->getEditView(), $this->data);
+    }
+     public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+        $id=\Route::current()->parameter('id');
+
+        return $this->crud->delete($id);
+    }
+   
 
     public function store(StoreRequest $request)
     {

@@ -182,6 +182,8 @@ class GuruCrudController extends CrudController
         $user= new User;
         $user->name=$request->nama;
         $user->password=$request->password;
+        $user->username=$request->no_guru;
+        $user->level='guru';
         $user->save();
         $guru=new Guru;
         $guru->no_guru=$request->no_guru;
@@ -213,6 +215,18 @@ class GuruCrudController extends CrudController
         'noHp'=>$request->noHp,
         ];
         Guru::where('id_user','=',$request->id_user)->update($guru);
+        if(!empty($request->password)){
+         $user=[
+        'username'=>$request->no_guru,
+        'password'=>bcrypt($request->password)
+        ];   
+    }else{
+        $user=[
+        'username'=>$request->no_guru,
+        ];
+    }
+        
+        User::where('id','=',$request->id_user)->update($user);
         return \Redirect::to ('admin/guru');
     }
 }

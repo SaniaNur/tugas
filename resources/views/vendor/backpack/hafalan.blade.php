@@ -99,9 +99,9 @@
                                             <a href="{{url('/admin/hafalan')}}" class="btn btn-primary">Batal</a>
                                         
                                     </form>
-                </div>
+</div>
 
-                </div>
+</div>
 
                 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>

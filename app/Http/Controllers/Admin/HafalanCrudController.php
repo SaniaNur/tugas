@@ -42,7 +42,7 @@ class HafalanCrudController extends CrudController
         |--------------------------------------------------------------------------
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
-        */
+        */ 
         $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/hafalan');
         $this->crud->setEntityNameStrings('Input Hafalan', 'Input Hafalan');
@@ -223,6 +223,8 @@ class HafalanCrudController extends CrudController
         // $this->crud->groupBy();
         // $this->crud->limit();
         // $this->crud->setListView('vendor/backpack/hafalan');
+        
+        
     }
 
     public function store(StoreRequest $request)
@@ -239,7 +241,7 @@ class HafalanCrudController extends CrudController
         $hafalan -> jenis=$request-> jenis ;
         $hafalan -> noHalamanA=$request->noHalamanA;
         $hafalan -> noHalamanB=$request->noHalamanB;
-        $hafalan -> tanggal=date('Y-m-d',strtotime($request-> tanggal));
+        $hafalan -> tanggal=$request-> tanggal;
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
         $sukses= $hafalan -> save();
@@ -251,7 +253,7 @@ class HafalanCrudController extends CrudController
             \Alert::error('Data Gagal Ditambahkan')->flash();
         }
         
-        return \Redirect::to('admin/hafalan/create');
+        return \Redirect::to('hafalan/create');
 
 
 
