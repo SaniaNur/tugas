@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
+use App\Models\Guru;
+use App\Models\Siswa;
 
 class User extends Authenticatable
 {
@@ -27,6 +29,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function guru()
+    {
+        return $this->hasOne('App\Models\Guru');
+    }
+    public function siswa()
+    {
+        return $this->hasOne('App\Models\Siswa');
+    }
 
     public function sendPasswordResetNotification($token)
     {

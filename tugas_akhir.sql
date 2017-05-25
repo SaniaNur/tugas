@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2017 at 11:16 AM
+-- Generation Time: May 25, 2017 at 06:50 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -39,10 +39,41 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `alamat`, `noHp`) VALUES
-('111', 20, 'asdf', 'asdf', '123451234567'),
-('40', 19, 'fafaf', 'awsdfghjbj', '0987654321'),
-('866', 2, 'haniyah', 'sxdrctfvygbuhnjk', '0987654321'),
-('920', 1, 'sania', 'nanananna', '0810883678');
+('11', 26, 'sans', 'dfghjm', '0987654321');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `hafalanmurojaah`
+--
+CREATE TABLE `hafalanmurojaah` (
+`id_hafalan` int(5)
+,`noJuz` int(2)
+,`NIS` char(4)
+,`no_guru` varchar(20)
+,`jenis` varchar(20)
+,`noHalamanA` int(2)
+,`noHalamanB` int(2)
+,`tanggal` date
+,`nilai` int(3)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `hafalanziadah`
+--
+CREATE TABLE `hafalanziadah` (
+`id_hafalan` int(5)
+,`noJuz` int(2)
+,`NIS` char(4)
+,`no_guru` varchar(20)
+,`jenis` varchar(20)
+,`noHalamanA` int(2)
+,`noHalamanB` int(2)
+,`tanggal` date
+,`nilai` int(3)
+);
 
 -- --------------------------------------------------------
 
@@ -52,14 +83,14 @@ INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `alamat`, `noHp`) VALUES
 
 CREATE TABLE `inputhafalan` (
   `id_hafalan` int(5) NOT NULL,
-  `noJuz` int(2) NOT NULL,
+  `noJuz` int(2) DEFAULT NULL,
   `NIS` char(4) NOT NULL,
   `no_guru` varchar(20) NOT NULL,
   `jenis` varchar(20) NOT NULL,
-  `noHalamanA` int(2) NOT NULL,
-  `noHalamanB` int(2) NOT NULL,
+  `noHalamanA` int(2) DEFAULT NULL,
+  `noHalamanB` int(2) DEFAULT NULL,
   `tanggal` date NOT NULL,
-  `nilai` int(3) NOT NULL
+  `nilai` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -67,11 +98,10 @@ CREATE TABLE `inputhafalan` (
 --
 
 INSERT INTO `inputhafalan` (`id_hafalan`, `noJuz`, `NIS`, `no_guru`, `jenis`, `noHalamanA`, `noHalamanB`, `tanggal`, `nilai`) VALUES
-(4, 1, '36', '920', 'ziadah', 1, 2, '2017-05-07', 13),
-(5, 1, '36', '920', 'ziadah', 1, 2, '2017-05-07', 90),
-(7, 1, '36', '920', 'ziadah', 1, 2, '2017-05-09', 44),
-(8, 1, '68', '920', 'ziadah', 2, 3, '2017-05-09', 22),
-(9, 1, '36', '920', 'ziadah', 2, 4, '2017-05-09', 66);
+(11, 1, '3333', '11', 'ziadah', 4, 6, '2017-05-21', 77),
+(12, 1, '3334', '11', 'ziadah', 3, 4, '2017-05-21', 22),
+(13, 1, '3333', '11', 'murojaah', 2, 3, '2017-05-21', 11),
+(14, 1, '3333', '11', 'ziadah', 2, 3, '2017-05-24', 44);
 
 -- --------------------------------------------------------
 
@@ -89,7 +119,10 @@ CREATE TABLE `juz` (
 --
 
 INSERT INTO `juz` (`noJuz`, `jumlahHalaman`) VALUES
-(1, 20);
+(1, 19),
+(2, 20),
+(3, 20),
+(30, 23);
 
 -- --------------------------------------------------------
 
@@ -104,6 +137,14 @@ CREATE TABLE `juz_surah` (
   `halamanSurah` int(2) NOT NULL,
   `jenisHalaman` enum('awal','akhir','','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `juz_surah`
+--
+
+INSERT INTO `juz_surah` (`id`, `surah_id`, `juz_id`, `halamanSurah`, `jenisHalaman`) VALUES
+(1, 1, 1, 3, 'awal'),
+(2, 1, 3, 49, 'akhir');
 
 -- --------------------------------------------------------
 
@@ -159,9 +200,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `kelas`, `alamat`, `noHp`, `namaIbu`) VALUES
-('36', 12, '920', 'kakak', 'X', 'fcgvhjkn', '0987654321', 'hahhah'),
-('43', 18, '866', 'feaas', 'X', 'ikujyhgf', '0987654321', 'gjh'),
-('68', 17, '920', 'baba', 'X', 'sxdcfgvbhnjm', '0987654321', 'tatata');
+('3333', 43, '11', 'aaaa', 'X', 'asdfghj', '0987654321', 'dddd'),
+('3334', 45, '11', 'nana', 'X', 'fgvhbn', '0987654321', 'ffff');
 
 --
 -- Triggers `siswa`
@@ -198,7 +238,7 @@ INSERT INTO `surah` (`id`, `nama`) VALUES
 CREATE TABLE `users` (
   `id` int(5) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -210,25 +250,33 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
-(1, 'sania', 'sanianuragustina@gmail.com', '$2y$10$EJvZMY.iTf3CQMU3HwKEuecKJinE8wTSr9OnpiwyT78hCAvucKGKu', 'zWaJPD140pteEwHFTlwG0TEznjWPcMVF34vQXMBewZvnKw6ZB70Brr7W82lw', '2017-04-21 02:30:51', '2017-04-21 02:30:51', 'Admin'),
-(2, 'a', 'a@mail.com', '$2y$10$ODmscKlynrbms5C4CqB3J.rxu1VqcoFKA3HRfaz2ef1G5VldV1i72', 'UwGLRkOiesXuDtEDV7FWmcuVJY8EW7QHBWc7Tavxi2RkIDtH5g88FzJo9zXY', '2017-04-21 02:47:27', '2017-04-21 02:47:27', 'Guru'),
-(3, 'haniyah', 'haniyah@mail.com', '123456', NULL, '2017-05-02 17:00:00', '2017-05-02 17:00:00', 'Guru'),
-(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'Epv1cUpOPleRs5T4scXnjUIG6DBMjskkXkB0KxKCVEIM8StdxqSP1nKyOGH3', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
-(5, 'agustina', 'agustina@mail.com', '$2y$10$DdYHpA5kXqM8gOYI7m1rKOBOyeO46lL.i6G94cr6oc0R.bDqVcViW', 'vnUwRYs1kopXtqFI7unEd9YUoL6j5wjw6kGdZ89E7D0nSCuxG4cPuRQfqnht', '2017-05-03 02:02:34', '2017-05-03 02:02:34', 'Siswa'),
-(8, 'hahah', 'haha@mail.com', '222222', NULL, '2017-05-03 03:46:47', '2017-05-03 03:46:47', 'Admin'),
-(10, 'riska', NULL, '000000', NULL, '2017-05-03 03:52:38', '2017-05-03 03:52:38', 'Admin'),
-(11, 'silmi', NULL, '333333', NULL, '2017-05-04 04:10:54', '2017-05-04 04:10:54', 'Admin'),
-(12, 'kakak', NULL, '999999', NULL, '2017-05-04 05:32:37', '2017-05-04 05:32:37', 'Admin'),
-(13, 'bbbb', NULL, '222222', NULL, '2017-05-04 05:44:34', '2017-05-04 05:44:34', 'Admin'),
-(14, 'aaaa', NULL, '555555', NULL, '2017-05-05 03:03:57', '2017-05-05 03:03:57', 'Admin'),
-(15, 'dddd', NULL, '777777', NULL, '2017-05-05 03:12:07', '2017-05-05 03:12:07', 'Admin'),
-(16, 'b', 'b@mail.com', '$2y$10$7XleRAiZlVkbvbzwPBfsvOXJzM3I88WDu67a8szzyl4PlqayxF5s.', 'bnWbyICPYsYgjDigNb5JSSrWQ3lCQPtpLR6vKia5VGqDW3O0XWkZ0KhzyXTd', '2017-05-05 03:26:25', '2017-05-05 03:26:25', 'Guru'),
-(17, 'baba', NULL, '123456', NULL, '2017-05-06 23:08:53', '2017-05-06 23:08:53', 'Admin'),
-(18, 'feaas', NULL, '111111', NULL, '2017-05-06 23:44:53', '2017-05-06 23:44:53', 'Admin'),
-(19, 'fafaf', NULL, 'fafafa', NULL, '2017-05-06 23:45:56', '2017-05-06 23:45:56', 'Admin'),
-(20, 'asdf', NULL, 'sxsss', NULL, '2017-05-06 23:52:18', '2017-05-06 23:52:18', 'Admin'),
-(21, 'QQQQ', NULL, 'rrr444', NULL, '2017-05-08 23:56:07', '2017-05-08 23:56:07', 'Admin');
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
+(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'xHoVOdRqJyOnWZmE0HVxv0S0l7gsE9a4Zz3RWRW1ffq1hIHZ9fP97NQKCENs', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
+(25, 'pppp', '1212', '$2y$10$NMZxV3mes2EMM0JMRulw1OprpVLjRVEXc.AIVzpDJJB78HDjxJPry', 'cjvMZaNwQ8SnZwWGQz25haz93J2GjIW4KZy9v3VrmkgjZsWvI03GRz1pkZRf', '2017-05-12 00:02:24', '2017-05-16 02:42:07', 'Siswa'),
+(26, 'sans', '11', '$2y$10$QAxOeDKFyG.Kkh.DUONWCOP8ar5qBqafg2sbsksrcLoWtruY56ySm', 'Mbr0ro9Jo4cWXjtmk7dUzGF1urAkl1Zi2dmmolUXaAd7ZmAvw5i4okmpIuuZ', '2017-05-12 00:09:35', '2017-05-20 02:55:07', 'Guru'),
+(39, 'aaa', '13', '$2y$10$vTwg7mP1zCfqK3gXJS6HiO8Uz04gJKaPTMkp/SmkAkQuV.TdnRwe2', NULL, '2017-05-20 02:52:42', '2017-05-20 02:52:42', 'Guru'),
+(42, 'aaa', '14', '$2y$10$msbWNs46udVlr05/JYxL5O5xnZ/qvg/a9pflY4j6r8p6or.s.XK92', NULL, '2017-05-20 02:53:22', '2017-05-20 02:53:22', 'Guru'),
+(43, 'aaaa', '3333', '$2y$10$5VU5c6p/db7ttw5wauSt3OZv1S2jr.nwFIxDIHWh5yxYSs1//2Beu', NULL, '2017-05-20 02:57:46', '2017-05-20 02:57:46', 'Siswa'),
+(44, 'hani', '12', '$2y$10$2Su7ZAXidAnjjAwJdN3YEeUEOiJy7786gsZ3qcCpJWPlt0xWli76.', NULL, '2017-05-20 23:05:17', '2017-05-20 23:05:17', 'Guru'),
+(45, 'nana', '3334', '$2y$10$fkbfA5KaQgSvdvbrjIdTOueuZzzzadkfoMcktn4.Y0ozmvsQ472da', NULL, '2017-05-20 23:05:51', '2017-05-20 23:05:51', 'Siswa');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `hafalanmurojaah`
+--
+DROP TABLE IF EXISTS `hafalanmurojaah`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `hafalanmurojaah`  AS  select `inputhafalan`.`id_hafalan` AS `id_hafalan`,`inputhafalan`.`noJuz` AS `noJuz`,`inputhafalan`.`NIS` AS `NIS`,`inputhafalan`.`no_guru` AS `no_guru`,`inputhafalan`.`jenis` AS `jenis`,`inputhafalan`.`noHalamanA` AS `noHalamanA`,`inputhafalan`.`noHalamanB` AS `noHalamanB`,`inputhafalan`.`tanggal` AS `tanggal`,`inputhafalan`.`nilai` AS `nilai` from `inputhafalan` where (`inputhafalan`.`jenis` = 'murojaah') ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `hafalanziadah`
+--
+DROP TABLE IF EXISTS `hafalanziadah`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `hafalanziadah`  AS  select `inputhafalan`.`id_hafalan` AS `id_hafalan`,`inputhafalan`.`noJuz` AS `noJuz`,`inputhafalan`.`NIS` AS `NIS`,`inputhafalan`.`no_guru` AS `no_guru`,`inputhafalan`.`jenis` AS `jenis`,`inputhafalan`.`noHalamanA` AS `noHalamanA`,`inputhafalan`.`noHalamanB` AS `noHalamanB`,`inputhafalan`.`tanggal` AS `tanggal`,`inputhafalan`.`nilai` AS `nilai` from `inputhafalan` where (`inputhafalan`.`jenis` = 'ziadah') ;
 
 --
 -- Indexes for dumped tables
@@ -297,7 +345,7 @@ ALTER TABLE `surah`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -307,12 +355,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `inputhafalan`
 --
 ALTER TABLE `inputhafalan`
-  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `juz_surah`
 --
 ALTER TABLE `juz_surah`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
@@ -327,7 +375,7 @@ ALTER TABLE `surah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- Constraints for dumped tables
 --
@@ -336,7 +384,7 @@ ALTER TABLE `users`
 -- Constraints for table `guru`
 --
 ALTER TABLE `guru`
-  ADD CONSTRAINT `user_guru` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `user_guru` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inputhafalan`
@@ -357,8 +405,8 @@ ALTER TABLE `juz_surah`
 -- Constraints for table `siswa`
 --
 ALTER TABLE `siswa`
-  ADD CONSTRAINT `guru_siswa` FOREIGN KEY (`no_guru`) REFERENCES `guru` (`no_guru`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_siswa` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `guru_hafalan` FOREIGN KEY (`no_guru`) REFERENCES `guru` (`no_guru`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_siswa` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

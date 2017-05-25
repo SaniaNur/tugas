@@ -38,7 +38,7 @@ class PencapaianGuruCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Siswa');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/pencapaian');
+        $this->crud->setRoute('guru/hafalan');
         $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
@@ -137,7 +137,7 @@ class PencapaianGuruCrudController extends CrudController
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
         // $this->crud->addClause('type', 'car');
-        $this->crud->addClause('where', 'no_guru', '=', 1);
+        $this->crud->addClause('where', 'no_guru', '=', auth()->user()->no_guru);
         // $this->crud->addClause('whereName', 'car');
         // $this->crud->addClause('whereHas', 'posts', function($query) {
         //     $query->activePosts();

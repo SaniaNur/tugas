@@ -38,7 +38,7 @@ class HistoryGuruCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Hafalan');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/history');
+        $this->crud->setRoute('guru/hafalan');
         $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
 
         /*

@@ -41,7 +41,7 @@ class HafalanGuruCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Hafalan');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/hafalan');
+        $this->crud->setRoute('guru/hafalan');
         $this->crud->setEntityNameStrings('Input Hafalan', 'Input Hafalan');
 
         /*
@@ -178,7 +178,7 @@ class HafalanGuruCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        $this->crud->denyAccess(['update', 'reorder', 'delete']);
+        $this->crud->denyAccess(['list','update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
