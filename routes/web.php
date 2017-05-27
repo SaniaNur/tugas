@@ -87,10 +87,10 @@ Route::group(['prefix' => 'guru','middleware' => 'levelguru'], function(){
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
     CRUD::resource('history', 'Guru\HistoryGuruCrudController');
 
-    Route::GET('/pencapaian/{id_hafalan}/history', 'Guru\HistoryGuruCrudController@index');
-    Route::GET('/pencapaian/{id_hafalan}/history/{id}/edit', 'Guru\HistoryGuruCrudController@edit');
-    Route::PUT('/pencapaian/{id_hafalan}/history/{history}', 'Guru\HistoryGuruCrudController@update');
-    Route::DELETE('/pencapaian/{id_hafalan}/history/{history}', 'Guru\HistoryGuruCrudController@destroy');
+    Route::GET('/pencapaian/{NIS}/history', 'Guru\HistoryGuruCrudController@index');
+    Route::GET('/pencapaian/{NIS}/history/{id}/edit', 'Guru\HistoryGuruCrudController@edit');
+    Route::PUT('/pencapaian/{NIS}/history/{history}', 'Guru\HistoryGuruCrudController@update');
+    Route::get('/pencapaian/{NIS}/history/{id}', 'Guru\HistoryGuruCrudController@hapus');
 
     
     // Route::GET('/hafalan/create','Guru\HafalanGuruCrudController@index');

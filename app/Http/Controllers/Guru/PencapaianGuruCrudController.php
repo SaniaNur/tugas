@@ -137,7 +137,7 @@ class PencapaianGuruCrudController extends CrudController
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
         // $this->crud->addClause('type', 'car');
-        $this->crud->addClause('where', 'no_guru', '=', auth()->user()->no_guru);
+        $this->crud->addClause('where', 'no_guru', '=', auth()->user()->guru->no_guru);
         // $this->crud->addClause('whereName', 'car');
         // $this->crud->addClause('whereHas', 'posts', function($query) {
         //     $query->activePosts();

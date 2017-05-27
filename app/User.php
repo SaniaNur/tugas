@@ -32,11 +32,11 @@ class User extends Authenticatable
 
     public function guru()
     {
-        return $this->hasOne('App\Models\Guru');
+         return $this->hasOne('App\Models\Guru', 'id_user');
     }
     public function siswa()
     {
-        return $this->hasOne('App\Models\Siswa');
+         return $this->hasOne('App\Models\Siswa', 'id_user');
     }
 
     public function sendPasswordResetNotification($token)

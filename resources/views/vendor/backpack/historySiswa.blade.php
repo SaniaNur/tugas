@@ -76,18 +76,19 @@
                                                         <tr>
                                                             <th rowspan="2" style="vertical-align:top">No</th>
                                                             <th rowspan="2" style="vertical-align:top">Tanggal</th>
-                                                            <th colspan="5" style="text-align:center;">Ziadah</th>
-                                                            <th colspan="5" style="text-align:center;">Murojaah</th>
-                                                            <th rowspan="2" style="vertical-align:top">Aksi</th>
+                                                            <th colspan="4" style="text-align:center;">Ziadah</th>
+                                                            
+                                                            <th colspan="4" style="text-align:center;">Murojaah</th>
+                                                            
                                                         </tr>
                                                         <tr>
                                                             <th>Juz</th>
-                                                            <th>Surat</th>
+
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
                                                             <th>Juz</th>
-                                                            <th>Surat</th>
+
                                                             <th>Dari</th>
                                                             <th>Sampai</th>
                                                             <th>Nilai</th>
@@ -96,23 +97,74 @@
                                                     </center>
                                                     </thead>
                                                     <tbody>
+                                                        @php
+                                                        $i=1;
+                                                        @endphp
+                                                        @foreach($crud->jenisHafalan as $data)
+                                                          <tr>
+                                                        <td>{{$i}}</td>
+                                                        @if($data->tglziadah!=null)
+
+                                                        <td>{{\Carbon\Carbon::parse($data->tglziadah)->format('d M Y')}}</td>
+                                                        @else
+                                                        <td>{{\Carbon\Carbon::parse($data->tglM)->format('d M Y')}}</td>
+                                                        @endif
+                                                        <td>@if($data->juzZiadah)
+                                                          {{$data->juzZiadah}} 
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->hlmAZiadah)
+                                                          {{$data->hlmAZiadah}}
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->hlmBZiadah)
+                                                          {{$data->hlmBZiadah}}
+                                                           @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->nilaiZ)
+                                                          {{$data->nilaiZ}}
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
                                                         
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
-                                                        <td>gfgnh</td>
                                                         <td>
-                                                            <button class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-edit "></i> Edit</button>
-                                                            <button class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</button>
-                                                            </td>
+                                                            @if($data->juzM)
+                                                          {{$data->juzM}} 
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->hlmAM)
+                                                          {{$data->hlmAM}}
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->hlmBM)
+                                                          {{$data->hlmBM}}
+                                                           @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        <td>@if($data->nilaiM)
+                                                          {{$data->nilaiM}}
+                                                          @else
+                                                          -
+                                                          @endif
+                                                        </td>
+                                                        
+                                                          </tr>
+                                                          @php
+                                                          $i++
+                                                          @endphp
+                                                        @endforeach
                                                     </tbody>
                                                    
                                                 </table>

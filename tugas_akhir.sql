@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2017 at 06:50 PM
+-- Generation Time: May 27, 2017 at 01:14 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -39,7 +39,8 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `alamat`, `noHp`) VALUES
-('11', 26, 'sans', 'dfghjm', '0987654321');
+('11', 26, 'sans', 'dfghjm', '0987654321'),
+('22', 46, 'mei', 'asdfghjn', '09876543221');
 
 -- --------------------------------------------------------
 
@@ -98,10 +99,11 @@ CREATE TABLE `inputhafalan` (
 --
 
 INSERT INTO `inputhafalan` (`id_hafalan`, `noJuz`, `NIS`, `no_guru`, `jenis`, `noHalamanA`, `noHalamanB`, `tanggal`, `nilai`) VALUES
-(11, 1, '3333', '11', 'ziadah', 4, 6, '2017-05-21', 77),
-(12, 1, '3334', '11', 'ziadah', 3, 4, '2017-05-21', 22),
-(13, 1, '3333', '11', 'murojaah', 2, 3, '2017-05-21', 11),
-(14, 1, '3333', '11', 'ziadah', 2, 3, '2017-05-24', 44);
+(21, 1, '3333', '11', 'ziadah', 3, 4, '2017-05-26', 44),
+(22, 1, '3333', '11', 'murojaah', 2, 3, '2017-05-26', 44),
+(23, 1, '3334', '11', 'murojaah', 3, 5, '2017-05-26', 99),
+(24, 1, '4444', '22', 'ziadah', 3, 4, '2017-05-26', 33),
+(25, 1, '4444', '22', 'ziadah', 2, 3, '2017-05-27', 55);
 
 -- --------------------------------------------------------
 
@@ -133,18 +135,16 @@ INSERT INTO `juz` (`noJuz`, `jumlahHalaman`) VALUES
 CREATE TABLE `juz_surah` (
   `id` int(5) NOT NULL,
   `surah_id` int(5) NOT NULL,
-  `juz_id` int(2) NOT NULL,
-  `halamanSurah` int(2) NOT NULL,
-  `jenisHalaman` enum('awal','akhir','','') NOT NULL
+  `juz_id` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `juz_surah`
 --
 
-INSERT INTO `juz_surah` (`id`, `surah_id`, `juz_id`, `halamanSurah`, `jenisHalaman`) VALUES
-(1, 1, 1, 3, 'awal'),
-(2, 1, 3, 49, 'akhir');
+INSERT INTO `juz_surah` (`id`, `surah_id`, `juz_id`) VALUES
+(1, 1, 1),
+(2, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,8 @@ CREATE TABLE `siswa` (
 
 INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `kelas`, `alamat`, `noHp`, `namaIbu`) VALUES
 ('3333', 43, '11', 'aaaa', 'X', 'asdfghj', '0987654321', 'dddd'),
-('3334', 45, '11', 'nana', 'X', 'fgvhbn', '0987654321', 'ffff');
+('3334', 45, '11', 'nana', 'X', 'fgvhbn', '0987654321', 'ffff'),
+('4444', 47, '22', 'bababa', 'XI IPA 1', 'sdfghjkl', '1234567890', 'sasasa');
 
 --
 -- Triggers `siswa`
@@ -219,15 +220,17 @@ DELIMITER ;
 
 CREATE TABLE `surah` (
   `id` int(5) NOT NULL,
-  `nama` varchar(30) NOT NULL
+  `nama` varchar(30) NOT NULL,
+  `halamanAwal` int(2) NOT NULL,
+  `halamanAkhir` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `surah`
 --
 
-INSERT INTO `surah` (`id`, `nama`) VALUES
-(1, 'albaqoroh');
+INSERT INTO `surah` (`id`, `nama`, `halamanAwal`, `halamanAkhir`) VALUES
+(1, 'albaqoroh', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -251,14 +254,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
-(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'xHoVOdRqJyOnWZmE0HVxv0S0l7gsE9a4Zz3RWRW1ffq1hIHZ9fP97NQKCENs', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
+(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'KtzlLmpCmyIKj3O8jJeCxLJrbqwCH4Jm7Vp1l2sCOz0T6Ho3gJ4Yi3aWqrdq', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
 (25, 'pppp', '1212', '$2y$10$NMZxV3mes2EMM0JMRulw1OprpVLjRVEXc.AIVzpDJJB78HDjxJPry', 'cjvMZaNwQ8SnZwWGQz25haz93J2GjIW4KZy9v3VrmkgjZsWvI03GRz1pkZRf', '2017-05-12 00:02:24', '2017-05-16 02:42:07', 'Siswa'),
-(26, 'sans', '11', '$2y$10$QAxOeDKFyG.Kkh.DUONWCOP8ar5qBqafg2sbsksrcLoWtruY56ySm', 'Mbr0ro9Jo4cWXjtmk7dUzGF1urAkl1Zi2dmmolUXaAd7ZmAvw5i4okmpIuuZ', '2017-05-12 00:09:35', '2017-05-20 02:55:07', 'Guru'),
+(26, 'sans', '11', '$2y$10$QAxOeDKFyG.Kkh.DUONWCOP8ar5qBqafg2sbsksrcLoWtruY56ySm', 'KH3LxoFb2N1c7jPHQDwDkX2Y7Eg960xXlo8uyYvSDn0fOFxD7v5hwv205G0W', '2017-05-12 00:09:35', '2017-05-20 02:55:07', 'Guru'),
 (39, 'aaa', '13', '$2y$10$vTwg7mP1zCfqK3gXJS6HiO8Uz04gJKaPTMkp/SmkAkQuV.TdnRwe2', NULL, '2017-05-20 02:52:42', '2017-05-20 02:52:42', 'Guru'),
 (42, 'aaa', '14', '$2y$10$msbWNs46udVlr05/JYxL5O5xnZ/qvg/a9pflY4j6r8p6or.s.XK92', NULL, '2017-05-20 02:53:22', '2017-05-20 02:53:22', 'Guru'),
 (43, 'aaaa', '3333', '$2y$10$5VU5c6p/db7ttw5wauSt3OZv1S2jr.nwFIxDIHWh5yxYSs1//2Beu', NULL, '2017-05-20 02:57:46', '2017-05-20 02:57:46', 'Siswa'),
 (44, 'hani', '12', '$2y$10$2Su7ZAXidAnjjAwJdN3YEeUEOiJy7786gsZ3qcCpJWPlt0xWli76.', NULL, '2017-05-20 23:05:17', '2017-05-20 23:05:17', 'Guru'),
-(45, 'nana', '3334', '$2y$10$fkbfA5KaQgSvdvbrjIdTOueuZzzzadkfoMcktn4.Y0ozmvsQ472da', NULL, '2017-05-20 23:05:51', '2017-05-20 23:05:51', 'Siswa');
+(45, 'nana', '3334', '$2y$10$fkbfA5KaQgSvdvbrjIdTOueuZzzzadkfoMcktn4.Y0ozmvsQ472da', NULL, '2017-05-20 23:05:51', '2017-05-20 23:05:51', 'Siswa'),
+(46, 'mei', '22', '$2y$10$nZZzpeBMPPL5Bu8GQw8MxeDF.2y9ETzL5WcyaiOSO044koZkAURQO', 'dXGFtqrsRCjRmIRVWf6gMzVJE4Lq0crzqCDTFpDbo1hLmwMcbLCAb75NxJxi', '2017-05-25 22:35:11', '2017-05-25 22:35:11', 'Guru'),
+(47, 'bababa', '4444', '$2y$10$VvFXWgJT7gimYP6CtpJ4h.XZmgHTznpe4am63m6F/Uv.SK9lP/UrS', 'EjqjqygmEj8q47WLDBSzVJ2XCS0PSwPQBPx8JAj2L9rFPykzwYZMIm4UqR2d', '2017-05-25 22:35:50', '2017-05-25 22:36:05', 'Siswa');
 
 -- --------------------------------------------------------
 
@@ -355,7 +360,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `inputhafalan`
 --
 ALTER TABLE `inputhafalan`
-  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `juz_surah`
 --
@@ -375,7 +380,7 @@ ALTER TABLE `surah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- Constraints for dumped tables
 --

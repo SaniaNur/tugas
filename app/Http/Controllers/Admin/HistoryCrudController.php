@@ -170,11 +170,17 @@ class HistoryCrudController extends CrudController
         
        $murojaah = \DB::table('hafalanziadah')
                     ->select('hafalanziadah.id_hafalan as idZiadah','hafalanziadah.tanggal as tglziadah', 'hafalanziadah.noJuz as juzZiadah', 'hafalanziadah.noHalamanA as hlmAZiadah', 'hafalanziadah.noHalamanB as hlmBZiadah', 'hafalanziadah.nilai as nilaiZ', 'hafalanmurojaah.id_hafalan as idMurojaah','hafalanmurojaah.tanggal as tglM', 'hafalanmurojaah.noJuz as juzM', 'hafalanmurojaah.noHalamanA as hlmAM', 'hafalanmurojaah.noHalamanB as hlmBM', 'hafalanmurojaah.nilai as nilaiM')
-                    ->rightJoin('hafalanmurojaah', 'hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                    ->rightJoin('hafalanmurojaah', function ($join) {
+                         $join->on('hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                              ->on('hafalanziadah.NIS', '=', 'hafalanmurojaah.NIS');
+                        })
                     ->where('hafalanmurojaah.NIS', '=', $NIS);
         $this->crud->jenisHafalan = \DB::table('hafalanmurojaah')
                         ->select('hafalanziadah.id_hafalan as idZiadah','hafalanziadah.tanggal as tglziadah', 'hafalanziadah.noJuz as juzZiadah', 'hafalanziadah.noHalamanA as hlmAZiadah', 'hafalanziadah.noHalamanB as hlmBZiadah', 'hafalanziadah.nilai as nilaiZ', 'hafalanmurojaah.id_hafalan as idMurojaah','hafalanmurojaah.tanggal as tglM', 'hafalanmurojaah.noJuz as juzM', 'hafalanmurojaah.noHalamanA as hlmAM', 'hafalanmurojaah.noHalamanB as hlmBM', 'hafalanmurojaah.nilai as nilaiM')
-                        ->rightJoin('hafalanziadah', 'hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                        ->rightJoin('hafalanziadah', function ($join) {
+                         $join->on('hafalanziadah.tanggal', '=', 'hafalanmurojaah.tanggal')
+                              ->on('hafalanziadah.NIS', '=', 'hafalanmurojaah.NIS');
+                        })
                         ->where('hafalanziadah.NIS', '=', $NIS)
                         ->union($murojaah)
                         ->get();

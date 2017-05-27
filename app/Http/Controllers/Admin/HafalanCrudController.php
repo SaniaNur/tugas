@@ -253,7 +253,7 @@ class HafalanCrudController extends CrudController
             \Alert::error('Data Gagal Ditambahkan')->flash();
         }
         
-        return \Redirect::to('hafalan/create');
+        return \Redirect::to('admin/hafalan/create');
 
 
 
