@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2017 at 01:14 PM
+-- Generation Time: May 31, 2017 at 06:54 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -30,6 +30,7 @@ CREATE TABLE `guru` (
   `no_guru` varchar(20) NOT NULL,
   `id_user` int(5) NOT NULL,
   `nama` varchar(40) NOT NULL,
+  `jenisKelamin` enum('Laki-laki','Perempuan','','') NOT NULL,
   `alamat` varchar(100) NOT NULL,
   `noHp` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -38,9 +39,9 @@ CREATE TABLE `guru` (
 -- Dumping data for table `guru`
 --
 
-INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `alamat`, `noHp`) VALUES
-('11', 26, 'sans', 'dfghjm', '0987654321'),
-('22', 46, 'mei', 'asdfghjn', '09876543221');
+INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `jenisKelamin`, `alamat`, `noHp`) VALUES
+('11', 26, 'sans', 'Laki-laki', 'dfghjm', '0987654321'),
+('22', 46, 'mei', 'Laki-laki', 'asdfghjn', '09876543221');
 
 -- --------------------------------------------------------
 
@@ -99,11 +100,26 @@ CREATE TABLE `inputhafalan` (
 --
 
 INSERT INTO `inputhafalan` (`id_hafalan`, `noJuz`, `NIS`, `no_guru`, `jenis`, `noHalamanA`, `noHalamanB`, `tanggal`, `nilai`) VALUES
-(21, 1, '3333', '11', 'ziadah', 3, 4, '2017-05-26', 44),
-(22, 1, '3333', '11', 'murojaah', 2, 3, '2017-05-26', 44),
-(23, 1, '3334', '11', 'murojaah', 3, 5, '2017-05-26', 99),
-(24, 1, '4444', '22', 'ziadah', 3, 4, '2017-05-26', 33),
-(25, 1, '4444', '22', 'ziadah', 2, 3, '2017-05-27', 55);
+(1, 1, '3333', '11', 'ziadah', 2, 3, '2017-05-01', 55),
+(10, 1, '4444', '22', 'ziadah', 4, 5, '2017-03-15', 64),
+(11, 1, '4444', '22', 'murojaah', 3, 3, '2017-03-15', 87),
+(12, 1, '4444', '22', 'ziadah', 5, 6, '2017-03-16', 45),
+(13, 1, '4444', '22', 'murojaah', 4, 4, '2017-03-16', 88),
+(14, 1, '4444', '22', 'ziadah', 6, 7, '2017-03-17', 98),
+(15, 1, '4444', '22', 'murojaah', 5, 6, '2017-03-17', 79),
+(16, 2, '4444', '22', 'ziadah', 7, 8, '2017-04-06', 56),
+(17, 2, '4444', '22', 'murojaah', 6, 7, '2017-04-06', 75),
+(18, 2, '4444', '22', 'ziadah', 8, 9, '2017-04-07', 46),
+(19, 2, '4444', '22', 'murojaah', 7, 7, '2017-04-07', 34),
+(20, 2, '4444', '22', 'murojaah', 8, 9, '2017-04-08', 66),
+(22, 1, '3333', '11', 'ziadah', 8, 9, '2017-05-08', 77),
+(23, 2, '4444', '22', 'ziadah', 9, 10, '2017-04-08', 82),
+(24, 3, '4444', '22', 'ziadah', 11, 12, '2017-05-09', 52),
+(25, 3, '4444', '22', 'murojaah', 10, 11, '2017-05-09', 57),
+(26, 3, '4444', '22', 'ziadah', 5, 6, '2017-05-10', 89),
+(27, 3, '4444', '22', 'murojaah', 5, 6, '2017-05-10', 33),
+(28, 3, '4444', '22', 'ziadah', 7, 8, '2017-05-11', 56),
+(29, 3, '4444', '22', 'murojaah', 7, 7, '2017-05-11', 87);
 
 -- --------------------------------------------------------
 
@@ -124,6 +140,8 @@ INSERT INTO `juz` (`noJuz`, `jumlahHalaman`) VALUES
 (1, 19),
 (2, 20),
 (3, 20),
+(4, 20),
+(5, 20),
 (30, 23);
 
 -- --------------------------------------------------------
@@ -189,6 +207,7 @@ CREATE TABLE `siswa` (
   `id_user` int(5) NOT NULL,
   `no_guru` varchar(20) NOT NULL,
   `nama` varchar(40) NOT NULL,
+  `jenisKelamin` enum('Laki-laki','Perempuan','','') NOT NULL,
   `kelas` varchar(10) NOT NULL,
   `alamat` varchar(100) NOT NULL,
   `noHp` varchar(12) NOT NULL,
@@ -199,16 +218,16 @@ CREATE TABLE `siswa` (
 -- Dumping data for table `siswa`
 --
 
-INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `kelas`, `alamat`, `noHp`, `namaIbu`) VALUES
-('3333', 43, '11', 'aaaa', 'X', 'asdfghj', '0987654321', 'dddd'),
-('3334', 45, '11', 'nana', 'X', 'fgvhbn', '0987654321', 'ffff'),
-('4444', 47, '22', 'bababa', 'XI IPA 1', 'sdfghjkl', '1234567890', 'sasasa');
+INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `jenisKelamin`, `kelas`, `alamat`, `noHp`, `namaIbu`) VALUES
+('3333', 43, '11', 'aaaa', 'Laki-laki', 'X', 'asdfghj', '0987654321', 'dddd'),
+('3334', 45, '11', 'nana', 'Laki-laki', 'X', 'fgvhbn', '0987654321', 'ffff'),
+('4444', 47, '22', 'bababa', 'Laki-laki', 'XI IPA 1', 'sdfghjkl', '1234567890', 'sasasa');
 
 --
 -- Triggers `siswa`
 --
 DELIMITER $$
-CREATE TRIGGER `hapusSiswa` BEFORE DELETE ON `siswa` FOR EACH ROW DELETE FROM hafalan WHERE NIS=old.NIS
+CREATE TRIGGER `hapusSiswa` BEFORE DELETE ON `siswa` FOR EACH ROW DELETE FROM inputhafalan WHERE NIS=old.NIS
 $$
 DELIMITER ;
 
@@ -254,16 +273,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
-(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'KtzlLmpCmyIKj3O8jJeCxLJrbqwCH4Jm7Vp1l2sCOz0T6Ho3gJ4Yi3aWqrdq', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
+(4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'XjeGxELkRDMKCrZWZwNoODaX0HAAD95qsKqjfAU5fjNUA4W4EanGQb37UrvG', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
 (25, 'pppp', '1212', '$2y$10$NMZxV3mes2EMM0JMRulw1OprpVLjRVEXc.AIVzpDJJB78HDjxJPry', 'cjvMZaNwQ8SnZwWGQz25haz93J2GjIW4KZy9v3VrmkgjZsWvI03GRz1pkZRf', '2017-05-12 00:02:24', '2017-05-16 02:42:07', 'Siswa'),
-(26, 'sans', '11', '$2y$10$QAxOeDKFyG.Kkh.DUONWCOP8ar5qBqafg2sbsksrcLoWtruY56ySm', 'KH3LxoFb2N1c7jPHQDwDkX2Y7Eg960xXlo8uyYvSDn0fOFxD7v5hwv205G0W', '2017-05-12 00:09:35', '2017-05-20 02:55:07', 'Guru'),
+(26, 'sans', '11', '$2y$10$QAxOeDKFyG.Kkh.DUONWCOP8ar5qBqafg2sbsksrcLoWtruY56ySm', 'vqbbXanhDyRaKxQvkDgGVuovRcoyUnf3GFoGrIThHMt3U0HVm1cMwwYGL9Gv', '2017-05-12 00:09:35', '2017-05-20 02:55:07', 'Guru'),
 (39, 'aaa', '13', '$2y$10$vTwg7mP1zCfqK3gXJS6HiO8Uz04gJKaPTMkp/SmkAkQuV.TdnRwe2', NULL, '2017-05-20 02:52:42', '2017-05-20 02:52:42', 'Guru'),
 (42, 'aaa', '14', '$2y$10$msbWNs46udVlr05/JYxL5O5xnZ/qvg/a9pflY4j6r8p6or.s.XK92', NULL, '2017-05-20 02:53:22', '2017-05-20 02:53:22', 'Guru'),
-(43, 'aaaa', '3333', '$2y$10$5VU5c6p/db7ttw5wauSt3OZv1S2jr.nwFIxDIHWh5yxYSs1//2Beu', NULL, '2017-05-20 02:57:46', '2017-05-20 02:57:46', 'Siswa'),
+(43, 'aaaa', '3333', '$2y$10$5VU5c6p/db7ttw5wauSt3OZv1S2jr.nwFIxDIHWh5yxYSs1//2Beu', 'vh3hk1Bsgqxzxwa2NgreY1Hyl6CcmqHjILAgrnb5Bg6TXtvvXhWQPyUw89Od', '2017-05-20 02:57:46', '2017-05-20 02:57:46', 'Siswa'),
 (44, 'hani', '12', '$2y$10$2Su7ZAXidAnjjAwJdN3YEeUEOiJy7786gsZ3qcCpJWPlt0xWli76.', NULL, '2017-05-20 23:05:17', '2017-05-20 23:05:17', 'Guru'),
 (45, 'nana', '3334', '$2y$10$fkbfA5KaQgSvdvbrjIdTOueuZzzzadkfoMcktn4.Y0ozmvsQ472da', NULL, '2017-05-20 23:05:51', '2017-05-20 23:05:51', 'Siswa'),
 (46, 'mei', '22', '$2y$10$nZZzpeBMPPL5Bu8GQw8MxeDF.2y9ETzL5WcyaiOSO044koZkAURQO', 'dXGFtqrsRCjRmIRVWf6gMzVJE4Lq0crzqCDTFpDbo1hLmwMcbLCAb75NxJxi', '2017-05-25 22:35:11', '2017-05-25 22:35:11', 'Guru'),
-(47, 'bababa', '4444', '$2y$10$VvFXWgJT7gimYP6CtpJ4h.XZmgHTznpe4am63m6F/Uv.SK9lP/UrS', 'EjqjqygmEj8q47WLDBSzVJ2XCS0PSwPQBPx8JAj2L9rFPykzwYZMIm4UqR2d', '2017-05-25 22:35:50', '2017-05-25 22:36:05', 'Siswa');
+(47, 'bababa', '4444', '$2y$10$VvFXWgJT7gimYP6CtpJ4h.XZmgHTznpe4am63m6F/Uv.SK9lP/UrS', 'PXCpgFBWOeb3hVyONO6aYngp0N6HK0EqxlV7Da6Zt9JAuQb6q0m8EXNd81hH', '2017-05-25 22:35:50', '2017-05-31 00:37:09', 'Siswa'),
+(48, 'neniya', '33', '$2y$10$5NruP2hFI6NByFJ01TsjLOQkaqjG.zCY2vkhbL2fuBkpcfN/.FvWG', NULL, '2017-05-30 00:24:36', '2017-05-30 00:31:24', 'Guru'),
+(49, 'riska', '5555', '$2y$10$kkC69q8XVP1QpzdY7hOKO.YPtQtc8fBEETrW8BWGsnPfmt.3wZdKW', 'eV4Hf33LmZ2xdBXE4BJDrDSBceZggzEGTlKvoMPDAExeixCgeRGwXFQSoqYY', '2017-05-30 00:39:07', '2017-05-30 00:39:07', 'Siswa'),
+(51, 'riska', '6666', '$2y$10$h6QJRIIIL6t.isYO1Ersa.xJeNFa5fNPD7GATMRq3.47h4YR3CROy', NULL, '2017-05-30 00:42:35', '2017-05-30 00:42:35', 'Siswa'),
+(52, 'Admin', 'admin', '$2y$10$Xj8zLZrNIRZ/Mq1IIjlQaeDNHDdgYZ7LSh2vNun..GqQgdvpzZlDa', '1CQBSuoEoFxkhMqeKDPeiC0pT03Sj7kMIj9uPIASsaPdCtkv6ZEIM20P01xK', '2017-05-30 00:53:39', '2017-05-30 00:53:39', 'Admin'),
+(53, 'weda', '4455', '$2y$10$k/IexDmuahtmiEjmrlpX4Ovd9S5nKgK4BMQ1w01ajqcOj6b1/W45u', NULL, '2017-05-30 23:48:44', '2017-05-30 23:48:44', 'Siswa'),
+(54, 'QQq', '3232', '$2y$10$fqd1crELziTeHAN6Jk/JWuxH.dzE2cWVJsl.JlSMK14pyEgN1jSiK', NULL, '2017-05-31 00:00:57', '2017-05-31 00:00:57', 'Siswa');
 
 -- --------------------------------------------------------
 
@@ -360,7 +385,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `inputhafalan`
 --
 ALTER TABLE `inputhafalan`
-  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `juz_surah`
 --
@@ -380,7 +405,7 @@ ALTER TABLE `surah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 --
 -- Constraints for dumped tables
 --
