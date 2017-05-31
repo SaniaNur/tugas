@@ -75,6 +75,14 @@ class GuruCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+        $this->crud->addField([ // select_from_array
+                'name' => 'jenisKelamin',
+                'label' => "Jenis Kelamin",
+                'type' => 'select_from_array',
+                'options' => ['Laki-laki' => 'Laki-laki', 'Perempuan' => 'Perempuan'],
+                'allows_null' => false,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ], 'both');
         $this->crud->addField([ // Text
                 'name' => 'alamat',
                 'label' => "Alamat",
@@ -109,6 +117,10 @@ class GuruCrudController extends CrudController
         $this->crud->addColumn([
            'name' => 'nama', // The db column name
            'label' => "Nama" // Table column heading
+        ]);
+        $this->crud->addColumn([
+           'name' => 'jenisKelamin', // The db column name
+           'label' => "Jenis Kelamin" // Table column heading
         ]);
         $this->crud->addColumn([
            'name' => 'alamat', // The db column name
@@ -189,6 +201,7 @@ class GuruCrudController extends CrudController
         $guru->no_guru=$request->no_guru;
         $guru->id_user=$user->id;
         $guru->nama=$request->nama;
+        $guru->jenisKelamin=$request->jenisKelamin;
         $guru->alamat=$request->alamat;
         $guru->noHp=$request->noHp;
         $guru->save();
@@ -211,6 +224,7 @@ class GuruCrudController extends CrudController
         'no_guru'=>$request->no_guru,
         'id_user'=>$request->id_user,
         'nama'=>$request->nama,
+        'jenisKelamin'=>$request->jenisKelamin,
         'alamat'=>$request->alamat,
         'noHp'=>$request->noHp,
         ];

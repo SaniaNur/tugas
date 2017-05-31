@@ -17,6 +17,8 @@ Route::get('/', function () {
 Route::get('/forbidden', function () {
     return view('salahHakAkses');
 });
+// Route::get('/profil','Admin\JuzController');
+
 Route::get('/admin/dashboard','AdminController@dashboard');
 Route::get('/guru/dashboard','AdminController@dashboard');
 Route::get('/siswa/dashboard','AdminController@dashboard');
@@ -63,6 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
     CRUD::resource('hafalan', 'Admin\HafalanCrudController');
     CRUD::resource('pencapaian', 'Admin\PencapaianCrudController');
     CRUD::resource('history', 'Admin\HistoryCrudController');
+    CRUD::resource('laporan', 'Admin\LaporanCrudController');
 
     // CRUD::resource('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController');    
 

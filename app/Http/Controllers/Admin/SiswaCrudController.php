@@ -84,6 +84,14 @@ class SiswaCrudController extends CrudController
                 //'suffix' => ''
             ], 'both');
         $this->crud->addField([ // select_from_array
+                'name' => 'jenisKelamin',
+                'label' => "Jenis Kelamin",
+                'type' => 'select_from_array',
+                'options' => ['Laki-laki' => 'Laki-laki', 'Perempuan' => 'Perempuan'],
+                'allows_null' => false,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ], 'both');
+        $this->crud->addField([ // select_from_array
                 'name' => 'kelas',
                 'label' => "Kelas",
                 'type' => 'select_from_array',
@@ -100,6 +108,7 @@ class SiswaCrudController extends CrudController
                'attribute' => "nama", // foreign key attribute that is shown to user
                'model' => "App\Models\Guru", // foreign key model
             ], 'both');
+       
         $this->crud->addField([ // Text
                 'name' => 'alamat',
                 'label' => "Alamat",
@@ -147,6 +156,10 @@ class SiswaCrudController extends CrudController
         $this->crud->addColumn([
            'name' => 'nama', // The db column name
            'label' => "Nama" // Table column heading
+        ]);
+         $this->crud->addColumn([
+           'name' => 'jenisKelamin', // The db column name
+           'label' => "Jenis Kelamin" // Table column heading
         ]);
         $this->crud->addColumn([
            'name' => 'kelas', // The db column name
@@ -246,6 +259,7 @@ class SiswaCrudController extends CrudController
         $siswa->id_user=$user->id;
         $siswa->no_guru=$request->no_guru;
         $siswa->nama=$request->nama;
+        $siswa->jenisKelamin=$request->jenisKelamin;
         $siswa->kelas=$request->kelas;
         $siswa->alamat=$request->alamat;
         $siswa->noHp=$request->noHp;
@@ -273,6 +287,7 @@ class SiswaCrudController extends CrudController
         'id_user'=>$request->id_user,
         'no_guru'=>$request->no_guru,
         'nama'=>$request->nama,
+        'jenisKelamin'=>$request->jenisKelamin,
         'kelas'=>$request->kelas,
         'alamat'=>$request->alamat,
         'noHp'=>$request->noHp,

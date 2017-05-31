@@ -31,6 +31,7 @@
                     
 
                     <li><a href="{{ url('admin/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
+                    <li><a href="{{ url('admin/laporan') }}"><i class="fa fa-dashboard"></i> <span>Laporan</span></a></li>
                     @elseif(Auth::user()->level == "Guru")   
                       <li><a href="{{ url('guru/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
                     <li><a href="{{ url('guru/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan </span></a></li>
@@ -44,6 +45,7 @@
 
           <!-- ======================================= -->
           <li class="header">{{ trans('backpack::base.user') }}</li>
+          <!-- <li><a href="{{ url('/profil') }}"><i class="fa fa-users"></i> <span>Profil</span></a></li> -->
           <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}"><i class="fa fa-sign-out"></i> <span>{{ trans('backpack::base.logout') }}</span></a></li>
         </ul>
       </section>

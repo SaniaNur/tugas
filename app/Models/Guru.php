@@ -19,7 +19,7 @@ class Guru extends Model
     protected $primaryKey = 'no_guru';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['no_guru','id_user','nama','alamat','noHp'];
+    protected $fillable = ['no_guru','id_user','nama','jenisKelamin','alamat','noHp'];
     // protected $hidden = [];
     // protected $dates = [];
 

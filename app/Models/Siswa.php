@@ -19,7 +19,7 @@ class Siswa extends Model
     protected $primaryKey = 'NIS';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['NIS','id_user','no_guru','nama','kelas','alamat','noHp','namaIbu'];
+    protected $fillable = ['NIS','id_user','no_guru','nama','jenisKelamin','kelas','alamat','noHp','namaIbu'];
     // protected $hidden = [];
     // protected $dates = [];
 

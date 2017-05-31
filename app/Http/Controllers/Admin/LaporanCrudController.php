@@ -6,27 +6,12 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
-use App\Http\Requests\JuzRequest as StoreRequest;
-use App\Http\Requests\JuzRequest as UpdateRequest;
+use App\Http\Requests\LaporanRequest as StoreRequest;
+use App\Http\Requests\LaporanRequest as UpdateRequest;
 
-class JuzCrudController extends CrudController
+class LaporanCrudController extends CrudController
 {
-    public function __construct()
-    {
-        if (! $this->crud) {
-            $this->crud = app()->make(CrudPanel::class);
-
-            // call the setup function inside this closure to also have the request there
-            // this way, developers can use things stored in session (auth variables, etc)
-            $this->middleware([function ($request, $next) {
-                $this->request = $request;
-                $this->crud->request = $request;
-                $this->setup();
-
-                return $next($request);
-            },'leveladmin']);
-        }
-    }
+    
 
     public function setUp()
     {
@@ -36,9 +21,9 @@ class JuzCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Juz');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/juz');
-        $this->crud->setEntityNameStrings('Daftar Juz', 'Daftar Juz');
+        $this->crud->setModel('App\Models\Hafalan');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/laporan');
+        $this->crud->setEntityNameStrings('Laporan', 'Laporan');
 
         /*
         |--------------------------------------------------------------------------
@@ -46,7 +31,7 @@ class JuzCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-         $this->crud->setFromDb();
+         // $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
         // $this->crud->addField([  // Select2
@@ -128,7 +113,23 @@ class JuzCrudController extends CrudController
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        
+
+        // $this->crud->addColumn([
+        //    // 1-n relationship
+        //    'label' => "Nama", // Table column heading
+           
+        //    'name' => 'nama', // the column that contains the ID of that connected entity;
+           
+        // ]);
+       $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Nama Siswa", // Table column heading
+           'type' => "select",
+           'name' => 'NIS', // the column that contains the ID of that connected entity;
+           'entity' => 'siswa', // the method that defines the relationship in your Model
+           'attribute' => "nama", // foreign key attribute that is shown to user
+           'model' => "App\Models\Siswa", // foreign key model
+        ]);
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
@@ -145,7 +146,7 @@ class JuzCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['create','update', 'reorder', 'delete']);
+        $this->crud->denyAccess(['create', 'reorder','update','delete']);
 // 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
