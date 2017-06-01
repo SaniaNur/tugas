@@ -282,12 +282,8 @@
               intersect: false,
               callbacks: {
                   label: function(tooltipItems, data) { 
-                    tooltipItems.yLabel = tooltipItems.yLabel.toString();
-                    tooltipItems.yLabel = tooltipItems.yLabel.split(/(?=(?:...)*$)/);
-                    
-                    // Convert the array to a string and format the output
-                    tooltipItems.yLabel = tooltipItems.yLabel.join('.');
-                    return tooltipItems.yLabel + ' Halaman';
+                   
+                    return tooltipItems.yLabel + ' Lembar';
                   }
               }
           },
@@ -307,7 +303,7 @@
                   display: true,
                   scaleLabel: {
                       display: true,
-                      labelString: 'Halaman',
+                      labelString: 'Lembar',
                   },
               }],
           },
