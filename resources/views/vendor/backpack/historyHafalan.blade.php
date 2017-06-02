@@ -309,8 +309,8 @@
                       labelString: 'Juz',
                   },
                   ticks:{
-                    {{-- suggestedMax: {{$datamax}}+1, --}}
-                      stepSize: 1
+                      suggestedMax: 25,
+                      stepSize: 5 
                     }
               }],
           },
