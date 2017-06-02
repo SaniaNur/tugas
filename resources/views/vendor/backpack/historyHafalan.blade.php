@@ -283,7 +283,7 @@
               callbacks: {
                   label: function(tooltipItems, data) { 
                    var juz = Math.floor(tooltipItems.yLabel);
-                      var lembar = (tooltipItems.yLabel * 20 )% 20;
+                      var lembar =((tooltipItems.yLabel*20) % 20)/2;
                       // Convert the array to a string and format the output
                       //value = value.join('.');
                       return juz + ' juz '+lembar+' lembar';
@@ -306,8 +306,12 @@
                   display: true,
                   scaleLabel: {
                       display: true,
-                      labelString: 'Lembar',
+                      labelString: 'Juz',
                   },
+                  ticks:{
+                    {{-- suggestedMax: {{$datamax}}+1, --}}
+                      stepSize: 1
+                    }
               }],
           },
       }
