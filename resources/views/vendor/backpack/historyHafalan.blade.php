@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="box-body">
                                           <div class="chart">
-                                            <canvas id="barChart" style="height:230px"></canvas>
+                                            <!-- <canvas id="barChart" style="height:230px"></canvas> -->
                                              <canvas id="myChart" width="400" height="200"></canvas>
                                           </div>
                                         </div>
@@ -282,8 +282,11 @@
               intersect: false,
               callbacks: {
                   label: function(tooltipItems, data) { 
-                   
-                    return tooltipItems.yLabel + ' Lembar';
+                   var juz = Math.floor(tooltipItems.yLabel);
+                      var lembar = (tooltipItems.yLabel * 20 )% 20;
+                      // Convert the array to a string and format the output
+                      //value = value.join('.');
+                      return juz + ' juz '+lembar+' lembar';
                   }
               }
           },

@@ -117,19 +117,25 @@ class LaporanCrudController extends CrudController
         // $this->crud->addColumn([
         //    // 1-n relationship
         //    'label' => "Nama", // Table column heading
-           
+            
         //    'name' => 'nama', // the column that contains the ID of that connected entity;
            
         // ]);
-       $this->crud->addColumn([
-           // 1-n relationship
-           'label' => "Nama Siswa", // Table column heading
-           'type' => "select",
-           'name' => 'NIS', // the column that contains the ID of that connected entity;
-           'entity' => 'siswa', // the method that defines the relationship in your Model
-           'attribute' => "nama", // foreign key attribute that is shown to user
-           'model' => "App\Models\Siswa", // foreign key model
-        ]);
+        // $this->crud->addColumn([
+        //    // 1-n relationship
+        //    'label' => "Pendapatan 1 Bulan", // Table column heading
+            
+        //    'name' => 'nama', // the column that contains the ID of that connected entity;
+           
+        // ]);
+        // $this->crud->addColumn([
+        //    // 1-n relationship
+        //    'label' => "Nama", // Table column heading
+            
+        //    'name' => 'nama', // the column that contains the ID of that connected entity;
+           
+        // ]);
+       
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack

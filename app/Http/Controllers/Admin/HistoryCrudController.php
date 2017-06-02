@@ -177,7 +177,7 @@ class HistoryCrudController extends CrudController
         for($i = 1; $i <= 12; $i++){
             if($index < count($data)){
                 if($i == $data[$index]->bln){
-                    $this->crud->dataHafalan[$i]['jmlHafalan']= (($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)/2;
+                    $this->crud->dataHafalan[$i]['jmlHafalan']= (($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)/20;
                     $index++;
                 }else{
                     $this->crud->dataHafalan[$i]['jmlHafalan']=0;
