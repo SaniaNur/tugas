@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Guru;
 use App\Models\Siswa;
 use App\Models\Hafalan;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -25,6 +26,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function dashboard()
     {
         $this->data['title'] = trans('backpack::base.dashboard'); // set the page title
@@ -34,8 +36,26 @@ class AdminController extends Controller
 
         $hafalan=hafalan::where ('tanggal','=',Carbon::parse($tanggalHariIni)->format('Y-m-d'))->count();
         // dd($hafalan);
+        $NIS=auth()->user()->siswa->NIS;
+        $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$NIS.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$NIS.') as min on max.bln = min.blnMin');
+    
+        $index = 0;
+        $dataHafalan = array();
+        for($i = 1; $i <= 12; $i++){
+            if($index < count($data)){
+                if($i == $data[$index]->bln){
+                    $dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+                    $index++;
+                }else{
+                    $dataHafalan[$i]['jmlHafalan']=0;
+                }
+            }else{
+                $dataHafalan[$i]['jmlHafalan']=0;
+            }
+            $dataHafalan[$i]['bln'] = $i;
+        }
 
-        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan);
+        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan);
     }
 
     /**
@@ -49,4 +69,5 @@ class AdminController extends Controller
         // The '/admin' route is not to be used as a page, because it breaks the menu's active state.
         return redirect('/dashboard');
     }
+    
 }

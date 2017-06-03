@@ -8,10 +8,26 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\LaporanRequest as StoreRequest;
 use App\Http\Requests\LaporanRequest as UpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class LaporanCrudController extends CrudController
 {
-    
+    public function __construct()
+    {
+        if (! $this->crud) {
+            $this->crud = app()->make(CrudPanel::class);
+
+            // call the setup function inside this closure to also have the request there
+            // this way, developers can use things stored in session (auth variables, etc)
+            $this->middleware([function ($request, $next) {
+                $this->request = $request;
+                $this->crud->request = $request;
+                $this->setup();
+
+                return $next($request);
+            },'leveladmin']);
+        }
+    }
 
     public function setUp()
     {
@@ -193,7 +209,24 @@ class LaporanCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+        // $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as min on max.bln = min.blnMin');
         
+        // $index = 0;
+        // $this->crud->dataHafalan = array();
+        // for($i = 1; $i <= 12; $i++){
+        //     if($index < count($data)){
+        //         if($i == $data[$index]->bln){
+        //             $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+        //             $index++;
+        //         }else{
+        //             $this->crud->dataHafalan[$i]['jmlHafalan']=0;
+        //         }
+        //     }else{
+        //         $this->crud->dataHafalan[$i]['jmlHafalan']=0;
+        //     }
+        //     $this->crud->dataHafalan[$i]['bln'] = $i;
+        // }
+        $this->crud->setListView('vendor/backpack/LaporanPencapaian');
     }
 
     public function store(StoreRequest $request)
