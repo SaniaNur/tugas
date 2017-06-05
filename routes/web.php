@@ -27,6 +27,7 @@ Route::post('/', 'Auth\LoginController@login');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::post('/logout', 'Auth\LoginController@logout');
 
+
 Auth::routes();
 
 // Route::get('/dashboard', 'AdminController@index');
@@ -70,6 +71,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
     // CRUD::resource('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController');    
 
     Route::GET('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController@index');
+    Route::GET('/pencapaian/{NIS}/history/tahun={tahun}', 'Admin\HistoryCrudController@index');
     Route::GET('/pencapaian/{NIS}/history/{id}/edit', 'Admin\HistoryCrudController@edit');
     Route::PUT('/pencapaian/{NIS}/history/{history}', 'Admin\HistoryCrudController@update');
     Route::get('/pencapaian/{NIS}/history/{id}', 'Admin\HistoryCrudController@hapus');
