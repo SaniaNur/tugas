@@ -87,13 +87,13 @@
               <!-- small box -->
                     <div class="small-box bg-red">
                       <div class="inner">
-                        <h3>YUK!<h3>
-                        <p>Input Hafalan</p>
+                        <h3>{{$jumlahGuru}}</h3>
+                        <p>Data Guru</p>
                       </div>
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <a href="{{url('guru/hafalan')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="{{url('admin/guru')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
                     </div>
 
@@ -108,7 +108,7 @@
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <a href="{{url('guru/pencapaian')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="{{url('admin/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
 
                     </div>
@@ -121,13 +121,14 @@
               <!-- small box -->
                     <div class="small-box bg-red" style="text-align:center">
                       <div class="inner">
-                        <h3>3</h3>
+                        <h3>{{$hafalan}}</h3>
                         <p>Jumlah Hafalan Hari Ini</p>
+                        
                       </div>
                         <div class="icon">
                           <i class="ion ion-pie-graph"></i>
                         </div>
-                          <a href="{{url('guru/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <!-- <a href="{{url('admin/pencapaian')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                       </div>
               @elseif( Auth::user()->level == "Siswa" )
                     <div class="tab-pane fade active in" id="grafik">

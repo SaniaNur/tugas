@@ -75,9 +75,24 @@
                                           <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                             </button>
-                                            
                                           </div>
                                         </div>
+
+                                        <label class="col-md-2 col-sm-2 control-label">Tahun</label>
+                                        <div class="col-md-2 col-sm-2">
+                                          <select required class="form-control" name="tahunLaporan">
+                                          <option disable="disabled" selected="selected" value="0">---Pilih Tahun---</option>
+                                          <?php
+                                            $thn_skr=2030;
+                                            for($x=$thn_skr; $x >= 2017; $x--){
+                                              ?>
+                                                <option value="<?php echo $x ?>"><?php echo $x?></option>
+                                            <?php
+                                            }
+                                            ?>   
+                                          </select>
+                                        </div>
+
                                         <div class="box-body">
                                           <div class="chart">
                                             <!-- <canvas id="barChart" style="height:230px"></canvas> -->
