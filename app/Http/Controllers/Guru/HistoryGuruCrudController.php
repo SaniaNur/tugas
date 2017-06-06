@@ -40,7 +40,7 @@ class HistoryGuruCrudController extends CrudController
         */
         $NIS=\Route::current()->parameter('NIS');
         $this->crud->setModel('App\Models\Hafalan');
-        $this->crud->setRoute('guru/hafalan');
+        $this->crud->setRoute('guru/pencapaian/'.$NIS.'/history');
         $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
 
         /*
@@ -168,7 +168,14 @@ class HistoryGuruCrudController extends CrudController
         // $this->crud->enableExportButtons();
         
         $this->crud->NIS=\Route::current()->parameter('NIS');
-        $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as min on max.bln = min.blnMin');
+        $tahun=\Route::current()->parameter('tahun');
+        if($tahun){
+            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin');
+        }
+        else{
+            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin');
+        }
+        
         
         $index = 0;
         $this->crud->dataHafalan = array();
@@ -216,29 +223,7 @@ class HistoryGuruCrudController extends CrudController
     }
     
     
-    public function edit($id)
-    {
-        $this->crud->hasAccessOrFail('update');
-        $id=\Route::current()->parameter('id');
-        // get the info for that entry
-        $this->data['entry'] = $this->crud->getEntry($id);
-        $this->data['crud'] = $this->crud;
-        $this->data['saveAction'] = $this->getSaveAction();
-        $this->data['fields'] = $this->crud->getUpdateFields($id);
-        $this->data['title'] = trans('backpack::crud.edit').' '.$this->crud->entity_name;
-
-        $this->data['id'] = $id;
-
-        // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
-        return view($this->crud->getEditView(), $this->data);
-    }
-     public function destroy($id)
-    {
-        $this->crud->hasAccessOrFail('delete');
-        $id=\Route::current()->parameter('id');
-
-        return $this->crud->delete($id);
-    }
+    
    
 
     public function store(StoreRequest $request)
@@ -257,6 +242,30 @@ class HistoryGuruCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+    public function edit($id)
+    {
+        $this->crud->hasAccessOrFail('update');
+        $id=\Route::current()->parameter('id');
+        // get the info for that entry
+        $this->data['entry'] = $this->crud->getEntry($id);
+        $this->data['crud'] = $this->crud;
+        $this->data['saveAction'] = $this->getSaveAction();
+        $this->data['fields'] = $this->crud->getUpdateFields($id);
+        $this->data['title'] = trans('backpack::crud.edit').' '.$this->crud->entity_name;
+
+        $this->data['id'] = $id;
+
+        // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
+        return view($this->crud->getEditView(), $this->data);
+    }
+     public function hapus($NIS,$id)
+    {
+
+      $hapus = Hafalan::where('NIS',$NIS)->where('id_hafalan',$id)->first();
+        $hapus->delete();
+
+        return back();
     }
  //
 }

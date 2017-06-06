@@ -75,8 +75,25 @@
                                           <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                             </button>
-                                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                                           </div>
+                                        </div>
+                                        @php
+                                            $tahun=\Route::current()->parameter('tahun');
+                                        @endphp
+                                       
+                                        <label class="col-md-2 col-sm-2 control-label">Tahun</label>
+                                        <div class="col-md-2 col-sm-2">
+                                          <select required class="form-control" name="tahunLaporan" id="pilihTahun">
+                                          <option disable="disabled" selected="selected" value="0">---Pilih Tahun---</option>
+                                          <?php
+                                             $thn_skr = 2030;
+                                            for($x=$thn_skr; $x >= 2017; $x--){
+                                              ?>
+                                                <option @if($tahun == $x) {{'selected'}} @endif value="<?php echo $x ?>" url="/tahun={{$tahun}}"><?php echo $x?></option>
+                                            <?php
+                                            }
+                                            ?>   
+                                          </select>
                                         </div>
                                         <div class="box-body">
                                           <div class="chart">
@@ -278,7 +295,11 @@
           responsive: true,
           title:{
               display:true,
-              text:'Hafalan',
+              @if($tahun)
+                text:'Hafalan Tahun {{$tahun}}',
+              @else
+                text:'Hafalan Tahun Ini',
+              @endif
               fontSize: 20
           },
           tooltips: {
@@ -397,6 +418,12 @@
     $(function () {
       $('#dataTables-example').DataTable({
       });
+    });
+
+    $('#pilihTahun').change(function(){
+      var url = "/tugas/public/{{$crud->getRoute()}}/tahun="+$(this).val();
+      console.log(url);
+        window.location = url;
     });
   </script>
 @endsection

@@ -38,7 +38,7 @@ class PencapaianGuruCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Siswa');
-        $this->crud->setRoute('guru/hafalan');
+        $this->crud->setRoute('guru/pencapaian');
         $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
