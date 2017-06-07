@@ -91,6 +91,7 @@ Route::group(['prefix' => 'guru','middleware' => 'levelguru'], function(){
 	CRUD::resource('hafalan', 'Guru\HafalanGuruCrudController');
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
     CRUD::resource('history', 'Guru\HistoryGuruCrudController');
+    CRUD::resource('laporan', 'Guru\LaporanGuruCrudController');
 
     Route::GET('/pencapaian/{NIS}/history', 'Guru\HistoryGuruCrudController@index');
     Route::GET('/pencapaian/{NIS}/history/tahun={tahun}', 'Guru\HistoryGuruCrudController@index');

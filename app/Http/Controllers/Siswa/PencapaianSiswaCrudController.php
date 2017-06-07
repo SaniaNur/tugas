@@ -13,9 +13,6 @@ use App\Http\Controllers\Controller;
 
 class PencapaianSiswaCrudController extends CrudController
 {
-
-   
-
      public function __construct()
     {
         if (! $this->crud) {
@@ -43,7 +40,7 @@ class PencapaianSiswaCrudController extends CrudController
         $NIS=\Route::current()->parameter('NIS');
         $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute('siswa/history');
-        $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
+        $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
         |--------------------------------------------------------------------------

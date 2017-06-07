@@ -45,9 +45,6 @@
             <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
-                    <div class="col-md-12">
-                     <h2>Program Hafalan</h2>    
-                    </div>
                 <div class="col-md-6 col-sm-6" style="width:100%">
                     <div class="panel panel-default">
                         <div class="panel-heading">

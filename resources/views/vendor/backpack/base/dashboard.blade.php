@@ -70,7 +70,7 @@
                     <div class="small-box bg-red" style="text-align:center">
                       <div class="inner">
                         <h3>{{$hafalan}}</h3>
-                        <p>Jumlah Hafalan Hari Ini</p>
+                        <p>Hafalan Hari Ini</p>
                         
                       </div>
                         <div class="icon">
@@ -93,7 +93,7 @@
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <a href="{{url('admin/guru')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <!-- <a href="{{url('guru/pencapaian')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                       </div>
                     </div>
 
@@ -103,12 +103,12 @@
                     <div class="small-box bg-red">
                       <div class="inner">
                         <h3>{{$hafalan}}</h3>
-                        <p>Jumlah Hafalan Hari Ini</p>
+                        <p>Hafalan Hari Ini</p>
                       </div>
                         <div class="icon">
                           <i class="ion ion-pie-graph"></i>
                         </div>
-                          <a href="{{url('admin/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <!-- <a href="{{url('admin/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                       </div>
 
                     </div>

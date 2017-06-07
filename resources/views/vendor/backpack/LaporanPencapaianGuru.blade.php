@@ -47,7 +47,7 @@
                 <div class="col-md-6 col-sm-6" style="width:100%">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Laporan Pencapaian
+                            Laporan
                         </div>
                         <!-- <div class="panel-body">
                             <ul class="nav nav-tabs">

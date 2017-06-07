@@ -42,7 +42,7 @@ class HistoryCrudController extends CrudController
         $NIS=\Route::current()->parameter('NIS');
         $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/pencapaian/'.$NIS.'/history');
-        $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
+        $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
         |--------------------------------------------------------------------------
@@ -125,7 +125,7 @@ class HistoryCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'update', 'delete']);
-        $this->crud->denyAccess([ 'create', 'reorder']);
+        $this->crud->denyAccess(['create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);

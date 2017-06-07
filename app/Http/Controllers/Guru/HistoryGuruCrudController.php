@@ -41,7 +41,7 @@ class HistoryGuruCrudController extends CrudController
         $NIS=\Route::current()->parameter('NIS');
         $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute('guru/pencapaian/'.$NIS.'/history');
-        $this->crud->setEntityNameStrings('Pencapaian Hafalan', 'Pencapaian Hafalan');
+        $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
         |--------------------------------------------------------------------------

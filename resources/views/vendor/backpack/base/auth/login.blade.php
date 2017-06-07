@@ -37,8 +37,8 @@
         <div class="top-content">
         
             <div class="inner-bg">
-                <h3>Assalamualaikum Wr. Wb.</h3>
-                <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul</h4>
+                <!-- <h3>Assalamualaikum Wr. Wb.</h3>
+                <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul</h4> -->
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-             Jika terjadi kesalahan harap hubungi Administrator  
+             <!-- Jika terjadi kesalahan harap hubungi Administrator -->  
             </div>
              
         </div>

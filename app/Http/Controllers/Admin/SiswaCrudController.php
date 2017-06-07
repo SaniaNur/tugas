@@ -117,6 +117,14 @@ class SiswaCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+         $this->crud->addField([ // Text
+                'name' => 'namaIbu',
+                'label' => "Nama Ibu",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
         $this->crud->addField([   // Number
                 'name' => 'noHp',
                 'label' => 'Handphone',
@@ -126,14 +134,7 @@ class SiswaCrudController extends CrudController
                 // 'prefix' => "$",
                 // 'suffix' => ".00",
             ], 'both');
-        $this->crud->addField([ // Text
-                'name' => 'namaIbu',
-                'label' => "Nama Ibu",
-                'type' => 'text',
-                // optional
-                //'prefix' => '',
-                //'suffix' => ''
-            ], 'both');
+       
         $this->crud->addField([   // Password
             'name' => 'password',
             'label' => 'Password',
@@ -179,13 +180,14 @@ class SiswaCrudController extends CrudController
            'label' => "Alamat" // Table column heading
         ]);
         $this->crud->addColumn([
-           'name' => 'noHp', // The db column name
-           'label' => "Handphone" // Table column heading
-        ]);
-        $this->crud->addColumn([
            'name' => 'namaIbu', // The db column name
            'label' => "Nama Ibu" // Table column heading
         ]);
+        $this->crud->addColumn([
+           'name' => 'noHp', // The db column name
+           'label' => "Handphone" // Table column heading
+        ]);
+        
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack

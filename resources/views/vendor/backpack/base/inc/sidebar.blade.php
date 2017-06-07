@@ -36,6 +36,7 @@
                       <li><a href="{{ url('guru/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
                     <li><a href="{{ url('guru/hafalan/create') }}"><i class="fa fa-dashboard"></i> <span>Input Hafalan </span></a></li>
                     <li><a href="{{ url('guru/pencapaian') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
+                    <li><a href="{{ url('guru/laporan') }}"><i class="fa fa-dashboard"></i> <span>Laporan</span></a></li>
                     @else( Auth::user()->level == "Siswa" )
                      <li><a href="{{ url('siswa/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
                     <li><a href="{{ url('siswa/history') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
