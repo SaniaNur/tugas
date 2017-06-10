@@ -14,7 +14,7 @@
                     <img src="{{asset("/binaryAdmin/assets/img/logo.jpg")}}" class="user-image img-responsive"/>
                     </li>
                 
-          <li class="header">{{ trans('backpack::base.administration') }}</li>
+          <li class="header">Main Navigation</li>
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->
