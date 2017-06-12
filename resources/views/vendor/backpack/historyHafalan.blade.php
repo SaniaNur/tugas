@@ -83,8 +83,8 @@
                                           <select required class="form-control" name="tahunLaporan" id="pilihTahun">
                                           <option disable="disabled" selected="selected" value="0">---Pilih Tahun---</option>
                                           <?php
-                                             $thn_skr = 2030;
-                                            for($x=$thn_skr; $x >= 2017; $x--){
+                                             $thn_skr = date('Y');
+                                            for($x=$thn_skr; $x >= 2016; $x--){
                                               ?>
                                                 <option @if($tahun == $x) {{'selected'}} @endif value="<?php echo $x ?>" url="/tahun={{$tahun}}"><?php echo $x?></option>
                                             <?php

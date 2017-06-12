@@ -299,11 +299,13 @@ class SiswaCrudController extends CrudController
         Siswa::where('id_user','=',$request->id_user)->update($siswa);
         if(!empty($request->password)){
          $user=[
+         'name'=>$request->nama,
         'username'=>$request->NIS,
         'password'=>bcrypt($request->password)
         ];   
     }else{
         $user=[
+        'name'=>$request->nama,
         'username'=>$request->NIS,
         ];
     }
@@ -313,6 +315,12 @@ class SiswaCrudController extends CrudController
 
     }
 
+    public function destroy($id){
+        $siswa=Siswa::where('id_user',$id);
+        $siswa->delete();
+        $user=User::find($id);
+        $user->delete();
+    }
 
 
 }

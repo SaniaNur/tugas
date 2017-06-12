@@ -231,16 +231,25 @@ class GuruCrudController extends CrudController
         Guru::where('id_user','=',$request->id_user)->update($guru);
         if(!empty($request->password)){
          $user=[
+         'name'=>$request->nama,
         'username'=>$request->no_guru,
         'password'=>bcrypt($request->password)
         ];   
     }else{
         $user=[
+        'name'=>$request->nama,
         'username'=>$request->no_guru,
         ];
     }
         
         User::where('id','=',$request->id_user)->update($user);
         return \Redirect::to ('admin/guru');
+    }
+
+    public function destroy($id){
+        $guru=Guru::where('id_user',$id);
+        $guru->delete();
+        $user=User::find($id);
+        $user->delete();
     }
 }

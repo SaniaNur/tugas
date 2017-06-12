@@ -66,11 +66,60 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="table-responsive">
+                                                <!-- <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
+                                                        <div class="col-md-2 col-sm-2 ">
+                                                            <select required class="form-control">
+                                                                <option value="00">---Pilih Bulan---</option>
+                                                                <option value="01">Januari</option>
+                                                                <option value="02">Februari</option>
+                                                                <option value="03">Maret</option>
+                                                                <option value="04">April</option>
+                                                                <option value="05">Mei</option>
+                                                                <option value="06">Juni</option>
+                                                                <option value="07">Juli</option>
+                                                                <option value="08">Agustus</option>
+                                                                <option value="09">September</option>
+                                                                <option value="10">Oktober</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">Desember</option>
+                                                            </select>
+                                                        </div> -->
+
+                                                <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
+                                                    <div class="col-md-2 col-sm-2 ">
+                                                        <select id="pilihBulan" required class="form-control" name="bulan">
+                                                            <option disabled="disabled" selected="selected" value="0">--pilih bulan--</option>
+                                                        <?php
+                                                        $bln=array(1=>"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                                                        for($bulan=1; $bulan<=12; $bulan++){
+                                                        if($bulan<=9) { echo "<option value='0$bulan'>$bln[$bulan]</option>"; }
+                                                        else { echo "<option value='$bulan'>$bln[$bulan]</option>"; }
+                                                        }
+                                                        ?>
+                                                        </select>
+                                                    </div>
+                                                <label class="col-md-2 col-sm-2 control-label">Tahun</label>
+                                                    <div class="col-md-2 col-sm-2">
+                                                        <select id="pilihTahun" required class="form-control" name="tahun">
+                                                            <option disabled="disabled" selected="selected" value="0">---Pilih Tahun---</option>
+                                                            <?php
+                                                                $thn_skr = date('Y');
+                                                                for($x=$thn_skr; $x>=2016; $x--){
+                                                                ?>
+                                                                    <option value="<?php echo $x?>"><?php echo $x ?></option>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                        </select>
+                                                        <br>
+                                                    </div>
+                                                    <button id="btncari" class="btn btn-default">cari</button>
                                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                     <thead>
                                                         <center>
                                                         <tr>
                                                             <th style="vertical-align:top">No</th>
+                                                            <th style="vertical-align:top">Nama</th>
                                                             <th style="vertical-align:top">Pendapatan 1 Bulan</th>
                                                             <th style="text-align:center;">Total Pendapatan</th>
                                                             
@@ -83,13 +132,15 @@
                                                     <tbody>
                                                         @php
                                                         $i=1;
-                                                        @endphp
-                                                        
+                                                          foreach($crud->dataHafalan as $item){
+                                                          @endphp
                                                           <tr>
-                                                        <td>{{$i}}</td>
-                                                        <td>a</td>
-                                                        <td>a</td>
+                                                            <td>{{$i}}</td>
+                                                            <td>{{$item['nama']}}</td>
+                                                            <td>{{(($item['jmlHafalan']*20) % 20)/2}}</td>
+                                                            <td>a</td>
                                                         </tr>
+                                                          <?php $i++; } ?>
                                                     </tbody>
                                                    
                                                 </table>
@@ -114,4 +165,15 @@
                     
                       
   </div>
+@endsection
+
+@section('after_scripts')
+<script>
+    $('#btncari').click(function(){
+      var url = "/tugas/public/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
+      console.log(url);
+        window.location = url;
+    });
+    
+  </script>
 @endsection

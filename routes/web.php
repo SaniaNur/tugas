@@ -61,12 +61,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
 {
   // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     CRUD::resource('guru', 'Admin\GuruCrudController');
+    Route::DELETE('/guru/{id}','Admin\GuruCrudController@destroy');
     CRUD::resource('siswa', 'Admin\SiswaCrudController');
+    Route::DELETE('/siswa/{id}','Admin\SiswaCrudController@destroy');
     // CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
     CRUD::resource('hafalan', 'Admin\HafalanCrudController');
     CRUD::resource('pencapaian', 'Admin\PencapaianCrudController');
     CRUD::resource('history', 'Admin\HistoryCrudController');
     CRUD::resource('laporan', 'Admin\LaporanCrudController');
+    Route::get('laporan/{bulan}/{tahun}', 'Admin\LaporanCrudController@index');
 
     // CRUD::resource('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController');    
 
