@@ -66,25 +66,10 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <div class="table-responsive">
-                                                <!-- <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
-                                                        <div class="col-md-2 col-sm-2 ">
-                                                            <select required class="form-control">
-                                                                <option value="00">---Pilih Bulan---</option>
-                                                                <option value="01">Januari</option>
-                                                                <option value="02">Februari</option>
-                                                                <option value="03">Maret</option>
-                                                                <option value="04">April</option>
-                                                                <option value="05">Mei</option>
-                                                                <option value="06">Juni</option>
-                                                                <option value="07">Juli</option>
-                                                                <option value="08">Agustus</option>
-                                                                <option value="09">September</option>
-                                                                <option value="10">Oktober</option>
-                                                                <option value="11">November</option>
-                                                                <option value="12">Desember</option>
-                                                            </select>
-                                                        </div> -->
-
+                                            <?php 
+                                                    $tahun_params=\Route::current()->parameter('tahun');
+                                                    $bulan_params=\Route::current()->parameter('bulan');
+                                                ?>
                                                 <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
                                                     <div class="col-md-2 col-sm-2 ">
                                                         <select id="pilihBulan" required class="form-control" name="bulan">
@@ -92,8 +77,12 @@
                                                         <?php
                                                         $bln=array(1=>"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
                                                         for($bulan=1; $bulan<=12; $bulan++){
-                                                        if($bulan<=9) { echo "<option value='0$bulan'>$bln[$bulan]</option>"; }
-                                                        else { echo "<option value='$bulan'>$bln[$bulan]</option>"; }
+                                                            if ($bulan == $bulan_params) {
+                                                                echo "<option value='$bulan' selected>$bln[$bulan]</option>"; 
+                                                            } else {
+                                                                echo "<option value='$bulan'>$bln[$bulan]</option>"; 
+                                                            }
+                                                            
                                                         }
                                                         ?>
                                                         </select>
@@ -106,7 +95,11 @@
                                                                 $thn_skr = date('Y');
                                                                 for($x=$thn_skr; $x>=2016; $x--){
                                                                 ?>
+                                                                @if($x == $tahun_params)
+                                                                    <option selected value="<?php echo $x?>"><?php echo $x ?></option>
+                                                                @else 
                                                                     <option value="<?php echo $x?>"><?php echo $x ?></option>
+                                                                @endif
                                                                 <?php
                                                                 }
                                                                 ?>
@@ -135,6 +128,12 @@
                                                           foreach($crud->dataHafalan as $item){
                                                           $floor=floor($item['jmlHafalan']);
                                                           $lembar=((($item['jmlHafalan']*20) % 20)/2);
+                                                          $nis = $item['nis'];
+                                                          $max_hafalan = DB::table('inputhafalan')->max('');
+                                                          $juz_max = $max_hafalan[0]->juzMax;
+                                                          $min_hafalan = DB::select("SELECT min(noJuz) as juzMin FROM inputhafalan JOIN siswa on siswa.nis=inputhafalan.nis where inputhafalan.nis = '3333' group by inputhafalan.NIS");
+                                                          $juz_min = $min_hafalan[0]->juzMin;
+                                                          ((($juz_max - $juz_min) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
                                                           @endphp
                                                           <tr>
                                                             <td>{{$i}}</td>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
 
-class DetailHafalan extends Model
+class TotalPendapatan extends Model
 {
     use CrudTrait;
 
@@ -16,20 +16,12 @@ class DetailHafalan extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'detail_hafalan';
-    protected $primaryKey = 'id_detail';
+    protected $table = 'pendapatan';
+    protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['id_hafalan','id_surah','ayat','jenisAyat'];
+    protected $fillable = ['NIS','bulan','tahun','totalPendapatan'];
     // protected $hidden = [];
     // protected $dates = ['tanggal'];
-
-
-    public function hafalan(){
-    	return $this-> belongsTo('App\Models\Hafalan');
-    }
-    public function surah(){
-    	return $this-> belongsTo('App\Models\Surah');
-    }
 
 }

@@ -235,8 +235,7 @@ class HafalanCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         //return $redirect_location;
 
-        $pendapatan=(((0 - $request->noHalamanA + $request->noHalamanB)+1)/20);
-        $totalPendapatan=(($pendapatan*20) % 20)/2;
+        
         
         $hafalan = new Hafalan;
         $hafalan -> noJuz=$request->noJuz;
@@ -247,10 +246,26 @@ class HafalanCrudController extends CrudController
         $hafalan -> tanggal=$request->tanggal;
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
-        $hafalan -> totalPendapatan=$totalPendapatan;
+       
 
         $sukses= $hafalan -> save();
-         
+        $total=\App\Models\TotalPendapatan::where('tahun', substr($hafalan->tanggal,0,4))->where('bulan',substr($hafalan->tanggal,5,2))->where('NIS','=',$hafalan->NIS)->first();
+        //dd($total==null);
+        if($total==null){
+            $pendapatan = new \App\Models\TotalPendapatan;
+            $pendapatan->NIS = $request->NIS;
+            $pendapatan->bulan = substr($hafalan->tanggal,5,2);
+            $pendapatan->tahun = substr($hafalan->tanggal,0,4);
+            $pendapatan->totalPendapatan = $request->noHalamanB - $request->noHalamanA +1 ;
+            $sukses = $pendapatan -> save();
+        }else{
+            $total ->NIS = $request->NIS;
+            $total ->bulan = substr($hafalan->tanggal,5,2);
+            $total ->tahun = substr($hafalan->tanggal,0,4);
+            $total ->totalPendapatan = $total ->totalPendapatan + $request->noHalamanB - $request->noHalamanA +1;
+            $sukses= $total->save();
+        }
+
         if($sukses){
           \Alert::success('Data Berhasil')->flash();  
         }
