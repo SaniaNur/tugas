@@ -37,6 +37,8 @@ class AdminController extends Controller
         $hafalan=hafalan::where ('tanggal','=',Carbon::parse($tanggalHariIni)->format('Y-m-d'))->count();
         // dd($hafalan);
         $dataHafalan = array();
+        $tahun = Carbon::now()->year;
+        
         if(auth()->user()->level == "Siswa"){
             
             $NIS=auth()->user()->siswa->NIS;
@@ -64,7 +66,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan);
+        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan)->with('tahun',$tahun);
     }
 
     /**
