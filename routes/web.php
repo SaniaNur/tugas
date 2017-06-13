@@ -113,7 +113,7 @@ Route::group(['prefix' => 'siswa','middleware' => 'levelsiswa'], function()
 
     
     CRUD::resource('history', 'Siswa\PencapaianSiswaCrudController');
-    // Route::GET('/dashboard?tahun={tahun}', 'AdminController@dashboard');
+    Route::GET('/dashboard/tahun={tahun}', 'AdminController@dashboard');
     
 
 });

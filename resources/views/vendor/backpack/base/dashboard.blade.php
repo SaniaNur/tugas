@@ -256,7 +256,11 @@
           responsive: true,
           title:{
               display:true,
-              text:'Hafalan',
+              @if($tahun)
+                text:'Hafalan Tahun {{$tahun}}',
+              @else
+                text:'Hafalan Tahun Ini',
+              @endif
               fontSize: 20
           },
           tooltips: {
@@ -378,7 +382,7 @@
     });
     $('#pilihTahun').change(function(){
       
-      var url= window.location.pathname+"?tahun="+$(this).val();
+      var url= "/tugas/public/siswa/dashboard/tahun="+$(this).val();
       console.log(url);
         window.location = url;
     });
