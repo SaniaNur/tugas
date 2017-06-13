@@ -28,7 +28,7 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
             'tanggal'=>'required',
             'NIS'=>'required',
             'jenis'=>'required',
-            'noJuz'=>'required',
+            'noJuz'=>'required|numeric',
             'noHalamanA'=>'required',
             'noHalamanB'=>'required',
             'nilai'=>'required',

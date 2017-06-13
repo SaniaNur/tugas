@@ -133,11 +133,21 @@
                                                         @php
                                                         $i=1;
                                                           foreach($crud->dataHafalan as $item){
+                                                          $floor=floor($item['jmlHafalan']);
+                                                          $lembar=((($item['jmlHafalan']*20) % 20)/2);
                                                           @endphp
                                                           <tr>
                                                             <td>{{$i}}</td>
                                                             <td>{{$item['nama']}}</td>
-                                                            <td>{{(($item['jmlHafalan']*20) % 20)/2}}</td>
+                                                            @if($floor==0)
+                                                            <td>{{(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
+                                                            @else
+                                                                @if($lembar==0)
+                                                                <td>{{$floor.' juz'}}</td>
+                                                                @else
+                                                                <td>{{$floor.' juz - '.(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
+                                                                @endif
+                                                            @endif
                                                             <td>a</td>
                                                         </tr>
                                                           <?php $i++; } ?>

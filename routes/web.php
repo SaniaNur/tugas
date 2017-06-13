@@ -95,6 +95,7 @@ Route::group(['prefix' => 'guru','middleware' => 'levelguru'], function(){
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
     CRUD::resource('history', 'Guru\HistoryGuruCrudController');
     CRUD::resource('laporan', 'Guru\LaporanGuruCrudController');
+    Route::get('laporan/{bulan}/{tahun}', 'Guru\LaporanGuruCrudController@index');
 
     Route::GET('/pencapaian/{NIS}/history', 'Guru\HistoryGuruCrudController@index');
     Route::GET('/pencapaian/{NIS}/history/tahun={tahun}', 'Guru\HistoryGuruCrudController@index');
@@ -112,6 +113,7 @@ Route::group(['prefix' => 'siswa','middleware' => 'levelsiswa'], function()
 
     
     CRUD::resource('history', 'Siswa\PencapaianSiswaCrudController');
+    // Route::GET('/dashboard?tahun={tahun}', 'AdminController@dashboard');
     
 
 });

@@ -40,7 +40,13 @@ class AdminController extends Controller
         if(auth()->user()->level == "Siswa"){
             
             $NIS=auth()->user()->siswa->NIS;
-            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$NIS.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$NIS.') as min on max.bln = min.blnMin');
+            $tahun=\Route::current()->parameter('tahun');
+            if($tahun){
+                $data=$data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
+            }
+            else{
+                $data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$NIS.' group by month(tanggal)');
+            }
         
             $index = 0;
             for($i = 1; $i <= 12; $i++){

@@ -9,6 +9,7 @@ use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\LaporanGuruRequest as StoreRequest;
 use App\Http\Requests\LaporanGuruRequest as UpdateRequest;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class LaporanGuruCrudController extends CrudController
 {
@@ -198,6 +199,7 @@ class LaporanGuruCrudController extends CrudController
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
         // $this->crud->addClause('type', 'car');
+        $this->crud->addClause('where', 'no_guru', '=', auth()->user()->guru->no_guru);
         // $this->crud->addClause('where', 'name', '==', 'car');
         // $this->crud->addClause('whereName', 'car');
         // $this->crud->addClause('whereHas', 'posts', function($query) {
@@ -226,6 +228,33 @@ class LaporanGuruCrudController extends CrudController
         //     }
         //     $this->crud->dataHafalan[$i]['bln'] = $i;
         // }
+        //bln sama tahun blm
+
+        $bulanini=Carbon::now()->format('m');
+        $tahunini=Carbon::now()->format('Y');
+
+        $no_guru=auth()->user()->guru->no_guru;
+        $tahun=\Route::current()->parameter('tahun');
+        $bulan=\Route::current()->parameter('bulan');
+        if($bulan && $tahun){
+            if($bulan!='null' && $tahun!='null'){
+            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
+            }elseif($bulan!='null' && $tahun=='null'){
+            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' group by month(tanggal)-inputhafalan.nis');  
+            }else{
+                $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
+            }
+        }else{
+            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal)-inputhafalan.nis');
+        }
+        
+        $index = 0;
+        $this->crud->dataHafalan = array();
+        for($i = 0; $i < count($data); $i++){
+            $this->crud->dataHafalan[$i]['nama']=$data[$index]->nama;
+            $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+            $index++;
+        }
         $this->crud->setListView('vendor/backpack/LaporanPencapaianGuru');
     }
 

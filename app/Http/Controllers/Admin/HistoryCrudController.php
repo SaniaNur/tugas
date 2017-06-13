@@ -172,11 +172,11 @@ class HistoryCrudController extends CrudController
         $tahun=\Route::current()->parameter('tahun');
         if($tahun){
             //$data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin');
-            $data=$data = DB::select('SELECT month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
+            $data=$data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$this->crud->NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
         }
         else{
             //$data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin');
-            $data = DB::select('SELECT month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' group by month(tanggal)');
+            $data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$this->crud->NIS.' group by month(tanggal)');
         }
         
         //  $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.') as min on max.bln = min.blnMin');
@@ -186,7 +186,7 @@ class HistoryCrudController extends CrudController
         for($i = 1; $i <= 12; $i++){
             if($index < count($data)){
                 if($i == $data[$index]->bln){
-                    $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+                    $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * $data[$index]->jumlahHalaman - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/$data[$index]->jumlahHalaman;
                     $index++;
                 }else{
                     $this->crud->dataHafalan[$i]['jmlHafalan']=0;

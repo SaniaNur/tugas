@@ -57,11 +57,22 @@
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Username</label>
                                         <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
+                                    @if ($errors->has('username'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('username') }}</strong>
+                                    </span>
+                                @endif
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-password">Password</label>
                                         <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                    @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
                                     </div>
+
                                    <!-- <a type="submit" class="btn btn-primary"  style="width:100px">Login</a> -->
                                    <button type="submit" class="btn btn-primary"  style="width:100px">Login</button>
                                     

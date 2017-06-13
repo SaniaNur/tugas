@@ -235,15 +235,20 @@ class HafalanCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         //return $redirect_location;
 
+        $pendapatan=(((0 - $request->noHalamanA + $request->noHalamanB)+1)/20);
+        $totalPendapatan=(($pendapatan*20) % 20)/2;
+        
         $hafalan = new Hafalan;
-        $hafalan -> noJuz=$request-> noJuz;
-        $hafalan -> NIS=$request-> NIS;
-        $hafalan -> jenis=$request-> jenis ;
+        $hafalan -> noJuz=$request->noJuz;
+        $hafalan -> NIS=$request->NIS;
+        $hafalan -> jenis=$request->jenis ;
         $hafalan -> noHalamanA=$request->noHalamanA;
         $hafalan -> noHalamanB=$request->noHalamanB;
-        $hafalan -> tanggal=$request-> tanggal;
+        $hafalan -> tanggal=$request->tanggal;
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
+        $hafalan -> totalPendapatan=$totalPendapatan;
+
         $sukses= $hafalan -> save();
          
         if($sukses){
