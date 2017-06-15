@@ -128,12 +128,13 @@
                                                           foreach($crud->dataHafalan as $item){
                                                           $floor=floor($item['jmlHafalan']);
                                                           $lembar=((($item['jmlHafalan']*20) % 20)/2);
-                                                          $nis = $item['nis'];
+
+                                                          <!-- $nis = $item['nis'];
                                                           $max_hafalan = DB::table('inputhafalan')->max('');
                                                           $juz_max = $max_hafalan[0]->juzMax;
                                                           $min_hafalan = DB::select("SELECT min(noJuz) as juzMin FROM inputhafalan JOIN siswa on siswa.nis=inputhafalan.nis where inputhafalan.nis = '3333' group by inputhafalan.NIS");
                                                           $juz_min = $min_hafalan[0]->juzMin;
-                                                          ((($juz_max - $juz_min) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+                                                          ((($juz_max - $juz_min) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20; -->
                                                           @endphp
                                                           <tr>
                                                             <td>{{$i}}</td>
