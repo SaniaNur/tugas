@@ -113,6 +113,8 @@ Route::group(['prefix' => 'siswa','middleware' => 'levelsiswa'], function()
 
     
     CRUD::resource('history', 'Siswa\PencapaianSiswaCrudController');
+    CRUD::resource('laporan', 'Siswa\LaporanSiswaCrudController');
+    Route::get('laporan/{bulan}/{tahun}', 'Siswa\LaporanSiswaCrudController@index');
     Route::GET('/dashboard/tahun={tahun}', 'AdminController@dashboard');
     
 

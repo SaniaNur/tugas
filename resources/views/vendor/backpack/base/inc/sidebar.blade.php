@@ -40,7 +40,7 @@
                     @else( Auth::user()->level == "Siswa" )
                      <li><a href="{{ url('siswa/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
                     <li><a href="{{ url('siswa/history') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
-                   
+                   <li><a href="{{ url('siswa/laporan') }}"><i class="fa fa-dashboard"></i> <span>Laporan</span></a></li>
                     @endif
 
 

@@ -249,6 +249,7 @@ class HafalanCrudController extends CrudController
        
 
         $sukses= $hafalan -> save();
+        if($hafalan->jenis=='ziadah'){
         $total=\App\Models\TotalPendapatan::where('tahun', substr($hafalan->tanggal,0,4))->where('bulan',substr($hafalan->tanggal,5,2))->where('NIS','=',$hafalan->NIS)->first();
         //dd($total==null);
         if($total==null){
@@ -265,7 +266,7 @@ class HafalanCrudController extends CrudController
             $total ->totalPendapatan = $total ->totalPendapatan + $request->noHalamanB - $request->noHalamanA +1;
             $sukses= $total->save();
         }
-
+        }
         if($sukses){
           \Alert::success('Data Berhasil')->flash();  
         }
@@ -278,10 +279,6 @@ class HafalanCrudController extends CrudController
 
 
     }
-
-        
-        
-
 
 
     public function update(UpdateRequest $request)

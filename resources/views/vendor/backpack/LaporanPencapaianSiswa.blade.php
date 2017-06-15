@@ -158,7 +158,19 @@
   </div>
 @endsection
 @section('after_scripts')
-<script src="http://localhost/keloen/public/vendor/adminlte/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script>
+    $(function () {
+      $('#dataTables-example').DataTable({
+      });
+    });
+    $('#btncari').click(function(){
+      var url = "/tugas/public/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
+      console.log(url);
+        window.location = url;
+    });
+    
+  </script>
+  <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" type="text/javascript"></script>
@@ -167,89 +179,42 @@
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js" type="text/javascript"></script>
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js" type="text/javascript"></script>
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js" type="text/javascript"></script>
-    
-    <script src="http://localhost/keloen/public/vendor/adminlte/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
-<script>
-    {{-- $(function () {
-      $('#dataTables-example').DataTable({
-      });
-    }); --}}
-    $('#btncari').click(function(){
-      var url = "/tugas/public/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
-      console.log(url);
-        window.location = url;
-    });
-    
-  </script>
 <script type="text/javascript">
-    jQuery(document).ready(function($) {
-        var dtButtons = function(buttons){
-            var extended = [];
-            for(var i = 0; i < buttons.length; i++){
-                var item = {
-                    extend: buttons[i],
-                    exportOptions: {
-                        columns: [':visible']
-                    }
-                };
-                switch(buttons[i]){
-                    case 'pdfHtml5':
-                    item.orientation = 'portrait';
-                    break;
-                }
-                extended.push(item);
-            }
-            return extended;
+      jQuery(document).ready(function($) {
+      var dtButtons = function(buttons){
+          var extended = [];
+          for(var i = 0; i < buttons.length; i++){
+          var item = {
+              extend: buttons[i],
+              exportOptions: {
+              columns: [':visible']
+              }
+          };
+          switch(buttons[i]){
+              case 'pdfHtml5':
+              item.orientation = 'landscape';
+              break;
+          }
+          extended.push(item);
+          }
+          return extended;
+      }
+  dom: '<"p-l-0 col-md-6"l>B<"p-r-0 col-md-6"f>rt<"col-md-6 p-l-0"i><"col-md-6 p-r-0"p>',
+          buttons: dtButtons([
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5',
+            'print',
+            'colvis'
+          ]),
+ table.buttons().each(function(button) {
+        if (button.node.className.indexOf('buttons-columnVisibility') == -1)
+        {
+          button.node.className = button.node.className + " btn-sm";
         }
-      
-        var table = $("#dataTables-example").DataTable({
-            "pageLength": 25,
-            /* Disable initial sort */
-            "aaSorting": [],
-            "language": {
-                "emptyTable":     "Tidak ada data dalam tabel ini",
-                "info":           "Menampilkan START sampai END dari TOTAL data",
-                "infoEmpty":      "Menampilkan 0 sampai 0 dari 0 data",
-                "infoFiltered":   "(filtered from MAX total entries)",
-                "infoPostFix":    "",
-                "thousands":      ",",
-                "lengthMenu":     "Tampilkan MENU data tiap halaman",
-                "loadingRecords": "Loading...",
-                "processing":     "Proses mengambil data...",
-                "search":         "Cari: ",
-                "zeroRecords":    "No matching records found",
-                "paginate": {
-                    "first":      "Pertama",
-                    "last":       "Terakhir",
-                    "next":       "Selanjutnya",
-                    "previous":   "Sebelumnya"
-                },
-                "aria": {
-                    "sortAscending":  ": activate to sort column ascending",
-                    "sortDescending": ": activate to sort column descending"
-                }
-            },
-          
-             // show the export datatable buttons
-            dom: '<"p-l-0 col-md-6"l>B<"p-r-0 col-md-6"f>rt<"col-md-6 p-l-0"i><"col-md-6 p-r-0"p>',
-            buttons: dtButtons([
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
-                'print',
-                'colvis'
-            ]),
-        });
-
-        // move the datatable buttons in the top-right corner and make them smaller
-        table.buttons().each(function(button) {
-            if (button.node.className.indexOf('buttons-columnVisibility') == -1)
-            {
-                button.node.className = button.node.className + " btn-sm";
-            }
-        });
-        $(".dt-buttons").appendTo($('#datatable_button_stack' ));
-    });
-</script>
+      })
+      $(".dt-buttons").appendTo($('#datatable_button_stack' ));
+}
+</script>⁠⁠⁠⁠
 @endsection

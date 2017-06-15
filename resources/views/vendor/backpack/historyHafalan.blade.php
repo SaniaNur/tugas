@@ -174,7 +174,7 @@
                                                         <td>
                                                             <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idZiadah.'/edit')}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-edit "></i> Edit</a>
                                                             <!-- <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idZiadah)}}" data-button-type="delete" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a>                                                            </td> -->
-                                                            <a href="{{ url($crud->route.'/'.$data->idZiadah) }}" class="btn btn-xs btn-default" data-button-type="delete"><i class="fa fa-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                                            <a href="{{ url($crud->route.'/'.$data->idZiadah) }}" class="btn btn-xs btn-default" onclick="return confirm('anda yakin?')" data-button-type="delete"><i class="fa fa-trash"></i> {{ trans('backpack::crud.delete') }}</a>
                                                         <td>@if($data->juzM)
                                                           {{$data->juzM}} 
                                                           @else
@@ -201,7 +201,7 @@
                                                         </td>
                                                         <td>
                                                             <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah.'/edit')}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-edit "></i> Edit</a>
-                                                            <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah)}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a>
+                                                            <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah)}}" class="btn btn-default" onclick="return confirm('anda yakin?')" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a>
                                                             </td>
                                                           </tr>
                                                           @php

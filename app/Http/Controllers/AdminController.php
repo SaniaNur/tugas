@@ -29,12 +29,19 @@ class AdminController extends Controller
     
     public function dashboard()
     {
-        $this->data['title'] = trans('backpack::base.dashboard'); // set the page title
-        $jumlahSiswa=siswa::count();
-        $jumlahGuru=guru::count();
         $tanggalHariIni= Carbon::now();
+        $this->data['title'] = trans('backpack::base.dashboard'); // set the page title
+        if (auth()->user()->level=='Guru') {
+            $idGuru = guru::where('id_user', auth()->user()->id)->first()->no_guru;
+            $hafalan=hafalan::where('no_guru', $idGuru)->where ('tanggal','=',Carbon::parse($tanggalHariIni)->format('Y-m-d'))->count();
+            $jumlahSiswa=DB::table('siswa')->where('no_guru', $idGuru)->count();
+        } else {
+            $jumlahSiswa=siswa::count();
+            $hafalan=hafalan::where ('tanggal','=',Carbon::parse($tanggalHariIni)->format('Y-m-d'))->count();
+        }
+        $jumlahGuru=guru::count();
 
-        $hafalan=hafalan::where ('tanggal','=',Carbon::parse($tanggalHariIni)->format('Y-m-d'))->count();
+        
         // dd($hafalan);
         $dataHafalan = array();
         $tahun = Carbon::now()->year;

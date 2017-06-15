@@ -10,6 +10,7 @@ use App\Http\Requests\HistoryRequest as StoreRequest;
 use App\Http\Requests\HistoryRequest as UpdateRequest;
 use App\Models\Hafalan;
 use App\Models\DetailHafalan;
+use App\Models\TotalPendapatan;
 use Illuminate\Support\Facades\DB;
 
 class HistoryCrudController extends CrudController
@@ -171,11 +172,11 @@ class HistoryCrudController extends CrudController
         $this->crud->NIS=\Route::current()->parameter('NIS');
         $tahun=\Route::current()->parameter('tahun');
         if($tahun){
-            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin order by max.bln');
+            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin order by max.bln');
             // $data = DB::select('SELECT month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
         }
         else{
-            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin order by max.bln');
+            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin order by max.bln');
             // $data = DB::select('SELECT  month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' group by month(tanggal)');
         }
         
@@ -237,11 +238,44 @@ class HistoryCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
+
+        $hafalan = Hafalan::find($request->id_hafalan);
+        $selsihsblm = $hafalan->noHalamanB - $hafalan->noHalamanA + 1;
+        $hafalan->tanggal=$request->tanggal;
+        $hafalan->noJuz=$request->noJuz;
+        $hafalan->noHalamanA=$request->noHalamanA;
+        $hafalan->noHalamanB=$request->noHalamanB;
+        $hafalan->nilai=$request->nilai;
+        $hafalan->save();
+
+        if($hafalan->jenis=='ziadah'){
+
+            $setelah = Hafalan::find($request->id_hafalan);
+            $selsihsesudah = $setelah->noHalamanB - $setelah->noHalamanA + 1;
+            
+            $total=\App\Models\TotalPendapatan::where('tahun', substr($hafalan->tanggal,0,4))->where('bulan',substr($hafalan->tanggal,5,2))->where('NIS','=',$hafalan->NIS)->first();
+            $total ->totalPendapatan = $total->totalPendapatan - $selsihsblm + $selsihsesudah;
+            $sukses= $total->save();
+            
+
+            if($sukses){
+              \Alert::success('Data Berhasil')->flash();  
+            }
+            else{
+                \Alert::error('Data Gagal Diubah')->flash();
+            }
+
+        }
+        
+        return \Redirect::to('admin/pencapaian/'.$hafalan->NIS.'/history');
+
+
+
         // your additional operations before save here
-        $redirect_location = parent::updateCrud();
+        // $redirect_location = parent::updateCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        // return $redirect_location;
     }
 
     public function edit($id)
@@ -264,7 +298,16 @@ class HistoryCrudController extends CrudController
     {
 
       $hapus = Hafalan::where('NIS',$NIS)->where('id_hafalan',$id)->first();
+      $selsih= $hapus->noHalamanB-$hapus->noHalamanA+1;
+    if($hapus->jenis=='ziadah'){
+        $total=\App\Models\TotalPendapatan::where('tahun', substr($hapus->tanggal,0,4))->where('bulan',substr($hapus->tanggal,5,2))->where('NIS','=',$hapus->NIS)->first();
+        $total ->totalPendapatan = $total->totalPendapatan - $selsih;
+        $total->save();
+      }
+
         $hapus->delete();
+
+        
 
         return back();
     }
