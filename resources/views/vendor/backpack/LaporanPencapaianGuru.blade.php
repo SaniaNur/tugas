@@ -158,7 +158,7 @@
   </div>
 @endsection
 @section('after_scripts')
-<script src="http://localhost/keloen/public/vendor/adminlte/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="http://localhost/tugas/public/vendor/adminlte/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" type="text/javascript"></script>
@@ -168,7 +168,7 @@
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js" type="text/javascript"></script>
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js" type="text/javascript"></script>
     
-    <script src="http://localhost/keloen/public/vendor/adminlte/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+    <script src="http://localhost/tugas/public/vendor/adminlte/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <script>
     {{-- $(function () {
       $('#dataTables-example').DataTable({
@@ -208,12 +208,12 @@
             "aaSorting": [],
             "language": {
                 "emptyTable":     "Tidak ada data dalam tabel ini",
-                "info":           "Menampilkan START sampai END dari TOTAL data",
+                "info":           "",
                 "infoEmpty":      "Menampilkan 0 sampai 0 dari 0 data",
                 "infoFiltered":   "(filtered from MAX total entries)",
                 "infoPostFix":    "",
                 "thousands":      ",",
-                "lengthMenu":     "Tampilkan MENU data tiap halaman",
+                "lengthMenu":     "",
                 "loadingRecords": "Loading...",
                 "processing":     "Proses mengambil data...",
                 "search":         "Cari: ",

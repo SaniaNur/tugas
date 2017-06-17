@@ -67,7 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
     // CRUD::resource('juz', 'Admin\Daftar_surahCrudController');
     CRUD::resource('hafalan', 'Admin\HafalanCrudController');
     CRUD::resource('pencapaian', 'Admin\PencapaianCrudController');
-    CRUD::resource('history', 'Admin\HistoryCrudController');
+    // CRUD::resource('history', 'Admin\HistoryCrudController');
     CRUD::resource('laporan', 'Admin\LaporanCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Admin\LaporanCrudController@index');
 

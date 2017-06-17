@@ -12,6 +12,8 @@ use App\Models\Hafalan;
 use App\Models\DetailHafalan;
 use App\Models\TotalPendapatan;
 use Illuminate\Support\Facades\DB;
+use App\Models\Siswa;
+use App\Models\Ziadah;
 
 class HistoryCrudController extends CrudController
 {
@@ -109,6 +111,24 @@ class HistoryCrudController extends CrudController
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
+         $this->crud->addField([ // Text
+                'name' => 'id_history',
+                'type' => 'hidden',
+                'value' =>\Route::current()->parameter('id')
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'update');
+
+         // $this->crud->addField([ // Text
+         //        'name' => 'a',
+         //        'label' => "Juz",
+         //        'type' => 'hidden',
+         //        'value'=>\Route::current()->parameter('id')
+         //        // optional
+         //        //'prefix' => '',
+         //        //'suffix' => ''
+         //    ], 'update');
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
@@ -239,44 +259,63 @@ class HistoryCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
+        
+         // $hafalan = Hafalan::where('jenis','ziadah')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal',$request->tanggal)->first();
+        $hafalan = Hafalan::find($request->id_history);
+        $hafalan -> noJuz=$request->noJuz;
+        $hafalan -> noHalamanA=$request->noHalamanA;
+        $hafalan -> noHalamanB=$request->noHalamanB;
+        $hafalan -> tanggal=$request->tanggal;
+        $hafalan -> nilai=$request->nilai;
 
-        $hafalan = Hafalan::find($request->id_hafalan);
-        $selsihsblm = $hafalan->noHalamanB - $hafalan->noHalamanA + 1;
-        $hafalan->tanggal=$request->tanggal;
-        $hafalan->noJuz=$request->noJuz;
-        $hafalan->noHalamanA=$request->noHalamanA;
-        $hafalan->noHalamanB=$request->noHalamanB;
-        $hafalan->nilai=$request->nilai;
-        $hafalan->save();
+        if(Ziadah::where('NIS','=',\Route::current()->parameter('NIS'))->count()!=0){
+            //data pertama yg diganti
+            if(Ziadah:: select('totalHalaman')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()!=null){
+            $totalKemarin= Ziadah:: select('totalHalaman')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->totalHalaman;
+            $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
+            $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
 
-        if($hafalan->jenis=='ziadah'){
-
-            $setelah = Hafalan::find($request->id_hafalan);
-            $selsihsesudah = $setelah->noHalamanB - $setelah->noHalamanA + 1;
-            
-            $total=\App\Models\TotalPendapatan::where('tahun', substr($hafalan->tanggal,0,4))->where('bulan',substr($hafalan->tanggal,5,2))->where('NIS','=',$hafalan->NIS)->first();
-            $total ->totalPendapatan = $total->totalPendapatan - $selsihsblm + $selsihsesudah;
-            $sukses= $total->save();
-            
-
-            if($sukses){
-              \Alert::success('Data Berhasil')->flash();  
+            if($halamanKemarin==20){
+                if($juzKemarin==$request->noJuz){
+                $hafalan ->totalHalaman=0;   
+                }else{
+                     $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+                 }
+            }else{
+                if($totalKemarin==0){ 
+                    $tanggalKemarin= Ziadah:: select('tanggal')->orderBy('tanggal','desc')->first()->tanggal;
+                    $tanggalKemarin= Ziadah:: select('tanggal')->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
+                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                }
+                if(($request->noHalamanB-$halamanKemarin)<=0){
+                    $hafalan ->totalHalaman=0;
+                }else{
+                    $hafalan ->totalHalaman=$request->noHalamanB-$halamanKemarin;
+                }
             }
-            else{
-                \Alert::error('Data Gagal Diubah')->flash();
-            }
-
+            }else{
+            $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+        }   
+        }else{
+            $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
         }
         
-        return \Redirect::to('admin/pencapaian/'.$hafalan->NIS.'/history');
 
-
-
-        // your additional operations before save here
-        // $redirect_location = parent::updateCrud();
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        // return $redirect_location;
+        $sukses= $hafalan -> save();
+        $tanggalBesok= Ziadah:: select('tanggal')->where('tanggal','>',$request->tanggal)->orderBy('tanggal','asc')->first();
+        if($tanggalBesok != null){
+             $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal',$tanggalBesok->tanggal)->first();
+            if($perbaruiHafalan!=null){
+                if(($perbaruiHafalan->noHalamanB-$request->noHalamanB)<=0){
+                        $perbaruiHafalan ->totalHalaman=0;
+                }else{
+                        $perbaruiHafalan ->totalHalaman=$perbaruiHafalan->noHalamanB-$request->noHalamanB;
+                }
+                $perbaruiHafalan->save();
+            }
+        }
+       
+        return redirect('admin/pencapaian/'.\Route::current()->parameter('NIS').'/history');
     }
 
     public function edit($id)
@@ -297,15 +336,49 @@ class HistoryCrudController extends CrudController
     }
      public function hapus($NIS,$id)
     {
+        $hapus = Hafalan::where('NIS',$NIS)->where('id_hafalan',$id)->first();
+        $halamanBKemarin = 0;
 
-      $hapus = Hafalan::where('NIS',$NIS)->where('id_hafalan',$id)->first();
-      $selsih= $hapus->noHalamanB-$hapus->noHalamanA+1;
-    if($hapus->jenis=='ziadah'){
-        $total=\App\Models\TotalPendapatan::where('tahun', substr($hapus->tanggal,0,4))->where('bulan',substr($hapus->tanggal,5,2))->where('NIS','=',$hapus->NIS)->first();
-        $total ->totalPendapatan = $total->totalPendapatan - $selsih;
-        $total->save();
-      }
+        //hapus data pertama
+        if(Ziadah:: select('totalHalaman')->where('NIS','=',$NIS)->where('tanggal','<',$hapus->tanggal)->orderBy('tanggal','desc')->first()!=null){
+            $totalKemarin= Ziadah:: select('totalHalaman')->where('NIS','=',$NIS)->where('tanggal','<',$hapus->tanggal)->orderBy('tanggal','desc')->first()->totalHalaman;
+            $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$NIS)->where('tanggal','<',$hapus->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
+            $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',$NIS)->where('tanggal','<',$hapus->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
 
+            
+            if($halamanKemarin==20){
+                
+                $halamanBKemarin=$halamanKemarin;
+                 
+            }else{
+                if($totalKemarin==0){ 
+                    $tanggalKemarin = Ziadah:: select('tanggal')->where('NIS','=',$NIS)->where('tanggal','<',$hapus->tanggal)->orderBy('tanggal','desc')->first()->tanggal;
+                    $halamanBKemarin= Ziadah:: select('tanggal')->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                    // $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$NIS)->where('tanggal',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                }else{
+                     $halamanBKemarin=$halamanKemarin;
+                }
+                
+            }}
+            // dd($halamanBKemarin);
+        $tanggalBesok= Ziadah:: select('tanggal')->where('tanggal','>',$hapus->tanggal)->orderBy('tanggal','asc')->first();
+        if($tanggalBesok != null){
+             $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',$NIS)->where('tanggal',$tanggalBesok->tanggal)->first();
+            if($perbaruiHafalan!=null){
+                // dd($perbaruiHafalan->nohalamanB);
+                if(($perbaruiHafalan->noHalamanB-$halamanBKemarin)>=0){
+                        $perbaruiHafalan ->totalHalaman=$perbaruiHafalan->noHalamanB - $halamanBKemarin;
+                }else{
+                        $perbaruiHafalan ->totalHalaman=0;
+                }
+                $perbaruiHafalan->save();
+            }
+        }
+       
+        
+       
+
+      
         $hapus->delete();
 
         

@@ -22,7 +22,7 @@
 
     <!-- THE ACTUAL CONTENT -->
     <div class="col-md-12">
-      <div class="box">
+      <div class="box"style="padding:16px">
         
                 <!-- <ul class="nav nav-tabs">
                     <li class="active"><a class="nav-link">Tabel</a></li>
@@ -34,43 +34,11 @@
           @include('crud::inc.button_stack', ['stack' => 'top'])
 
           <div id="datatable_button_stack" class="pull-right text-right"></div>
-        </div>
-
-        <div class="box-body ">
-            
-
-       
-            <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="row">
-                    
-                <div class="col-md-6 col-sm-6" style="width:100%">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Laporan Pencapaian
-                        </div>
-                        <!-- <div class="panel-body">
-                            <ul class="nav nav-tabs">
-                                
-                                <li class="active"><a href="#grafik" data-toggle="tab">Grafik</a>
-                                </li>
-                                <li class=""><a href="#tabel" data-toggle="tab">Tabel</a>
-                                </li>
-                                
-                            </ul>
-
-                            <div class="tab-content">
-
-                                <div class="tab-pane fade" id="tabel"> -->
-                                    <h4 style="padding-left:10px">Tabel</h4>
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                            <?php 
+                                                <?php 
                                                     $tahun_params=\Route::current()->parameter('tahun');
                                                     $bulan_params=\Route::current()->parameter('bulan');
                                                 ?>
-                                                <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
+                                                <label class="col-md-1 col-sm-1 control-label " >Bulan</label>
                                                     <div class="col-md-2 col-sm-2 ">
                                                         <select id="pilihBulan" required class="form-control" name="bulan">
                                                             <option disabled="disabled" selected="selected" value="0">--pilih bulan--</option>
@@ -87,7 +55,7 @@
                                                         ?>
                                                         </select>
                                                     </div>
-                                                <label class="col-md-2 col-sm-2 control-label">Tahun</label>
+                                                <label class="col-md-1 col-sm-1 control-label" >Tahun</label>
                                                     <div class="col-md-2 col-sm-2">
                                                         <select id="pilihTahun" required class="form-control" name="tahun">
                                                             <option disabled="disabled" selected="selected" value="0">---Pilih Tahun---</option>
@@ -107,6 +75,15 @@
                                                         <br>
                                                     </div>
                                                     <button id="btncari" class="btn btn-default">cari</button>
+        </div>
+
+        <div class="box-body table-responsive">
+            
+
+       
+            
+                                            <div class="table-responsive">
+                                            
                                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                     <thead>
                                                         <center>
@@ -125,25 +102,36 @@
                                                     <tbody>
                                                         @php
                                                         $i=1;
-                                                          foreach($crud->dataHafalan as $item){
-                                                          $floor=floor($item['jmlHafalan']);
-                                                          $lembar=((($item['jmlHafalan']*20) % 20)/2);
-                                                          
-                                                          
+                                                          for($x=0; $x<count($crud->data); $x++ ){
+                                                          $floor=floor($crud->data[$x]->total/20);
+                                                          $lembar=((($crud->data[$x]->total) % 20)/2);
+
+                                                          $floorPendapatan=floor($crud->totalPendapatan[$x]->totalPendapatan/20);
+                                                          $lembarPendapatan=((($crud->totalPendapatan[$x]->totalPendapatan) % 20)/2);
                                                           @endphp
                                                           <tr>
                                                             <td>{{$i}}</td>
-                                                            <td>{{$item['nama']}}</td>
+                                                            <td>{{$crud->data[$x]->nama}}</td>
                                                             @if($floor==0)
-                                                            <td>{{(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
+                                                            <td>{{$lembar}} lembar</td>
                                                             @else
                                                                 @if($lembar==0)
                                                                 <td>{{$floor.' juz'}}</td>
                                                                 @else
-                                                                <td>{{$floor.' juz - '.(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
+                                                                <td>{{$floor.' juz - '.$lembar}} lembar</td>
                                                                 @endif
                                                             @endif
-                                                            <td>{{$item['totalPendapatan']}}</td>
+                                                            
+                                                           
+                                                            @if($floorPendapatan==0)
+                                                            <td>{{$lembarPendapatan}} lembar</td>
+                                                            @else
+                                                                @if($lembarPendapatan==0)
+                                                                <td>{{$floorPendapatan.' juz'}}</td>
+                                                                @else
+                                                                <td>{{$floorPendapatan.' juz - '.$lembarPendapatan}} lembar</td>
+                                                                @endif
+                                                            @endif
                                                         </tr>
                                                           <?php $i++; } ?>
                                                     </tbody>
@@ -173,7 +161,22 @@
 @endsection
 
 @section('after_scripts')
+<script src="http://localhost/tugas/public/vendor/adminlte/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" type="text/javascript"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js" type="text/javascript"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js" type="text/javascript"></script>
+    
+    <script src="http://localhost/tugas/public/vendor/adminlte/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <script>
+    {{-- $(function () {
+      $('#dataTables-example').DataTable({
+      });
+    }); --}}
     $('#btncari').click(function(){
       var url = "/tugas/public/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
       console.log(url);
@@ -181,4 +184,75 @@
     });
     
   </script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        var dtButtons = function(buttons){
+            var extended = [];
+            for(var i = 0; i < buttons.length; i++){
+                var item = {
+                    extend: buttons[i],
+                    exportOptions: {
+                        columns: [':visible']
+                    }
+                };
+                switch(buttons[i]){
+                    case 'pdfHtml5':
+                    item.orientation = 'portrait';
+                    break;
+                }
+                extended.push(item);
+            }
+            return extended;
+        }
+      
+        var table = $("#dataTables-example").DataTable({
+            "pageLength": 25,
+            /* Disable initial sort */
+            "aaSorting": [],
+            "language": {
+                "emptyTable":     "Tidak ada data dalam tabel ini",
+                "info":           "Menampilkan _START_ sampai _END_ dari _TOTAL_ Data",
+                "infoEmpty":      "Menampilkan 0 sampai 0 dari 0 data",
+                "infoFiltered":   "(filtered from MAX total entries)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Tampilkan_MENU_ Data Tiap Halaman",
+                "loadingRecords": "Loading...",
+                "processing":     "Proses mengambil data...",
+                "search":         "Cari: ",
+                "zeroRecords":    "No matching records found",
+                "paginate": {
+                    "first":      "Pertama",
+                    "last":       "Terakhir",
+                    "next":       "Selanjutnya",
+                    "previous":   "Sebelumnya"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+            },
+          
+             // show the export datatable buttons
+            dom: '<"p-l-0 col-md-6"l>B<"p-r-0 col-md-6"f>rt<"col-md-6 p-l-0"i><"col-md-6 p-r-0"p>',
+            buttons: dtButtons([
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5',
+                'print',
+                'colvis'
+            ]),
+        });
+
+        // move the datatable buttons in the top-right corner and make them smaller
+        table.buttons().each(function(button) {
+            if (button.node.className.indexOf('buttons-columnVisibility') == -1)
+            {
+                button.node.className = button.node.className + " btn-sm";
+            }
+        });
+        $(".dt-buttons").appendTo($('#datatable_button_stack' ));
+    });
+</script>
 @endsection
