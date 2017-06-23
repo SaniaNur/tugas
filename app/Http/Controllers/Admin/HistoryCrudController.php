@@ -192,11 +192,13 @@ class HistoryCrudController extends CrudController
         $this->crud->NIS=\Route::current()->parameter('NIS');
         $tahun=\Route::current()->parameter('tahun');
         if($tahun){
-            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin order by max.bln');
+           // $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = '.$tahun.') as min on max.bln = min.blnMin order by max.bln');
             // $data = DB::select('SELECT month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
+            $data=DB::SELECT('SELECT * from totalhafalan where nis ='.$this->crud->NIS.' and tahun= '.$tahun.' order by tahun, bulan');
         }
         else{
-            $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin order by max.bln');
+            $data=DB::SELECT('SELECT * from totalhafalan where nis ='.$this->crud->NIS.' and tahun= '.\Carbon\Carbon::now()->year.' order by tahun, bulan');
+            // $data = DB::select('SELECT max.bln, max.noJuz as juzMax, max.nohalamanB, min.noJuz as juzMin, min.noHalamanA FROM (SELECT noJuz, month(tanggal) as bln, noHalamanB from inputhafalan WHERE day(tanggal) in (SELECT max(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as max join (SELECT noJuz, month(tanggal) as blnMin, noHalamanA from inputhafalan WHERE day(tanggal) in (SELECT min(day(Tanggal)) from inputhafalan where jenis = "ziadah" and NIS = '.$this->crud->NIS.' GROUP BY month(tanggal),year(tanggal)) and jenis = "ziadah" and NIS = '.$this->crud->NIS.' and year(tanggal) = year(curdate())) as min on max.bln = min.blnMin order by max.bln');
             
             // $data = DB::select('SELECT month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` where nis='.$this->crud->NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
         }
@@ -207,8 +209,8 @@ class HistoryCrudController extends CrudController
         $this->crud->dataHafalan = array();
         for($i = 1; $i <= 12; $i++){
             if($index < count($data)){
-                if($i == $data[$index]->bln){
-                    $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+                if($i == $data[$index]->bulan){
+                    $this->crud->dataHafalan[$i]['jmlHafalan']= $data[$index]->totalHalaman / 20;
                     $index++;
                 }else{
                     $this->crud->dataHafalan[$i]['jmlHafalan']=0;
@@ -267,6 +269,7 @@ class HistoryCrudController extends CrudController
         $hafalan -> noHalamanB=$request->noHalamanB;
         $hafalan -> tanggal=$request->tanggal;
         $hafalan -> nilai=$request->nilai;
+        
 
         if(Ziadah::where('NIS','=',\Route::current()->parameter('NIS'))->count()!=0){
             //data pertama yg diganti
@@ -283,9 +286,10 @@ class HistoryCrudController extends CrudController
                  }
             }else{
                 if($totalKemarin==0){ 
-                    $tanggalKemarin= Ziadah:: select('tanggal')->orderBy('tanggal','desc')->first()->tanggal;
-                    $tanggalKemarin= Ziadah:: select('tanggal')->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
-                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                    $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',\Route::current()->parameter('NIS'))->orderBy('tanggal','desc')->first()->tanggal;
+                    $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
+                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal','=',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                    
                 }
                 if(($request->noHalamanB-$halamanKemarin)<=0){
                     $hafalan ->totalHalaman=0;
@@ -303,16 +307,30 @@ class HistoryCrudController extends CrudController
 
         $sukses= $hafalan -> save();
         $tanggalBesok= Ziadah:: select('tanggal')->where('tanggal','>',$request->tanggal)->orderBy('tanggal','asc')->first();
-        if($tanggalBesok != null){
-             $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',\Route::current()->parameter('NIS'))->where('tanggal',$tanggalBesok->tanggal)->first();
+        //inputin hari kemarin (ngecek dulu hari ini udh ada hafalannya atau blm)
+        if($tanggalBesok!=null){
+            $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',$request-> NIS)->where('tanggal',$tanggalBesok->tanggal)->first();
+            //
             if($perbaruiHafalan!=null){
-                if(($perbaruiHafalan->noHalamanB-$request->noHalamanB)<=0){
+                //ngecek sebelumnya ada perkembangan atau tidak
+                // dd($perbaruiHafalan->noHalamanB-$request->noHalamanB);
+                if($perbaruiHafalan->totalHalaman != 0){
+                     if(($perbaruiHafalan->noHalamanB-$request->noHalamanB)<=0){
                         $perbaruiHafalan ->totalHalaman=0;
-                }else{
+                    }else{
                         $perbaruiHafalan ->totalHalaman=$perbaruiHafalan->noHalamanB-$request->noHalamanB;
+                    }
+                }else{
+                    $hafalanKemarin= Ziadah::where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
+                    if(($request->noHalamanB-$hafalanKemarin->noHalamanB)<=0){
+                        $perbaruiHafalan ->totalHalaman=0;
+                    }else{
+                        $perbaruiHafalan ->totalHalaman=$request->noHalamanB-$hafalanKemarin->noHalamanB;
+                    }
                 }
+               
                 $perbaruiHafalan->save();
-            }
+            }    
         }
        
         return redirect('admin/pencapaian/'.\Route::current()->parameter('NIS').'/history');

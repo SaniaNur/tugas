@@ -10,6 +10,7 @@ use App\Http\Requests\LaporanRequest as StoreRequest;
 use App\Http\Requests\LaporanRequest as UpdateRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Siswa;
 
 class LaporanCrudController extends CrudController
 {
@@ -38,6 +39,7 @@ class LaporanCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
+
         $this->crud->setModel('App\Models\Hafalan');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/laporan');
         $this->crud->setEntityNameStrings('Laporan', 'Laporan');
@@ -218,29 +220,77 @@ class LaporanCrudController extends CrudController
         //bln sama tahun blm
         $tahun=\Route::current()->parameter('tahun');
         $bulan=\Route::current()->parameter('bulan');
-        $this->crud->totalPendapatan= DB::select('select sum(totalHalaman) as totalPendapatan from hafalanziadah group by nis');
-        $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
-        // $data = DB::select('SELECT totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');
-        if($bulan && $tahun){
-            if($bulan!='null' && $tahun!='null'){
-                $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal),year(tanggal)');
-            //$data = DB::select('SELECT totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal),inputhafalan.nis');
-            }elseif($bulan=='null' && $tahun=='null') {
-                $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
-                //$data = DB::select('SELECT  totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');
-            }
-            else{
-                $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
-            //$data = DB::select('SELECT  totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');  
-            }
+        // $this->crud->totalPendapatan= DB::select('select sum(totalHalaman) as totalPendapatan from hafalanziadah group by nis');
+        // $this->crud->data= DB::select('SELECT siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
+        // $this->crud->data=DB::SELECT('SELECT * from totalhafalan where bulan='.$bulanini.' and tahun= '.$tahunini.' order by nis');
+        // $this->crud->datatotal=DB::SELECT('SELECT nis, sum(totalHalaman) as totalPendapatan from totalhafalan group by nis order by nis');
+        // // $data = DB::select('SELECT totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');
+        // if($bulan && $tahun){
+        //     if($bulan!='null' && $tahun!='null'){
+        //         $this->crud->data=DB::SELECT('SELECT * from totalhafalan where bulan='.$bulan.' and tahun= '.$tahun.' group by nis order by tahun, bulan');
+        //         // $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal),year(tanggal)');
+        //     //$data = DB::select('SELECT totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal),inputhafalan.nis');
+        //     }elseif($bulan=='null' && $tahun=='null') {
+        //         $this->crud->data=DB::SELECT('SELECT * from totalhafalan where bulan='.$bulanini.' and tahun= '.$tahunini.' group by nis order by tahun, bulan');
+        //         // $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
+        //         //$data = DB::select('SELECT  totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');
+        //     }
+        //     else{
+        //         $this->crud->data=DB::SELECT('SELECT * from totalhafalan where bulan='.$bulan.' and tahun= '.$tahunini.' group by nis order by tahun, bulan');
+        //         // $this->crud->data= DB::select('select siswa.nis as nis, siswa.nama as nama, month(tanggal),year(tanggal), sum(totalHalaman) as total from hafalanziadah join siswa on siswa.nis=hafalanziadah.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahunini.' group by month(tanggal),year(tanggal)');
+        //     //$data = DB::select('SELECT  totalPendapatan, inputhafalan.nis as nis, siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis join (select nis,sum(totalPendapatan) as totalPendapatan FROM pendapatan GROUP by nis) as p on p.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahunini.' group by month(tanggal),inputhafalan.nis');  
+        //     }
+        // }
+        // dd($tahun);
+        // dd($tahunini);
+        if($tahun !="null" && $tahun!= null){
+            $tahunini=$tahun;
+        }
+        if($bulan != "null" && $bulan != null){
+            $bulanini=$bulan;
         }
 
+         $this->crud->data=DB::SELECT('SELECT * from totalhafalan where bulan='.$bulanini.' and tahun= '.$tahunini.' order by nis');
+        $this->crud->datatotal=DB::SELECT('SELECT nis, sum(totalHalaman) as totalPendapatan from totalhafalan group by nis order by nis');
+
+        $nis = Siswa::get();
+        // dd($this->crud->data[0]->nis);
+        $indexData = 0;
+        $indexDataTotal = 0;
+        $this->crud->hasil= array();
+            foreach ($nis as $key => $value) {
+                // dd($value);
+                $this->crud->hasil[$key]['nis'] = $value->NIS;
+                $this->crud->hasil[$key]['nama'] = $value->nama;
+                if($indexData < count($this->crud->data)){
+                   if($value->NIS == $this->crud->data[$indexData]->nis){
+                        $this->crud->hasil[$key]['totalBulan'] = $this->crud->data[$indexData]->totalHalaman;
+                        $indexData ++;
+                    }else{
+                        $this->crud->hasil[$key]['totalBulan'] = 0;
+                    } 
+                }else{
+                    $this->crud->hasil[$key]['totalBulan'] = 0;
+                }
+            
+            if($indexDataTotal < count($this->crud->datatotal)){
+                 if($value->NIS == $this->crud->datatotal[$indexDataTotal]->nis){
+                    $this->crud->hasil[$key]['totalPendapatan'] = $this->crud->datatotal[$indexDataTotal]->totalPendapatan;
+                    $indexDataTotal++;
+                }else{
+                    $this->crud->hasil[$key]['totalPendapatan'] = 0;
+                }
+            }else{
+                $this->crud->hasil[$key]['totalPendapatan'] = 0;
+            }
+        }
+// dd( $nis);
         
         // $index = 0;
         // $this->crud->dataHafalan = array();
         // for($i = 0; $i < count($data); $i++){
         //     $this->crud->dataHafalan[$i]['nis']=$data[$index]->nis;
-        //     $this->crud->dataHafalan[$i]['nama']=$data[$index]->nama;
+        //     $this->crud->dataHafalan[$i]['nama']=Siswa::where('NIS', $data[$index]->nis);
         //     $this->crud->dataHafalan[$i]['totalPendapatan']= $this->getJuz($data[$index]->totalPendapatan);
         //     $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
         //     $index++;

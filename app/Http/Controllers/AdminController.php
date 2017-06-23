@@ -45,23 +45,28 @@ class AdminController extends Controller
         // dd($hafalan);
         $dataHafalan = array();
         $tahun = Carbon::now()->year;
+        $datatotal=0;
         
         if(auth()->user()->level == "Siswa"){
             
             $NIS=auth()->user()->siswa->NIS;
             $tahun=\Route::current()->parameter('tahun');
             if($tahun){
-                $data=$data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$NIS.' and year(tanggal)='.$tahun.' group by month(tanggal)');
+                $data=DB::SELECT('SELECT * from totalhafalan where nis ='.$NIS.' and tahun= '.$tahun.' order by tahun, bulan');
             }
             else{
-                $data = DB::select('SELECT jumlahHalaman, month(tanggal) as bln,max(inputhafalan.noJuz) as juzMax,min(inputhafalan.noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM `inputhafalan` join juz on inputhafalan.noJuz=juz.noJuz where nis='.$NIS.' group by month(tanggal)');
+                $data=DB::SELECT('SELECT * from totalhafalan where nis ='.$NIS.' and tahun= '.\Carbon\Carbon::now()->year.' order by tahun, bulan');
             }
-        
+            
+
+            $datatotal=DB::SELECT('SELECT sum(totalHalaman) as totalPendapatan from totalhafalan where nis='.$NIS.' group by nis order by nis');
+            // dd($datatotal);
+            
             $index = 0;
             for($i = 1; $i <= 12; $i++){
                 if($index < count($data)){
-                    if($i == $data[$index]->bln){
-                        $dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+                    if($i == $data[$index]->bulan){
+                        $dataHafalan[$i]['jmlHafalan']= $data[$index]->totalHalaman / 20;
                         $index++;
                     }else{
                         $dataHafalan[$i]['jmlHafalan']=0;
@@ -73,7 +78,7 @@ class AdminController extends Controller
             }
         }
 
-        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan)->with('tahun',$tahun);
+        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan)->with('tahun',$tahun)->with('total', $datatotal);
     }
 
     /**
@@ -86,6 +91,13 @@ class AdminController extends Controller
         
         // The '/admin' route is not to be used as a page, because it breaks the menu's active state.
         return redirect('/dashboard');
+    }
+    public function hapusguru($id){
+        return "as";
+        $user = User::find($id);
+        $user->delete();
+
+        return back();
     }
     
 }

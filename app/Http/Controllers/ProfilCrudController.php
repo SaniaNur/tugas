@@ -1,35 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
-use App\Http\Requests\GuruRequest as StoreRequest;
-use App\Http\Requests\GuruRequest as UpdateRequest;
-use App\User;
-use App\Models\GuruUpdate as Guru;
+use App\Http\Requests\ProfilRequest as StoreRequest;
+use App\Http\Requests\ProfilRequest as UpdateRequest;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
-class GuruCrudController extends CrudController
+class ProfilCrudController extends CrudController
 {
-    public function __construct()
-    {
-        if (! $this->crud) {
-            $this->crud = app()->make(CrudPanel::class);
-
-            // call the setup function inside this closure to also have the request there
-            // this way, developers can use things stored in session (auth variables, etc)
-            $this->middleware([function ($request, $next) {
-                $this->request = $request;
-                $this->crud->request = $request;
-                $this->setup();
-
-                return $next($request);
-            },'leveladmin']);
-        }
-    }
-
+     
     public function setUp()
     {
 
@@ -38,9 +23,16 @@ class GuruCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\GuruUpdate');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/guru');
-        $this->crud->setEntityNameStrings('Data Guru', 'Data Guru');
+        
+        $this->crud->setModel('App\Models\User');
+        if(auth()->user()->level == "Guru"){
+            $this->crud->setRoute('guru/profil');    
+        }elseif(auth()->user()->level == "Siswa"){
+            $this->crud->setRoute('siswa/profil');
+        }
+        
+    
+        // $this->crud->setEntityNameStrings('Program Hafalan', 'Program Hafalan');
 
         /*
         |--------------------------------------------------------------------------
@@ -48,88 +40,51 @@ class GuruCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        //$this->crud->setFromDb();
+        // $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
+
         $this->crud->addField([ // Text
-                'name' => 'no_guru',
-                'label' => "No. Guru",
-                'type' => 'text',
+                'name' => 'a',
+                'label' => "Password Lama :",
+                'type' => 'password',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'id_user',
-                'label' => "ID",
+                'name' => 'ab',
+                'label' => "Password Lama :",
                 'type' => 'hidden',
+                'value' => auth()->user()->password
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'nama',
-                'label' => "Nama",
-                'type' => 'text',
+                'name' => 'b',
+                'label' => "Password Baru",
+                'type' => 'password',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
-            ], 'both');
-        $this->crud->addField([ // select_from_array
-                'name' => 'jenisKelamin',
-                'label' => "Jenis Kelamin",
-                'type' => 'select_from_array',
-                'options' => ['Laki-laki' => 'Laki-laki', 'Perempuan' => 'Perempuan'],
-                'allows_null' => false,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
             ], 'both');
         $this->crud->addField([ // Text
-                'name' => 'alamat',
-                'label' => "Alamat",
-                'type' => 'textarea',
+                'name' => 'c',
+                'label' => "Ulangi Password Baru",
+                'type' => 'password',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
             ], 'both');
-        $this->crud->addField([   // Number
-                'name' => 'noHp',
-                'label' => 'Handphone',
-                'type' => 'number',
-                // optionals
-                // 'attributes' => ["step" => "any"], // allow decimals
-                // 'prefix' => "$",
-                // 'suffix' => ".00",
-            ], 'both');
-        $this->crud->addField([   // Password
-            'name' => 'password',
-            'label' => 'Password',
-            'type' => 'password'
-        ], 'both');
+        // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn([
-           'name' => 'no_guru', // The db column name
-           'label' => "No. Guru" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'nama', // The db column name
-           'label' => "Nama" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'jenisKelamin', // The db column name
-           'label' => "Jenis Kelamin" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'alamat', // The db column name
-           'label' => "Alamat" // Table column heading
-        ]);
-        $this->crud->addColumn([
-           'name' => 'noHp', // The db column name
-           'label' => "Handphone" // Table column heading
-        ]); // add a single column, at the end of the stack
+       
+        // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
@@ -146,7 +101,7 @@ class GuruCrudController extends CrudController
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        // $this->crud->denyAccess([ 'list','create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -187,71 +142,28 @@ class GuruCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+        
     }
 
     public function store(StoreRequest $request)
     {
-
-        $user= new User;
-        $user->name=$request->nama;
-        $user->password=$request->password;
-        $user->username=$request->no_guru;
-        $user->level='guru';
-        $user->save();
-        $guru=new Guru;
-        $guru->no_guru=$request->no_guru;
-        $guru->id_user=$user->id;
-        $guru->nama=$request->nama;
-        $guru->jenisKelamin=$request->jenisKelamin;
-        $guru->alamat=$request->alamat;
-        $guru->noHp=$request->noHp;
-        $guru->save();
-
-        return \Redirect::to ('admin/guru')->With('message','Data Berhasil Disimpan');
         // your additional operations before save here
-        // $redirect_location = parent::storeCrud();
+        $redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        // return $redirect_location;
+        return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
-        // your additional operations before save here
-        // $redirect_location = parent::updateCrud();
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        // return $redirect_location;
-        $guru=[
-        'no_guru'=>$request->no_guru,
-        'id_user'=>$request->id_user,
-        'nama'=>$request->nama,
-        'jenisKelamin'=>$request->jenisKelamin,
-        'alamat'=>$request->alamat,
-        'noHp'=>$request->noHp,
-        ];
-        Guru::where('id_user','=',$request->id_user)->update($guru);
-        if(!empty($request->password)){
-         $user=[
-         'name'=>$request->nama,
-        'username'=>$request->no_guru,
-        'password'=>bcrypt($request->password)
-        ];   
-    }else{
-        $user=[
-        'name'=>$request->nama,
-        'username'=>$request->no_guru,
-        ];
-    }
+        $user = User::find(auth()->user()->id);
+        if(\Hash::check($request->a, $user->password)){
+            $user->password = \Hash::make($request->b);
+            $user->save(); 
+        }else{
+            $request->session()->flash('eror', 'Your password has not been changed.');
+        }  
         
-        User::where('id','=',$request->id_user)->update($user);
-        return \Redirect::to ('admin/guru');
-    }
-
-    public function destroy($id){
-        $guru=Guru::where('id_user',$id);
-        $guru->delete();
-        $user=User::find($id);
-        $user->delete();
+        return redirect()->back();
     }
 }

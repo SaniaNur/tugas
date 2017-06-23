@@ -173,7 +173,7 @@
                                                         <td>
                                                             <a href="{{url('guru/pencapaian/'.$crud->NIS.'/history/'.$data->idZiadah.'/edit')}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-edit "></i> Edit</a>
                                                             <!-- <a href="{{url('admin/pencapaian/'.$crud->NIS.'/history/'.$data->idZiadah)}}" data-button-type="delete" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a>                                                            </td> -->
-                                                            <a href="{{ url($crud->route.'/'.$data->idZiadah) }}" class="btn btn-xs btn-default" data-button-type="delete"><i class="fa fa-trash"></i> {{ trans('backpack::crud.delete') }}</a>
+                                                            <!-- <a href="{{ url($crud->route.'/'.$data->idZiadah) }}" class="btn btn-xs btn-default" data-button-type="delete"><i class="fa fa-trash"></i> {{ trans('backpack::crud.delete') }}</a> -->
                                                         <td>@if($data->juzM)
                                                           {{$data->juzM}} 
                                                           @else
@@ -200,7 +200,7 @@
                                                         </td>
                                                         <td>
                                                             <a href="{{url('guru/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah.'/edit')}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-edit "></i> Edit</a>
-                                                            <a href="{{url('guru/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah)}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a>
+                                                            <!-- <a href="{{url('guru/pencapaian/'.$crud->NIS.'/history/'.$data->idMurojaah)}}" class="btn btn-default" style="padding:2px; font-size:12px"><i class="fa fa-pencil"></i> Delete</a> -->
                                                             </td>
                                                           </tr>
                                                           @php
@@ -233,7 +233,50 @@
                     </div>
                     @endsection
 
-@section('after_scripts')              
+@section('after_scripts')      
+
+  
+  <script src="{{ asset('vendor/adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('vendor/adminlte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+  <script>
+    $(function () {
+      $('#dataTables-example').DataTable({
+        "pageLength": 25,
+            /* Disable initial sort */
+            "aaSorting": [],
+            "language": {
+                "emptyTable":     "Tidak ada data dalam tabel ini",
+                "info":           "Menampilkan _START_ sampai _END_ dari _TOTAL_ Data",
+                "infoEmpty":      "Menampilkan 0 sampai 0 dari 0 data",
+                "infoFiltered":   "(filtered from MAX total entries)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Tampilkan_MENU_ Data Tiap Halaman",
+                "loadingRecords": "Loading...",
+                "processing":     "Proses mengambil data...",
+                "search":         "Cari: ",
+                "zeroRecords":    "No matching records found",
+                "paginate": {
+                    "first":      "Pertama",
+                    "last":       "Terakhir",
+                    "next":       "Selanjutnya",
+                    "previous":   "Sebelumnya"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+              }
+      });
+    });
+
+    $('#pilihTahun').change(function(){
+      var url = "/tugas/public/{{$crud->getRoute()}}/tahun="+$(this).val();
+      console.log(url);
+        window.location = url;
+    });
+  </script>        
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
   <script>
@@ -408,19 +451,4 @@
     });
   </script>
 
-  <script src="{{ asset('vendor/adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('vendor/adminlte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
-
-  <script>
-    $(function () {
-      $('#dataTables-example').DataTable({
-      });
-    });
-
-    $('#pilihTahun').change(function(){
-      var url = "/tugas/public/{{$crud->getRoute()}}/tahun="+$(this).val();
-      console.log(url);
-        window.location = url;
-    });
-  </script>
 @endsection

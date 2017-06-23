@@ -39,14 +39,18 @@
                     <li><a href="{{ url('guru/laporan') }}"><i class="fa fa-dashboard"></i> <span>Laporan</span></a></li>
                     @else( Auth::user()->level == "Siswa" )
                      <li><a href="{{ url('siswa/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-                    <li><a href="{{ url('siswa/history') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li>
-                   <li><a href="{{ url('siswa/laporan') }}"><i class="fa fa-dashboard"></i> <span>Laporan</span></a></li>
+                    <!-- <li><a href="{{ url('siswa/history') }}"><i class="fa fa-dashboard"></i> <span>Program Hafalan</span></a></li> -->
+                   <li><a href="{{ url('siswa/laporan') }}"><i class="fa fa-dashboard"></i> <span>Pencapaian Hafalan</span></a></li>
                     @endif
 
 
           <!-- ======================================= -->
           <li class="header">{{ trans('backpack::base.user') }}</li>
-          <!-- <li><a href="{{ url('/profil') }}"><i class="fa fa-users"></i> <span>Profil</span></a></li> -->
+          <!-- @if(Auth::user()->level == "Guru")
+          <li><a href="{{ url('guru/profil/'.auth()->user()->id.'/edit') }}"><i class="fa fa-users"></i> <span>Profil</span></a></li>
+          @else( Auth::user()->level == "Siswa" )
+          <li><a href="{{ url('siswa/profil/'.auth()->user()->id.'/edit') }}"><i class="fa fa-users"></i> <span>Profil</span></a></li>
+          @endif -->
           <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}"><i class="fa fa-sign-out"></i> <span>{{ trans('backpack::base.logout') }}</span></a></li>
         </ul>
       </section>

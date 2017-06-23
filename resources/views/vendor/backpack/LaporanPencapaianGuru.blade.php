@@ -34,52 +34,28 @@
           @include('crud::inc.button_stack', ['stack' => 'top'])
 
           <div id="datatable_button_stack" class="pull-right text-right"></div>
-        </div>
-
-        <div class="box-body ">
-            
-
-       
-            <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="row">
-                    
-                <div class="col-md-6 col-sm-6" style="width:100%">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Laporan
-                        </div>
-                        <!-- <div class="panel-body">
-                            <ul class="nav nav-tabs">
-                                
-                                <li class="active"><a href="#grafik" data-toggle="tab">Grafik</a>
-                                </li>
-                                <li class=""><a href="#tabel" data-toggle="tab">Tabel</a>
-                                </li>
-                                
-                            </ul>
-
-                            <div class="tab-content">
-
-                                <div class="tab-pane fade" id="tabel"> -->
-                                    <h4 style="padding-left:10px">Tabel</h4>
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <label class="col-md-2 col-sm-2 control-label ">Bulan</label>
+                                                <?php 
+                                                    $tahun_params=\Route::current()->parameter('tahun');
+                                                    $bulan_params=\Route::current()->parameter('bulan');
+                                                ?>
+                                              <label class="col-md-1 col-sm-1 control-label " >Bulan</label>
                                                     <div class="col-md-2 col-sm-2 ">
                                                         <select id="pilihBulan" required class="form-control" name="bulan">
                                                             <option disabled="disabled" selected="selected" value="0">--pilih bulan--</option>
                                                         <?php
                                                         $bln=array(1=>"Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
                                                         for($bulan=1; $bulan<=12; $bulan++){
-                                                        if($bulan<=9) { echo "<option value='0$bulan'>$bln[$bulan]</option>"; }
-                                                        else { echo "<option value='$bulan'>$bln[$bulan]</option>"; }
+                                                            if ($bulan == $bulan_params) {
+                                                                echo "<option value='$bulan' selected>$bln[$bulan]</option>"; 
+                                                            } else {
+                                                                echo "<option value='$bulan'>$bln[$bulan]</option>"; 
+                                                            }
+                                                            
                                                         }
                                                         ?>
                                                         </select>
                                                     </div>
-                                                <label class="col-md-2 col-sm-2 control-label">Tahun</label>
+                                                <label class="col-md-1 col-sm-1 control-label" >Tahun</label>
                                                     <div class="col-md-2 col-sm-2">
                                                         <select id="pilihTahun" required class="form-control" name="tahun">
                                                             <option disabled="disabled" selected="selected" value="0">---Pilih Tahun---</option>
@@ -87,7 +63,11 @@
                                                                 $thn_skr = date('Y');
                                                                 for($x=$thn_skr; $x>=2016; $x--){
                                                                 ?>
+                                                                @if($x == $tahun_params)
+                                                                    <option selected value="<?php echo $x?>"><?php echo $x ?></option>
+                                                                @else 
                                                                     <option value="<?php echo $x?>"><?php echo $x ?></option>
+                                                                @endif
                                                                 <?php
                                                                 }
                                                                 ?>
@@ -95,11 +75,21 @@
                                                         <br>
                                                     </div>
                                                     <button id="btncari" class="btn btn-default">cari</button>
+        </div>
+        <div class="box-body table-responsive">
+            
+
+       
+            
+                                            <div class="table-responsive">
+
+                                                
                                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                     <thead>
                                                         <center>
                                                         <tr>
                                                             <th style="vertical-align:top">No</th>
+                                                            <th style="vertical-align:top">NIS</th>
                                                             <th style="vertical-align:top">Nama</th>
                                                             <th style="vertical-align:top">Pendapatan 1 Bulan</th>
                                                             <th style="text-align:center;">Total Pendapatan</th>
@@ -111,27 +101,25 @@
                                                     </center>
                                                     </thead>
                                                     <tbody>
-                                                       @php
-                                                        $i=1;
-                                                          foreach($crud->dataHafalan as $item){
-                                                          $floor=floor($item['jmlHafalan']);
-                                                          $lembar=((($item['jmlHafalan']*20) % 20)/2);
-                                                          @endphp
-                                                          <tr>
-                                                            <td>{{$i}}</td>
-                                                            <td>{{$item['nama']}}</td>
-                                                            @if($floor==0)
-                                                            <td>{{(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
-                                                            @else
-                                                                @if($lembar==0)
-                                                                <td>{{$floor.' juz'}}</td>
-                                                                @else
-                                                                <td>{{$floor.' juz - '.(($item['jmlHafalan']*20) % 20)/2}} lembar</td>
-                                                                @endif
-                                                            @endif
-                                                            <td>a</td>
-                                                        </tr>
-                                                          <?php $i++; } ?>
+                                                       @foreach($crud->hasil as $key=>$data)
+                                                            <tr>
+                                                                <td>{{$key+1}}</td>
+                                                                <td>{{$data['nis']}}</td>
+                                                                <td>{{$data['nama']}}</td>
+                                                                @php
+                                                                    $juz = floor($data['totalBulan']/20);
+                                                                    $lembar = 0.0;
+                                                                    $lembar = fmod($data['totalBulan'], 20)/2; 
+                                                                @endphp
+                                                                <td>@if($data['totalBulan'] == 0) {{$data['totalBulan']}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</td>
+                                                                 @php
+                                                                    $juz = floor($data['totalPendapatan']/20);
+                                                                    $lembar = 0.0;
+                                                                    $lembar = fmod($data['totalPendapatan'], 20)/2; 
+                                                                @endphp
+                                                                <td>@if($data['totalPendapatan'] == 0) {{$data['totalPendapatan']}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</td>
+                                                            </tr>
+                                                        @endforeach 
                                                     </tbody>
                                                    
                                                 </table>

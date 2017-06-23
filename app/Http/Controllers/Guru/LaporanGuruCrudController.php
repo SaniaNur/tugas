@@ -10,6 +10,7 @@ use App\Http\Requests\LaporanGuruRequest as StoreRequest;
 use App\Http\Requests\LaporanGuruRequest as UpdateRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Siswa;
 
 class LaporanGuruCrudController extends CrudController
 {
@@ -236,24 +237,57 @@ class LaporanGuruCrudController extends CrudController
         $no_guru=auth()->user()->guru->no_guru;
         $tahun=\Route::current()->parameter('tahun');
         $bulan=\Route::current()->parameter('bulan');
-        if($bulan && $tahun){
-            if($bulan!='null' && $tahun!='null'){
-            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
-            }elseif($bulan!='null' && $tahun=='null'){
-            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' group by month(tanggal)-inputhafalan.nis');  
-            }else{
-                $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
-            }
-        }else{
-            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal)-inputhafalan.nis');
+        // if($bulan && $tahun){
+        //     if($bulan!='null' && $tahun!='null'){
+        //     $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
+        //     }elseif($bulan!='null' && $tahun=='null'){
+        //     $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulan.' group by month(tanggal)-inputhafalan.nis');  
+        //     }else{
+        //         $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and year(tanggal)='.$tahun.' group by month(tanggal)-inputhafalan.nis');
+        //     }
+        // }else{
+        //     $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where siswa.no_guru='.$no_guru.' and month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' group by month(tanggal)-inputhafalan.nis');
+        // }
+        if($tahun !="null" && $tahun!= null){
+            $tahunini=$tahun;
         }
+        if($bulan != "null" && $bulan != null){
+            $bulanini=$bulan;
+        }
+        $nis = Siswa::where('no_guru', '=', auth()->user()->guru->no_guru)->get();
+         $this->crud->data=DB::SELECT('SELECT * from totalhafalan join siswa on siswa.nis=totalhafalan.nis where siswa.no_guru='.$no_guru.' and bulan='.$bulanini.' and tahun= '.$tahunini.' order by totalhafalan.nis');
+        $this->crud->datatotal=DB::SELECT('SELECT totalhafalan.nis, sum(totalHalaman) as totalPendapatan from totalhafalan join siswa on siswa.nis=totalhafalan.nis where siswa.no_guru='.$no_guru.' group by totalhafalan.nis order by totalhafalan.nis');
         
-        $index = 0;
-        $this->crud->dataHafalan = array();
-        for($i = 0; $i < count($data); $i++){
-            $this->crud->dataHafalan[$i]['nama']=$data[$index]->nama;
-            $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
-            $index++;
+        
+        // dd($this->crud->data[0]->nis);
+        $indexData = 0;
+        $indexDataTotal = 0;
+        $this->crud->hasil= array();
+            foreach ($nis as $key => $value) {
+                // dd($value);
+                $this->crud->hasil[$key]['nis'] = $value->NIS;
+                $this->crud->hasil[$key]['nama'] = $value->nama;
+                if($indexData < count($this->crud->data)){
+                   if($value->NIS == $this->crud->data[$indexData]->nis){
+                        $this->crud->hasil[$key]['totalBulan'] = $this->crud->data[$indexData]->totalHalaman;
+                        $indexData ++;
+                    }else{
+                        $this->crud->hasil[$key]['totalBulan'] = 0;
+                    } 
+                }else{
+                    $this->crud->hasil[$key]['totalBulan'] = 0;
+                }
+            
+            if($indexDataTotal < count($this->crud->datatotal)){
+                 if($value->NIS == $this->crud->datatotal[$indexDataTotal]->nis){
+                    $this->crud->hasil[$key]['totalPendapatan'] = $this->crud->datatotal[$indexDataTotal]->totalPendapatan;
+                    $indexDataTotal++;
+                }else{
+                    $this->crud->hasil[$key]['totalPendapatan'] = 0;
+                }
+            }else{
+                $this->crud->hasil[$key]['totalPendapatan'] = 0;
+            }
         }
         $this->crud->setListView('vendor/backpack/LaporanPencapaianGuru');
     }

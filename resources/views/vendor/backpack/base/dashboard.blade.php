@@ -127,6 +127,30 @@
                       </div>
                     </div>
               @elseif( Auth::user()->level == "Siswa" )
+                  <div class="row" >
+                    <div class="col-md-12" >
+                    <div class="col-md-3"></div>
+                      <div class="col-md-3 col-xs-6"  >
+              
+                    <div class="small-box bg-red">
+                      <div class="inner">
+                        @php
+                            $juz = floor($total[0]->totalPendapatan/20);
+                            $lembar = 0.0;
+                            $lembar = fmod($total[0]->totalPendapatan, 20)/2; 
+                        @endphp
+                        <h3>@if($total[0]->totalPendapatan == 0) {{$total[0]->totalPendapatan}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</h3>
+                        <!-- <h3>{{$total[0]->totalPendapatan}}</h3> -->
+
+                        <p>Total Pendapatan</p>
+                      </div>
+                        <div class="icon">
+                          <i class="ion ion-person-add"></i>
+                        </div>
+                          <a href="{{url('admin/guru')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
                     <div class="tab-pane fade active in" id="grafik">
                                     <h4>Grafik</h4>
                                     <div class="box box-success">

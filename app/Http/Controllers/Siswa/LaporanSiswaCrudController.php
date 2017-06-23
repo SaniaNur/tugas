@@ -10,6 +10,7 @@ use App\Http\Requests\LaporanSiswaRequest as StoreRequest;
 use App\Http\Requests\LaporanSiswaRequest as UpdateRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\TotalHafalan;
 
 class LaporanSiswaCrudController extends CrudController
 {
@@ -38,10 +39,10 @@ class LaporanSiswaCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $NIS=\Route::current()->parameter('NIS');
-        $this->crud->setModel('App\Models\Hafalan');
+        // $NIS=\Route::current()->parameter('NIS');
+        $this->crud->setModel('App\Models\TotalHafalan');
         $this->crud->setRoute('siswa/laporan');
-        $this->crud->setEntityNameStrings('Laporan', 'Laporan');
+        $this->crud->setEntityNameStrings('Pencapaian', 'Pencapaian');
 
         /*
         |--------------------------------------------------------------------------
@@ -77,26 +78,26 @@ class LaporanSiswaCrudController extends CrudController
         // //     'model' => "App\Models\Surah", // foreign key model
         // //     'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
         // // ], 'both');
-        // // $this->crud->addField([ // Text
-        // //         'name' => 'namaIbu',
-        // //         'label' => "Nama Ibu",
-        // //         'type' => 'text',
-        // //         // optional
-        // //         //'prefix' => '',
-        // //         //'suffix' => ''
-        // //     ], 'both');
-        // // $this->crud->addField([ // Text
-        // //         'name' => 'namaIbu',
-        // //         'label' => "Nama Ibu",
-        // //         'type' => 'text',
-        // //         // optional
-        // //         //'prefix' => '',
-        // //         //'suffix' => ''
-        // //     ], 'both');
+        // $this->crud->addField([ // Text
+        //         'name' => 'bulan',
+        //         'label' => "Bulan",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
+        // $this->crud->addField([ // Text
+        //         'name' => 'tahun',
+        //         'label' => "Tahun",
+        //         'type' => 'text',
+        //         // optional
+        //         //'prefix' => '',
+        //         //'suffix' => ''
+        //     ], 'both');
         
         // $this->crud->addField([ // Text
-        //         'name' => 'noJuz',
-        //         'label' => "Juz",
+        //         'name' => 'totalHalaman',
+        //         'label' => "Total Halaman",
         //         'type' => 'text',
         //         // optional
         //         //'prefix' => '',
@@ -132,11 +133,35 @@ class LaporanSiswaCrudController extends CrudController
 
         // ------ CRUD COLUMNS
 
+        $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Bulan", // Table column heading
+            
+           'name' => 'bulan', // the column that contains the ID of that connected entity;
+           'type'=> 'bulan'
+           
+        ]);
+        $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Tahun", // Table column heading
+            
+           'name' => 'tahun', // the column that contains the ID of that connected entity;
+           
+        ]);
+        $this->crud->addColumn([
+           // 1-n relationship
+           'label' => "Total 1 Bulan", // Table column heading
+            
+           'name' => 'totalHalaman', // the column that contains the ID of that connected entity;
+           'type'=> 'totalHafalan'
+           
+        ]);
+
         // $this->crud->addColumn([
         //    // 1-n relationship
-        //    'label' => "Nama", // Table column heading
+        //    'label' => "Bulan", // Table column heading
             
-        //    'name' => 'nama', // the column that contains the ID of that connected entity;
+        //    'name' => 'bulan', // the column that contains the ID of that connected entity;
            
         // ]);
         // $this->crud->addColumn([
@@ -165,7 +190,11 @@ class LaporanSiswaCrudController extends CrudController
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
         // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
-        // $this->crud->removeButton($name);
+        $this->crud->removeButton('preview');
+        $this->crud->removeButton('delete');
+        $this->crud->removeButton('update');
+        $this->crud->removeButton('revisions');
+
         // $this->crud->removeButtonFromStack($name, $stack);
 
         // ------ CRUD ACCESS
@@ -200,7 +229,7 @@ class LaporanSiswaCrudController extends CrudController
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
         // $this->crud->addClause('type', 'car');
-        // $this->crud->addClause('where', 'no_guru', '=', auth()->user()->guru->no_guru);
+        $this->crud->addClause('where', 'nis', '=', auth()->user()->siswa->NIS);
         // $this->crud->addClause('where', 'name', '==', 'car');
         // $this->crud->addClause('whereName', 'car');
         // $this->crud->addClause('whereHas', 'posts', function($query) {
@@ -230,34 +259,34 @@ class LaporanSiswaCrudController extends CrudController
         //     $this->crud->dataHafalan[$i]['bln'] = $i;
         // }
         //bln sama tahun blm
-        $this->crud->NIS=\Route::current()->parameter('NIS');
+        // $this->crud->NIS=\Route::current()->parameter('NIS');
         
-        $NIS=auth()->user()->siswa->NIS;
-        $bulanini=Carbon::now()->format('m');
-        $tahunini=Carbon::now()->format('Y');
-        $tahun=\Route::current()->parameter('tahun');
-        $bulan=\Route::current()->parameter('bulan');
-	        if($bulan && $tahun){
-	            if($bulan!='null' && $tahun!='null'){
-	            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
-	            }elseif($bulan!='null' && $tahun=='null'){
-	            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');  
-	            }else{
-	                $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where year(tanggal)='.$tahun.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
-	            }
-	        }else{
-	            $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
-	        }
+        // $NIS=auth()->user()->siswa->NIS;
+        // $bulanini=Carbon::now()->format('m');
+        // $tahunini=Carbon::now()->format('Y');
+        // $tahun=\Route::current()->parameter('tahun');
+        // $bulan=\Route::current()->parameter('bulan');
+	       //  if($bulan && $tahun){
+	       //      if($bulan!='null' && $tahun!='null'){
+	       //      $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and year(tanggal)='.$tahun.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
+	       //      }elseif($bulan!='null' && $tahun=='null'){
+	       //      $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulan.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');  
+	       //      }else{
+	       //          $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where year(tanggal)='.$tahun.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
+	       //      }
+	       //  }else{
+	       //      $data = DB::select('SELECT siswa.nama as nama, month(tanggal) as bln,max(noJuz) as juzMax,min(noJuz) as juzMin,max(noHalamanB) as noHalamanB, min(noHalamanA)as noHalamanA FROM inputhafalan join siswa on siswa.nis=inputhafalan.nis where month(tanggal)='.$bulanini.' and year(tanggal)='.$tahunini.' and inputhafalan.nis='.$NIS.' group by month(tanggal)-inputhafalan.nis');
+	       //  }
 	        
-	        $index = 0;
-	        $this->crud->dataHafalan = array();
-	        for($i = 0; $i < count($data); $i++){
-	            $this->crud->dataHafalan[$i]['nama']=$data[$index]->nama;
-	            $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
-	            $index++;
-	        }
+	       //  $index = 0;
+	       //  $this->crud->dataHafalan = array();
+	       //  for($i = 0; $i < count($data); $i++){
+	       //      $this->crud->dataHafalan[$i]['nama']=$data[$index]->nama;
+	       //      $this->crud->dataHafalan[$i]['jmlHafalan']= ((($data[$index]->juzMax - $data[$index]->juzMin) * 20 - $data[$index]->noHalamanA + $data[$index]->noHalamanB)+1)/20;
+	       //      $index++;
+	       //  }
 	    
-        $this->crud->setListView('vendor/backpack/LaporanPencapaianSiswa');
+        // $this->crud->setListView('vendor/backpack/LaporanPencapaianSiswa');
     }
 
     public function store(StoreRequest $request)

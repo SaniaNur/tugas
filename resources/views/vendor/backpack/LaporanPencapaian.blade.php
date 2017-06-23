@@ -89,6 +89,7 @@
                                                         <center>
                                                         <tr>
                                                             <th style="vertical-align:top">No</th>
+                                                            <th style="vertical-align:top">NIS</th>
                                                             <th style="vertical-align:top">Nama</th>
                                                             <th style="vertical-align:top">Pendapatan 1 Bulan</th>
                                                             <th style="text-align:center;">Total Pendapatan</th>
@@ -100,40 +101,25 @@
                                                     </center>
                                                     </thead>
                                                     <tbody>
-                                                        @php
-                                                        $i=1;
-                                                          for($x=0; $x<count($crud->data); $x++ ){
-                                                          $floor=floor($crud->data[$x]->total/20);
-                                                          $lembar=((($crud->data[$x]->total) % 20)/2);
-
-                                                          $floorPendapatan=floor($crud->totalPendapatan[$x]->totalPendapatan/20);
-                                                          $lembarPendapatan=((($crud->totalPendapatan[$x]->totalPendapatan) % 20)/2);
-                                                          @endphp
-                                                          <tr>
-                                                            <td>{{$i}}</td>
-                                                            <td>{{$crud->data[$x]->nama}}</td>
-                                                            @if($floor==0)
-                                                            <td>{{$lembar}} lembar</td>
-                                                            @else
-                                                                @if($lembar==0)
-                                                                <td>{{$floor.' juz'}}</td>
-                                                                @else
-                                                                <td>{{$floor.' juz - '.$lembar}} lembar</td>
-                                                                @endif
-                                                            @endif
-                                                            
-                                                           
-                                                            @if($floorPendapatan==0)
-                                                            <td>{{$lembarPendapatan}} lembar</td>
-                                                            @else
-                                                                @if($lembarPendapatan==0)
-                                                                <td>{{$floorPendapatan.' juz'}}</td>
-                                                                @else
-                                                                <td>{{$floorPendapatan.' juz - '.$lembarPendapatan}} lembar</td>
-                                                                @endif
-                                                            @endif
-                                                        </tr>
-                                                          <?php $i++; } ?>
+                                                        @foreach($crud->hasil as $key=>$data)
+                                                            <tr>
+                                                                <td>{{$key+1}}</td>
+                                                                <td>{{$data['nis']}}</td>
+                                                                <td>{{$data['nama']}}</td>
+                                                                @php
+                                                                    $juz = floor($data['totalBulan']/20);
+                                                                    $lembar = 0.0;
+                                                                    $lembar = fmod($data['totalBulan'], 20)/2; 
+                                                                @endphp
+                                                                <td>@if($data['totalBulan'] == 0) {{$data['totalBulan']}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</td>
+                                                                 @php
+                                                                    $juz = floor($data['totalPendapatan']/20);
+                                                                    $lembar = 0.0;
+                                                                    $lembar = fmod($data['totalPendapatan'], 20)/2; 
+                                                                @endphp
+                                                                <td>@if($data['totalPendapatan'] == 0) {{$data['totalPendapatan']}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</td>
+                                                            </tr>
+                                                        @endforeach   
                                                     </tbody>
                                                    
                                                 </table>

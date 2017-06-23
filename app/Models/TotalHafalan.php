@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
 
-class TotalPendapatan extends Model
+class TotalHafalan extends Model
 {
     use CrudTrait;
 
@@ -16,11 +16,11 @@ class TotalPendapatan extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'pendapatan';
-    protected $primaryKey = 'id';
+    protected $table = 'totalhafalan';
+    protected $primaryKey = 'nis';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['NIS','bulan','tahun','totalPendapatan'];
+    protected $fillable = ['nis','bulan','tahun','totalHalaman'];
     // protected $hidden = [];
     // protected $dates = ['tanggal'];
 

@@ -29,7 +29,9 @@ Route::post('/logout', 'Auth\LoginController@logout');
 
 
 Auth::routes();
-
+Route::get('login',function(){
+    return redirect('/');
+});
 // Route::get('/dashboard', 'AdminController@index');
 // Route::get('/dataguru', 'AdminController@dataguru');
 // Route::get('/datasiswa', 'AdminController@datasiswa');
@@ -57,8 +59,9 @@ Auth::routes();
     // Route::GET('/hafalan','Admin\HafalanCrudController@index');
     // Route::POST('/hafalan','Admin\HafalanCrudController@store');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
+Route::group(['prefix' => 'admin', 'middleware' => ['leveladmin','auth' ]], function()
 {
+
   // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     CRUD::resource('guru', 'Admin\GuruCrudController');
     Route::DELETE('/guru/{id}','Admin\GuruCrudController@destroy');
@@ -89,12 +92,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'leveladmin' ], function()
 });
 
 
-Route::group(['prefix' => 'guru','middleware' => 'levelguru'], function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Route::group(['prefix' => 'guru','middleware' => ['levelguru','auth']], function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 	CRUD::resource('hafalan', 'Guru\HafalanGuruCrudController');
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
     CRUD::resource('history', 'Guru\HistoryGuruCrudController');
     CRUD::resource('laporan', 'Guru\LaporanGuruCrudController');
+    CRUD::resource('profil', 'ProfilCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Guru\LaporanGuruCrudController@index');
 
     Route::GET('/pencapaian/{NIS}/history', 'Guru\HistoryGuruCrudController@index');
@@ -116,6 +120,7 @@ Route::group(['prefix' => 'siswa','middleware' => 'levelsiswa'], function()
     CRUD::resource('laporan', 'Siswa\LaporanSiswaCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Siswa\LaporanSiswaCrudController@index');
     Route::GET('/dashboard/tahun={tahun}', 'AdminController@dashboard');
+    CRUD::resource('profil', 'ProfilCrudController');
     
 
 });
