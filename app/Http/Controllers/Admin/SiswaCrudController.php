@@ -267,6 +267,12 @@ class SiswaCrudController extends CrudController
         $siswa->noHp=$request->noHp;
         $siswa->namaIbu=$request->namaIbu;
         $siswa->save();
+        if($siswa){
+          \Alert::success('Data Berhasil Disimpan')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
         return \Redirect::to ('admin/siswa');
         
 
@@ -311,6 +317,12 @@ class SiswaCrudController extends CrudController
     }
         
         User::where('id','=',$request->id_user)->update($user);
+        if($siswa){
+          \Alert::success('Data Berhasil Diubah')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
         return \Redirect::to ('admin/siswa');
 
     }

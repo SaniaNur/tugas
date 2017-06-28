@@ -45,8 +45,10 @@
           <li class="dropdown user user-menu">
                 <a href="#" class=" fa fa-user dropdown-toggle" data-toggle="dropdown"> {{Auth::user()-> name}}
                 <span class="caret"></span></a>
+                
+                @if(Auth::user()->level == "Admin")
                 <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
-                  <li><a href="#" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url('admin/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
@@ -54,6 +56,27 @@
                                             {{ csrf_field() }}
                                         </form>
                 </ul>
+                @elseif( Auth::user()->level == "Guru" )
+                <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
+                  <li><a href="{{ url('guru/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                </ul>
+                @else( Auth::user()->level == "Siswa" )
+                <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
+                  <li><a href="{{ url('siswa/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                </ul>
+                @endif
         @endif
 
        <!-- ========== End of top menu right items ========== -->

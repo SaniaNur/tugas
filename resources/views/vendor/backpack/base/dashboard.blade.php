@@ -129,8 +129,8 @@
               @elseif( Auth::user()->level == "Siswa" )
                   <div class="row" >
                     <div class="col-md-12" >
-                    <div class="col-md-3"></div>
-                      <div class="col-md-3 col-xs-6"  >
+                    <div class="col-md-4"></div>
+                      <div class="col-md-4 col-xs-6"  >
               
                     <div class="small-box bg-red">
                       <div class="inner">
@@ -144,13 +144,14 @@
 
                         <p>Total Pendapatan</p>
                       </div>
-                        <div class="icon">
+                        <!-- <div class="icon">
                           <i class="ion ion-person-add"></i>
-                        </div>
-                          <a href="{{url('admin/guru')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div> -->
+                          <a href="{{url('siswa/laporan')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
                     <div class="tab-pane fade active in" id="grafik">
                                     <h4>Grafik</h4>
                                     <div class="box box-success">
@@ -189,6 +190,7 @@
                                         <!-- /.box-body -->
                                       </div>
                                 </div>
+                              </div>
                 @else           
                 @endif
 
@@ -319,8 +321,8 @@
                       labelString: 'Juz',
                   },
                   ticks:{
-                      suggestedMax: 25,
-                      stepSize: 5 
+                      suggestedMax: 1,
+                      stepSize: 0.1 
                     }
               }],
           },

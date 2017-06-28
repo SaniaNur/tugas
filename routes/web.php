@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['leveladmin','auth' ]], func
     // CRUD::resource('history', 'Admin\HistoryCrudController');
     CRUD::resource('laporan', 'Admin\LaporanCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Admin\LaporanCrudController@index');
+    CRUD::resource('profil', 'ProfilCrudController');
 
     // CRUD::resource('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController');    
 

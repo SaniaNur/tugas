@@ -332,6 +332,12 @@ class HistoryCrudController extends CrudController
                 $perbaruiHafalan->save();
             }    
         }
+        if($hafalan){
+          \Alert::success('Data Berhasil DiUbah')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
        
         return redirect('admin/pencapaian/'.\Route::current()->parameter('NIS').'/history');
     }

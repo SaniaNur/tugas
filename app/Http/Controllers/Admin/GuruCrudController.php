@@ -207,7 +207,14 @@ class GuruCrudController extends CrudController
         $guru->noHp=$request->noHp;
         $guru->save();
 
-        return \Redirect::to ('admin/guru')->With('message','Data Berhasil Disimpan');
+        if($guru){
+          \Alert::success('Data Berhasil Disimpan')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
+
+        return \Redirect::to ('admin/guru');
         // your additional operations before save here
         // $redirect_location = parent::storeCrud();
         // your additional operations after save here
@@ -245,6 +252,12 @@ class GuruCrudController extends CrudController
     }
         
         User::where('id','=',$request->id_user)->update($user);
+        if($guru){
+          \Alert::success('Data Berhasil Diubah')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
         return \Redirect::to ('admin/guru');
     }
 
