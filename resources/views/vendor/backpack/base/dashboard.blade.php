@@ -6,7 +6,7 @@
         {{ trans('backpack::base.dashboard') }}<small>{{ trans('backpack::base.first_page_you_see') }}</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/dashboard') }}">{{ config('backpack.base.project_name') }}</a></li>
+        <li><a href="{{ url('/dashboard') }}">AR</a></li>
         <li class="active">{{ trans('backpack::base.dashboard') }}</li>
       </ol>
     </section>
@@ -16,12 +16,7 @@
 @section('content')
     <div id="page-wrapper" >
             <div id="page-inner">
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                     <h2>Admin Dashboard</h2>     
-                    </div>
-                </div>   -->            
-                 <!-- /. ROW  -->
+      
                   <hr />
                   <div class="callout callout-success">
                     <h4>Halo {{Auth::user()->name}}  !</h4>
@@ -132,8 +127,8 @@
                     <div class="col-md-4"></div>
                       <div class="col-md-4 col-xs-6"  >
               
-                    <div class="small-box bg-red">
-                      <div class="inner">
+                    <div class="small-box bg-green">
+                      <div class="inner" style="text-align:center">
                         @php
                             $juz = floor($total[0]->totalPendapatan/20);
                             $lembar = 0.0;
@@ -142,7 +137,7 @@
                         <h3>@if($total[0]->totalPendapatan == 0) {{$total[0]->totalPendapatan}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</h3>
                         <!-- <h3>{{$total[0]->totalPendapatan}}</h3> -->
 
-                        <p>Total Pendapatan</p>
+                        <h4>Total Pendapatan</h4>
                       </div>
                         <!-- <div class="icon">
                           <i class="ion ion-person-add"></i>
@@ -151,7 +146,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12">
+                  <div class="col-md-12 ">
                     <div class="tab-pane fade active in" id="grafik">
                                     <h4>Grafik</h4>
                                     <div class="box box-success">
@@ -184,7 +179,7 @@
                                         </div>
                                         <div class="box-body">
                                           <div class="chart">
-                                            <canvas id="myChart" width="400" height="200"></canvas>
+                                            <canvas id="myChart" width="400" height="100"></canvas>
                                           </div>
                                         </div>
                                         <!-- /.box-body -->
@@ -233,6 +228,7 @@
   var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
+          yAxisID:"2",
           labels : ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
           datasets: [{
               label: 'Jumlah Hafalan ',

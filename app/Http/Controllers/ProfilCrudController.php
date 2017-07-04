@@ -26,11 +26,11 @@ class ProfilCrudController extends CrudController
         
         $this->crud->setModel('App\Models\User');
         if(auth()->user()->level == "Admin"){
-            $this->crud->setRoute('admin/profil');    
+            $this->crud->setRoute('admin/editProfil');    
         }elseif(auth()->user()->level == "Guru"){
-            $this->crud->setRoute('guru/profil');
+            $this->crud->setRoute('guru/editProfil');
         }elseif(auth()->user()->level == "Siswa"){
-            $this->crud->setRoute('siswa/profil');
+            $this->crud->setRoute('siswa/editProfil');
         }
         
     

@@ -73,7 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['leveladmin','auth' ]], func
     // CRUD::resource('history', 'Admin\HistoryCrudController');
     CRUD::resource('laporan', 'Admin\LaporanCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Admin\LaporanCrudController@index');
-    CRUD::resource('profil', 'ProfilCrudController');
+    CRUD::resource('editProfil', 'ProfilCrudController');
 
     // CRUD::resource('/pencapaian/{NIS}/history', 'Admin\HistoryCrudController');    
 
@@ -99,7 +99,7 @@ Route::group(['prefix' => 'guru','middleware' => ['levelguru','auth']], function
     CRUD::resource('pencapaian', 'Guru\PencapaianGuruCrudController');
     CRUD::resource('history', 'Guru\HistoryGuruCrudController');
     CRUD::resource('laporan', 'Guru\LaporanGuruCrudController');
-    CRUD::resource('profil', 'ProfilCrudController');
+    CRUD::resource('editProfil', 'ProfilCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Guru\LaporanGuruCrudController@index');
 
     Route::GET('/pencapaian/{NIS}/history', 'Guru\HistoryGuruCrudController@index');
@@ -121,7 +121,7 @@ Route::group(['prefix' => 'siswa','middleware' => 'levelsiswa'], function()
     CRUD::resource('laporan', 'Siswa\LaporanSiswaCrudController');
     Route::get('laporan/{bulan}/{tahun}', 'Siswa\LaporanSiswaCrudController@index');
     Route::GET('/dashboard/tahun={tahun}', 'AdminController@dashboard');
-    CRUD::resource('profil', 'ProfilCrudController');
+    CRUD::resource('editProfil', 'ProfilCrudController');
     
 
 });

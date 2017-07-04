@@ -48,7 +48,7 @@
                 
                 @if(Auth::user()->level == "Admin")
                 <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
-                  <li><a href="{{ url('admin/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url('admin/editProfil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
@@ -58,7 +58,7 @@
                 </ul>
                 @elseif( Auth::user()->level == "Guru" )
                 <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
-                  <li><a href="{{ url('guru/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url('guru/editProfil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
@@ -68,7 +68,7 @@
                 </ul>
                 @else( Auth::user()->level == "Siswa" )
                 <ul class="dropdown-menu dropdown-menu-right" style="width:90px;" >
-                  <li><a href="{{ url('siswa/profil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
+                  <li><a href="{{ url('siswa/editProfil/'.auth()->user()->id.'/edit') }}" style="color:black;"><i class="fa fa-cog"></i>Setting</a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/logout') }}" style="color:black;"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>

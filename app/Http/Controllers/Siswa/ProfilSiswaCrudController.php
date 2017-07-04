@@ -51,6 +51,90 @@ class ProfilSiswaCrudController extends CrudController
         // $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
+        $this->crud->addField([ // Text
+                'name' => 'NIS',
+                'label' => "NIS",
+                'type' => 'number',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'id_user',
+                'label' => "ID",
+                'type' => 'hidden',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'update');
+        // $this->crud->addField([  // Select2
+        //    'label' => "No Guru",
+        //    'type' => 'select2',
+        //    'name' => 'category_id', // the db column for the foreign key
+        //    'entity' => 'category', // the method that defines the relationship in your Model
+        //    'attribute' => 'name', // foreign key attribute that is shown to user
+        //    'model' => "App\Models\Tag" // foreign key model
+        // ], 'both');
+        $this->crud->addField([ // Text
+                'name' => 'nama',
+                'label' => "Nama",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([ // select_from_array
+                'name' => 'jenisKelamin',
+                'label' => "Jenis Kelamin",
+                'type' => 'select_from_array',
+                'options' => ['Laki-laki' => 'Laki-laki', 'Perempuan' => 'Perempuan'],
+                'allows_null' => false,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ], 'both');
+        $this->crud->addField([ // select_from_array
+                'name' => 'kelas',
+                'label' => "Kelas",
+                'type' => 'select_from_array',
+                'options' => ['X' => 'Kelas X', 'XI IPA 1' => 'Kelas XI IPA 1', 'XI IPA 2' => 'Kelas XI IPA 2'],
+                'allows_null' => false,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ], 'both');
+        $this->crud->addField([
+               // 1-n relationship
+               'label' => "Guru Pembimbing", // Table column heading
+               'type' => "select2",
+               'name' => 'no_guru', // the column that contains the ID of that connected entity;
+               'entity' => 'guru', // the method that defines the relationship in your Model
+               'attribute' => "nama", // foreign key attribute that is shown to user
+               'model' => "App\Models\Guru", // foreign key model
+            ], 'both');
+       
+        $this->crud->addField([ // Text
+                'name' => 'alamat',
+                'label' => "Alamat",
+                'type' => 'textarea',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+         $this->crud->addField([ // Text
+                'name' => 'namaIbu',
+                'label' => "Nama Ibu",
+                'type' => 'text',
+                // optional
+                //'prefix' => '',
+                //'suffix' => ''
+            ], 'both');
+        $this->crud->addField([   // Number
+                'name' => 'noHp',
+                'label' => 'Handphone',
+                'type' => 'number',
+                // optionals
+                // 'attributes' => ["step" => "any"], // allow decimals
+                // 'prefix' => "$",
+                // 'suffix' => ".00",
+            ], 'both');
+       
         // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');

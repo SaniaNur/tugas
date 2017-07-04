@@ -9,7 +9,7 @@ return [
     */
 
     'registration_closed'  => 'Registration is closed.',
-    'first_page_you_see'   => 'The first page you see after login',
+    'first_page_you_see'   => '',
     'login_status'         => 'Login status',
     'logged_in'            => 'You are logged in!',
     'toggle_navigation'    => 'Toggle navigation',
@@ -29,6 +29,6 @@ return [
     'click_here_to_reset'  => 'Click here to reset your password',
     'unauthorized'         => 'Unauthorized.',
     'dashboard'            => 'Dashboard',
-    'handcrafted_by'       => 'Handcrafted by',
+    'handcrafted_by'       => 'Copyright @2017',
     'powered_by'           => 'Powered by',
 ];

@@ -222,9 +222,6 @@
              // show the export datatable buttons
             dom: '<"p-l-0 col-md-6"l>B<"p-r-0 col-md-6"f>rt<"col-md-6 p-l-0"i><"col-md-6 p-r-0"p>',
             buttons: dtButtons([
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
                 'pdfHtml5',
                 'print',
                 'colvis'

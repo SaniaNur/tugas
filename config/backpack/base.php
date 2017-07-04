@@ -19,7 +19,7 @@ return [
     'logo_mini' => '<b>B</b>p',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Sania Nur Agustina',
+    'developer_name' => '',
 
     // Developer website. Link in footer.
     'developer_link' => 'https://www.instagram.com/saniaasa/?hl=en',

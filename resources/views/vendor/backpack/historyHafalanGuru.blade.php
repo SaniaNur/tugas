@@ -11,7 +11,7 @@
         <small>{{ trans('backpack::crud.all') }} <span class="text-lowercase">{{ $crud->entity_name_plural }}</span> {{ trans('backpack::crud.in_the_database') }}.</small>
       </h1> 
       <ol class="breadcrumb">
-        <li><a href="{{ url(config('backpack.base.route_prefix'), 'dashboard') }}">{{ trans('backpack::crud.guru') }}</a></li>
+        <!-- <li><a href="{{ url(config('backpack.base.route_prefix'), 'dashboard') }}">{{ trans('backpack::crud.admin') }}</a></li> -->
         <li><a href="{{ url($crud->route) }}" class="text-capitalize">{{ $crud->entity_name_plural }}</a></li>
         <li class="active">{{ trans('backpack::crud.list') }}</li>
       </ol>
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="box-body">
                                           <div class="chart">
-                                            <canvas id="myChart" width="400" height="200"></canvas>
+                                            <canvas id="myChart" width="400" height="100"></canvas>
                                           </div>
                                         </div>
                                         <!-- /.box-body -->

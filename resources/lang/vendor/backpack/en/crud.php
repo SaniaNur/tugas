@@ -21,12 +21,12 @@ return [
 
     // Create form
     'add'                 => 'Tambah',
-    'back_to_all'         => 'Back to all ',
+    'back_to_all'         => 'Kembali ke semua ',
     'cancel'              => 'Cancel',
-    'add_a_new'           => 'Add a new ',
+    'add_a_new'           => 'Tambah',
 
     // Edit form
-    'edit'                 => 'Edit',
+    'edit'                 => 'Ubah',
     'save'                 => 'Save',
 
     // Revisions
@@ -41,42 +41,42 @@ return [
     'revision_restored'    => 'Revision successfully restored',
 
     // CRUD table view
-    'all'                       => 'All ',
-    'in_the_database'           => 'in the database',
+    'all'                       => ' ',
+    'in_the_database'           => '',
     'list'                      => 'List',
-    'actions'                   => 'Actions',
+    'actions'                   => 'Aksi',
     'preview'                   => 'Preview',
-    'delete'                    => 'Delete',
-    'admin'                     => 'Admin',
+    'delete'                    => 'Hapus',
+    'admin'                     => '',
     'details_row'               => 'This is the details row. Modify as you please.',
     'details_row_loading_error' => 'There was an error loading the details. Please retry.',
 
         // Confirmation messages and bubbles
-        'delete_confirm'                              => 'Are you sure you want to delete this item?',
-        'delete_confirmation_title'                   => 'Item Deleted',
-        'delete_confirmation_message'                 => 'The item has been deleted successfully.',
+        'delete_confirm'                              => 'Apakah anda yakin akan menghapus data ini?',
+        'delete_confirmation_title'                   => 'Data Terhapus',
+        'delete_confirmation_message'                 => 'Data Berhasil Dihapus.',
         'delete_confirmation_not_title'               => 'NOT deleted',
         'delete_confirmation_not_message'             => "There's been an error. Your item might not have been deleted.",
         'delete_confirmation_not_deleted_title'       => 'Not deleted',
         'delete_confirmation_not_deleted_message'     => 'Nothing happened. Your item is safe.',
 
         // DataTables translation
-        'emptyTable'     => 'No data available in table',
-        'info'           => 'Showing _START_ to _END_ of _TOTAL_ entries',
-        'infoEmpty'      => 'Showing 0 to 0 of 0 entries',
+        'emptyTable'     => 'Tidak ada data dalam tabel ini',
+        'info'           => 'Menampilkan _START_ sampai _END_ dari _TOTAL_ Data',
+        'infoEmpty'      => 'Menampilkan 0 sampai 0 dari 0 data',
         'infoFiltered'   => '(filtered from _MAX_ total entries)',
         'infoPostFix'    => '',
         'thousands'      => ',',
-        'lengthMenu'     => '_MENU_ records per page',
+        'lengthMenu'     => 'Tampilkan_MENU_ Data Tiap Halaman',
         'loadingRecords' => 'Loading...',
-        'processing'     => 'Processing...',
-        'search'         => 'Search: ',
+        'processing'     => 'Proses mengambil data...',
+        'search'         => 'Cari: ',
         'zeroRecords'    => 'No matching records found',
         'paginate'       => [
-            'first'    => 'First',
-            'last'     => 'Last',
-            'next'     => 'Next',
-            'previous' => 'Previous',
+            'first'    => 'Pertama',
+            'last'     => 'Terakhir',
+            'next'     => 'Selanjutnya',
+            'previous' => 'Sebelumnya',
         ],
         'aria' => [
             'sortAscending'  => ': activate to sort column ascending',
@@ -88,8 +88,8 @@ return [
         'please_fix' => 'Please fix the following errors:',
 
     // global crud - success / error notification bubbles
-        'insert_success' => 'The item has been added successfully.',
-        'update_success' => 'The item has been modified successfully.',
+        'insert_success' => 'Data Berhasil Ditambahkan.',
+        'update_success' => 'Data Berhasil Diubah.',
 
     // CRUD reorder view
         'reorder'                      => 'Reorder',

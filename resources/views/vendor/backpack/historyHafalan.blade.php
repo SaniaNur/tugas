@@ -95,7 +95,7 @@
                                         <div class="box-body">
                                           <div class="chart">
                                             <!-- <canvas id="barChart" style="height:230px"></canvas> -->
-                                             <canvas id="myChart" width="400" height="200"></canvas>
+                                             <canvas id="myChart" width="400" height="100"></canvas>
                                           </div>
                                         </div>
                                         <!-- /.box-body -->
@@ -327,8 +327,8 @@
                       labelString: 'Juz',
                   },
                   ticks:{
-                      suggestedMax: 25,
-                      stepSize: 5 
+                      suggestedMax: 1,
+                      stepSize: 0.1 
                     }
               }],
           },

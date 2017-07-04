@@ -45,7 +45,7 @@
                             <div class="form-top">
                                 <div class="form-top-left">
                                     <h3>Login</h3>
-                                    <h5>haiiiiii</h5>
+                                    <!-- <h4>Sistem Informasi Monitoring Hafalan</h4> -->
                                     
                                 </div>
                                 <div class="form-top-right">
@@ -62,7 +62,7 @@
                                     <span class="help-block">
                                         <strong>{{ $errors->first('username') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-password">Password</label>
@@ -71,7 +71,7 @@
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
                                     </div>
 
                                    <!-- <a type="submit" class="btn btn-primary"  style="width:100px">Login</a> -->
