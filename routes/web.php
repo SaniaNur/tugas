@@ -27,6 +27,9 @@ Route::post('/', 'Auth\LoginController@login');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::post('/logout', 'Auth\LoginController@logout');
 
+Route::get('/api/siswa', 'API\HafalanAPIController@index');
+Route::get('/api/siswa/{id}', 'Api\HafalanAPIController@show');
+
 
 Auth::routes();
 Route::get('login',function(){

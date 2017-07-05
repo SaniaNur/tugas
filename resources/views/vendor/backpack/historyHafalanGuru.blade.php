@@ -374,8 +374,8 @@
                       labelString: 'Juz',
                   },
                   ticks:{
-                      suggestedMax: 25,
-                      stepSize: 5 
+                      suggestedMax: 1,
+                      stepSize: 0.1
                     }
               }],
           },

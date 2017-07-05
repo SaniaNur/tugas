@@ -36,7 +36,7 @@
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <a href="{{url('admin/guru')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="{{url('admin/guru')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
                     </div>
 
@@ -51,7 +51,7 @@
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <a href="{{url('admin/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="{{url('admin/siswa')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
 
                     </div>
@@ -71,7 +71,7 @@
                         <div class="icon">
                           <i class="ion ion-pie-graph"></i>
                         </div>
-                          <!-- <a href="{{url('admin/pencapaian')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                          <a href="{{url('admin/pencapaian')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
 
                @elseif(Auth::user()->level == "Guru")
@@ -88,7 +88,7 @@
                         <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div>
-                          <!-- <a href="{{url('guru/pencapaian')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                          <a href="{{url('guru/laporan')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
                     </div>
 
@@ -103,7 +103,7 @@
                         <div class="icon">
                           <i class="ion ion-pie-graph"></i>
                         </div>
-                          <!-- <a href="{{url('admin/siswa')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                          <a href="{{url('guru/pencapaian')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
 
                     </div>
@@ -127,7 +127,7 @@
                     <div class="col-md-4"></div>
                       <div class="col-md-4 col-xs-6"  >
               
-                    <div class="small-box bg-green">
+                    <div class="small-box bg-red">
                       <div class="inner" style="text-align:center">
                         @php
                             $juz = floor($total[0]->totalPendapatan/20);
@@ -142,7 +142,7 @@
                         <!-- <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div> -->
-                          <a href="{{url('siswa/laporan')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="{{url('siswa/laporan')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
                       </div>
                     </div>
                   </div>

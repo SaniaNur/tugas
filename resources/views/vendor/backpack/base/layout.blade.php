@@ -89,14 +89,14 @@
       </div>
       <!-- /.content-wrapper -->
 
-     <!--  <footer class="main-footer">
+      <footer class="main-footer">
         @if (config('backpack.base.show_powered_by'))
             <div class="pull-right hidden-xs">
               {{ trans('backpack::base.powered_by') }} <a target="_blank" href="http://laravelbackpack.com">Laravel BackPack</a>
             </div>
         @endif
         {{ trans('backpack::base.handcrafted_by') }} <a target="_blank" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a>.
-      </footer> -->
+      </footer>
     </div>
     <!-- ./wrapper -->
 

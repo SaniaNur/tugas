@@ -47,7 +47,7 @@ return [
     'actions'                   => 'Aksi',
     'preview'                   => 'Preview',
     'delete'                    => 'Hapus',
-    'admin'                     => '',
+    'admin'                     => 'AR',
     'details_row'               => 'This is the details row. Modify as you please.',
     'details_row_loading_error' => 'There was an error loading the details. Please retry.',
 

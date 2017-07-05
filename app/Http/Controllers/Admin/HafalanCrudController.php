@@ -74,13 +74,28 @@ class HafalanCrudController extends CrudController
                ],
             ], 'both');
         $this->crud->addField([  // Select2
-           'label' => "Nama Siswa",
-           'type' => 'select2',
-           'name' => 'NIS', // the db column for the foreign key
-           'entity' => 'siswa', // the method that defines the relationship in your Model
-           'attribute' => 'nama', // foreign key attribute that is shown to user
-           'model' => "App\Models\Siswa" // foreign key model
-        ], '/both');
+           // 1-n relationship
+            'label' => "Nama", // Table column heading
+            'type' => "select2_ajax_siswa",
+            'name' => 'NIS', // the column that contains the ID of that connected entity
+            'entity' => 'siswa', // the method that defines the relationship in your Model
+            'attribute' => "nama", // foreign key attribute that is shown to user
+            'model' => "App\Models\Siswa", // foreign key model
+            'data_source' => url("api/siswa"), // url to controller search function (with /{id} should return model)
+            'placeholder' => "Pilih Siswa", // placeholder for the select
+            'minimum_input_length' => 1, // minimum characters to type before querying results
+        ], 'create');
+        $this->crud->addField([  // Select2
+           'label' => "Nama", // Table column heading
+            'type' => "select2_ajax_siswa_edit",
+            'name' => 'NIS', // the column that contains the ID of that connected entity
+            'entity' => 'siswa', // the method that defines the relationship in your Model
+            'attribute' => "nama", // foreign key attribute that is shown to user
+            'model' => "App\Models\Siswa", // foreign key model
+            'data_source' => url("api/siswa"), // url to controller search function (with /{id} should return model)
+            'placeholder' => "Pilih Siswa", // placeholder for the select
+            'minimum_input_length' => 1, // minimum characters to type before querying results
+        ], 'update');
         $this->crud->addField([ // select_from_array
             'name' => 'jenis',
             'label' => "Jenis Hafalan",
@@ -133,7 +148,7 @@ class HafalanCrudController extends CrudController
         $this->crud->addField([ // Text
                 'name' => 'noHalamanA',
                 'label' => "Dari Halaman",
-                'type' => 'text',
+                'type' => 'number',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
@@ -141,7 +156,7 @@ class HafalanCrudController extends CrudController
         $this->crud->addField([ // Text
                 'name' => 'noHalamanB',
                 'label' => "Sampai Halaman",
-                'type' => 'text',
+                'type' => 'number',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
@@ -150,7 +165,7 @@ class HafalanCrudController extends CrudController
          $this->crud->addField([ // Text
                 'name' => 'nilai',
                 'label' => "Nilai",
-                'type' => 'text',
+                'type' => 'number',
                 // optional
                 //'prefix' => '',
                 //'suffix' => ''
