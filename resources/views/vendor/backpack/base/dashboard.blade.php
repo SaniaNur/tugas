@@ -134,7 +134,20 @@
                             $lembar = 0.0;
                             $lembar = fmod($total[0]->totalPendapatan, 20)/2; 
                         @endphp
-                        <h3>@if($total[0]->totalPendapatan == 0) {{$total[0]->totalPendapatan}} Lembar @else @if($juz != 0) {{$juz}}  Juz @endif @if($lembar != 0){{$lembar}} Lembar @endif @endif</h3>
+                        <h3>
+                          
+                          @if($total[0]->totalPendapatan == 0) 
+                          {{$total[0]->totalPendapatan}} Lembar 
+                          @else
+                          @if($juz != 0) 
+                          {{$juz}}  Juz 
+                          @endif 
+                          @if($lembar != 0)
+                          {{$lembar}} Lembar 
+                          @endif 
+                          @endif
+                          
+                        </h3>
                         <!-- <h3>{{$total[0]->totalPendapatan}}</h3> -->
 
                         <h4>Total Pendapatan</h4>
@@ -146,6 +159,21 @@
                       </div>
                     </div>
                   </div>
+
+                 <!--  <div class="col-md-3 col-xs-6">
+                    <div class="small-box bg-red">
+                      <div class="inner">
+                        <h3>{{$hafalan}}</h3>
+                        <p>Hafalan Hari Ini</p>
+                      </div>
+                        <div class="icon">
+                          <i class="ion ion-pie-graph"></i>
+                        </div>
+                          <a href="{{url('guru/pencapaian')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+
+                  </div> -->
+
                   <div class="col-md-12 ">
                     <div class="tab-pane fade active in" id="grafik">
                                     <h4>Grafik</h4>
@@ -153,11 +181,7 @@
                                         <div class="box-header with-border">
                                           <h3 class="box-title">Bar Chart</h3>
 
-                                          <div class="box-tools pull-right">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                                          </div>
+                                         
                                         </div>
                                          @php
                                             $tahun=\Route::current()->parameter('tahun');

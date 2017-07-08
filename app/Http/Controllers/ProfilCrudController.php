@@ -165,7 +165,21 @@ class ProfilCrudController extends CrudController
         }else{
             $request->session()->flash('eror', 'Your password has not been changed.');
         }  
+
+        if($user){
+          \Alert::success('Password Berhasil Diubah')->flash();  
+        }
+        else{
+            \Alert::error('Data Gagal Ditambahkan')->flash();
+        }
         
-        return redirect()->back();
+        if(auth()->user()->level == "Admin"){
+            $pw='admin/dashboard';    
+        }elseif(auth()->user()->level == "Guru"){
+            $pw='guru/dashboard';
+        }elseif(auth()->user()->level == "Siswa"){
+            $pw='siswa/dashboard';
+        }
+        return redirect($pw);
     }
 }

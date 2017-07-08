@@ -58,7 +58,7 @@ class AdminController extends Controller
                 $data=DB::SELECT('SELECT * from totalhafalan where nis ='.$NIS.' and tahun= '.\Carbon\Carbon::now()->year.' order by tahun, bulan');
             }
             
-
+            // $datatotal = Hafalan::where('nis',$NIS)->groupBy('nis')->get();
             $datatotal=DB::SELECT('SELECT sum(totalHalaman) as totalPendapatan from totalhafalan where nis='.$NIS.' group by nis order by nis');
             // dd($datatotal);
             

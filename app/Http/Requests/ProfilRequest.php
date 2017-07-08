@@ -28,6 +28,7 @@ class ProfilRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'a' => 'passwordlama',
+            // 'b' => 'passwordBaru'
             'c' => 'same:b'
         ];
     }
@@ -52,6 +53,7 @@ class ProfilRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'a.passwordlama' => 'password yang anda masukkan salah',
+            // 'b.passwordBaru' => 'Anda Belum Memasukkan Password Baru'
             'c.same' => 'password yang anda masukkan tidak sama',
         ];
     }

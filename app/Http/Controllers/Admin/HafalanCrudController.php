@@ -136,7 +136,7 @@ class HafalanCrudController extends CrudController
            'entity' => 'juz', // the method that defines the relationship in your Model
            'attribute' => 'noJuz', // foreign key attribute that is shown to user
            'model' => "App\Models\Juz" // foreign key model
-        ], '/both');
+        ], 'both');
         // $this->crud->addField([ // Text
         //         'name' => 'noJuz',
         //         'label' => "Juz",

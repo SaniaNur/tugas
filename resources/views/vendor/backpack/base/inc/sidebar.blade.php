@@ -11,7 +11,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
           <li class="text-center">
-                    <img src="{{asset("/binaryAdmin/assets/img/logo.jpg")}}" class="user-image img-responsive"/>
+                    <img src="{{asset("/binaryAdmin/assets/img/ar.png")}}" class="user-image img-responsive"/>
                     </li>
                 
           <li class="header">Main Navigation</li>

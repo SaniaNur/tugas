@@ -41,11 +41,12 @@
                 <h4>Ini adalah situs yang mengakses semua yang berhubungan dengan program Tahfidzul</h4> -->
                 <div class="container">
                     <div class="row">
+                        <h2 style="font-weight:400; color:white">Sistem Informasi Monitoring Hafalan
+                            <br>SMA Ar-Rosyida</h2>
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                             <div class="form-top">
                                 <div class="form-top-left">
                                     <h3>Login</h3>
-                                    <!-- <h4>Sistem Informasi Monitoring Hafalan</h4> -->
                                     
                                 </div>
                                 <div class="form-top-right">

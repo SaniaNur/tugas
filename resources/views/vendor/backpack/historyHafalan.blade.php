@@ -69,10 +69,10 @@
                                         <div class="box-header with-border">
                                           <h3 class="box-title">Bar Chart</h3>
 
-                                          <div class="box-tools pull-right">
+                                          <!-- <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                             </button>
-                                          </div>
+                                          </div> -->
                                         </div>
                                         @php
                                             $tahun=\Route::current()->parameter('tahun');
@@ -374,7 +374,7 @@
     });
 
     $('#pilihTahun').change(function(){
-      var url = "/tugas/public/{{$crud->getRoute()}}/tahun="+$(this).val();
+      var url = "{{ url ('/')}}/{{$crud->getRoute()}}/tahun="+$(this).val();
       console.log(url);
         window.location = url;
     });
