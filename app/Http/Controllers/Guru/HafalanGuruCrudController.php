@@ -86,7 +86,7 @@ class HafalanGuruCrudController extends CrudController
             'name' => 'jenis',
             'label' => "Jenis Hafalan",
             'type' => 'select2_from_array',
-            'options' => ['ziadah' => 'Ziadah', 'murojaah' => 'Murojaah'],
+            'options' => [null => '-', 'ziadah' => 'Ziadah', 'murojaah' => 'Murojaah'],
             'allows_null' => false,
             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
         ], 'both');
@@ -116,14 +116,14 @@ class HafalanGuruCrudController extends CrudController
         // //         //'suffix' => ''
         // //     ], 'both');
         
-         $this->crud->addField([  // Select2
-           'label' => "Juz",
-           'type' => 'select2',
-           'name' => 'noJuz', // the db column for the foreign key
-           'entity' => 'juz', // the method that defines the relationship in your Model
-           'attribute' => 'noJuz', // foreign key attribute that is shown to user
-           'model' => "App\Models\Juz" // foreign key model
-        ], '/both');
+         $this->crud->addField([ // select_from_array
+            'name' => 'noJuz',
+            'label' => "Juz",
+            'type' => 'select2_from_array',
+            'options' => [null => '-', '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '21' => '21', '22' => '22', '23' => '23', '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30'],
+            'allows_null' => false,
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        ], 'both');
         $this->crud->addField([ // Text
                 'name' => 'noHalamanA',
                 'label' => "Dari Halaman",
@@ -247,40 +247,44 @@ class HafalanGuruCrudController extends CrudController
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
         
-
-        //udah ada hafalan hari sebelumnyahafalan 
-        if(Ziadah::where('NIS','=',$request-> NIS)->count()!=0){
-            $totalKemarin= Ziadah:: select('totalHalaman')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->totalHalaman;
-            $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
-            $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
-            //kalau dia kemarin hafalan selesai sampai halaman 20 bisa jadi hari sekarang masih mengulang atau naik juz
-            if($halamanKemarin==20){
-                //naik juz
-                if($juzKemarin==$request->noJuz){
-                $hafalan ->totalHalaman=0;   
+        if($request->jenis == "ziadah"){
+            if(Ziadah::where('NIS','=',$request-> NIS)->count()!=0){
+                $totalKemarin= Ziadah:: select('totalHalaman')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->totalKemarinlHalaman;
+                $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
+                $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
+                //kalau dia kemarin hafalan selesai sampai halaman 20 bisa jadi hari sekarang masih mengulang atau naik juz
+                if($halamanKemarin==20){
+                    //naik juz
+                    if($juzKemarin==$request->noJuz){
+                    $hafalan ->totalHalaman=0;   
+                    }else{
+                         $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+                     }
                 }else{
-                     $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
-                 }
+                    //ngulang
+                    if($totalKemarin==0){ 
+                        $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->orderBy('tanggal','desc')->first()->tanggal;
+                        $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
+                        $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','=',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
+                        // dd($tanggalKemarin);
+                    }
+                    //second(perkembangannya=0)
+                    if(($request->noHalamanB-$halamanKemarin)<=0){
+                        $hafalan ->totalHalaman=0;
+                    }else{
+                        $hafalan ->totalHalaman=$request->noHalamanB-$halamanKemarin;
+                    }
+                }
+                
             }else{
-                //ngulang
-                if($totalKemarin==0){ 
-                    $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->orderBy('tanggal','desc')->first()->tanggal;
-                    $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
-                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','=',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
-                    // dd($tanggalKemarin);
-                }
-                //second(perkembangannya=0)
-                if(($request->noHalamanB-$halamanKemarin)<=0){
-                    $hafalan ->totalHalaman=0;
-                }else{
-                    $hafalan ->totalHalaman=$request->noHalamanB-$halamanKemarin;
-                }
+                //blm ada hafalan
+                $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
             }
-            
+        
         }else{
-            //blm ada hafalan
-            $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+            $hafalan->totalHalaman = 0;
         }
+        //udah ada hafalan hari sebelumnyahafalan 
         
 
         $sukses= $hafalan -> save();

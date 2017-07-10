@@ -77,8 +77,36 @@ class AdminController extends Controller
                 $dataHafalan[$i]['bln'] = $i;
             }
         }
+        $surat = "";
+        if(auth()->user()->level == "Siswa"){
+            $juzAkhir = DB::SELECT('SELECT noJuz, max(noHalamanB) as halaman from hafalanziadah where noJuz in (select max(noJuz) from hafalanziadah where NIS = "'.auth()->user()->siswa->NIS.'")');
+            
+            $suratJuz = DB::select('select * from surah where noJuzAwal <= '.$juzAkhir[0]->noJuz.' and noJuzAkhir >= '.$juzAkhir[0]->noJuz);
+            // $suratJuz = DB::select('select * from surah where noJuzAwal <= 5 and noJuzAkhir >= 5');
+            foreach ($suratJuz as $key => $value) {
+                if($key == 0 && $value->noJuzAkhir == $juzAkhir[0]->noJuz){
+                    if($value->halamanAkhir >= $juzAkhir[0]->halaman){
+                        $surat = $value->nama;
+                        break;
+                    }
+                }elseif($key < count($suratJuz) - 1 && $key > 0){
+                    if($value->halamanAwal >= $juzAkhir[0]->halaman && $value->halamanAkhir <= $juzAkhir[0]->halaman){
+                        $surat = $value->nama;
+                        break;
+                    }
+                }elseif($key == count($suratJuz) - 1){
+                    $surat = $value->nama;
+                    break;
+                }
 
-        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan)->with('tahun',$tahun)->with('total', $datatotal);
+                
+            }
+            
+        }
+        
+
+
+        return view('backpack::dashboard', $this->data)-> with('jumlahSiswa',$jumlahSiswa)->with('jumlahGuru',$jumlahGuru)->with('hafalan',$hafalan)->with('dataHafalan',$dataHafalan)->with('tahun',$tahun)->with('total', $datatotal)->with('surat',$surat);
     }
 
     /**

@@ -100,7 +100,7 @@ class HafalanCrudController extends CrudController
             'name' => 'jenis',
             'label' => "Jenis Hafalan",
             'type' => 'select2_from_array',
-            'options' => ['ziadah' => 'Ziadah', 'murojaah' => 'Murojaah'],
+            'options' => [null => '-', 'ziadah' => 'Ziadah', 'murojaah' => 'Murojaah'],
             'allows_null' => false,
             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
         ], 'both');
@@ -129,13 +129,13 @@ class HafalanCrudController extends CrudController
         //         //'prefix' => '',
         //         //'suffix' => ''
         //     ], 'both');
-        $this->crud->addField([  // Select2
-           'label' => "Juz",
-           'type' => 'select2',
-           'name' => 'noJuz', // the db column for the foreign key
-           'entity' => 'juz', // the method that defines the relationship in your Model
-           'attribute' => 'noJuz', // foreign key attribute that is shown to user
-           'model' => "App\Models\Juz" // foreign key model
+       $this->crud->addField([ // select_from_array
+            'name' => 'noJuz',
+            'label' => "Juz",
+            'type' => 'select2_from_array',
+            'options' => [null => '-', '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '21' => '21', '22' => '22', '23' => '23', '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30'],
+            'allows_null' => false,
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
         ], 'both');
         // $this->crud->addField([ // Text
         //         'name' => 'noJuz',
@@ -258,7 +258,7 @@ class HafalanCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         //return $redirect_location;
 
-        
+        // dd($request->jenis);
         
         $hafalan = new Hafalan;
         $hafalan -> noJuz=$request->noJuz;

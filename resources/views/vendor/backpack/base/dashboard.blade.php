@@ -124,8 +124,8 @@
               @elseif( Auth::user()->level == "Siswa" )
                   <div class="row" >
                     <div class="col-md-12" >
-                    <div class="col-md-4"></div>
-                      <div class="col-md-4 col-xs-6"  >
+                      <div class="col-md-1" ></div>
+                      <div class="col-md-5 col-xs-12"  >
               
                     <div class="small-box bg-red">
                       <div class="inner" style="text-align:center">
@@ -134,6 +134,7 @@
                             $lembar = 0.0;
                             $lembar = fmod($total[0]->totalPendapatan, 20)/2; 
                         @endphp
+                        <p>Total Pencapaian Hafalan</p>
                         <h3>
                           
                           @if($total[0]->totalPendapatan == 0) 
@@ -150,29 +151,29 @@
                         </h3>
                         <!-- <h3>{{$total[0]->totalPendapatan}}</h3> -->
 
-                        <h4>Total Pendapatan</h4>
+                        
                       </div>
                         <!-- <div class="icon">
                           <i class="ion ion-person-add"></i>
                         </div> -->
-                          <a href="{{url('siswa/laporan')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
+                          <a href="#" class="small-box-footer" style="height:20px"></a>
                       </div>
                     </div>
+                    <div class="col-md-5 col-xs-12">
+                    <div class="small-box bg-red">
+                      <div class="inner" style="text-align:center">
+                        <p>Hafalan Sampai Surah</p>
+                        <h3>{{$surat}}</h3>
+                        
+                      </div>
+                        <a href="#" class="small-box-footer" style="height:20px"></a>
+                          <!-- <a href="{{url('guru/pencapaian')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a> -->
+                    </div>
+
+                  </div>
                   </div>
 
-                 <!--  <div class="col-md-3 col-xs-6">
-                    <div class="small-box bg-red">
-                      <div class="inner">
-                        <h3>{{$hafalan}}</h3>
-                        <p>Hafalan Hari Ini</p>
-                      </div>
-                        <div class="icon">
-                          <i class="ion ion-pie-graph"></i>
-                        </div>
-                          <a href="{{url('guru/pencapaian')}}" class="small-box-footer">Informasi Selanjutnya <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-
-                  </div> -->
+                  
 
                   <div class="col-md-12 ">
                     <div class="tab-pane fade active in" id="grafik">
@@ -361,7 +362,7 @@
 
     $('#pilihTahun').change(function(){
       
-      var url= "/tugas/public/siswa/dashboard/tahun="+$(this).val();
+      var url= "{{ url ('/')}}/siswa/dashboard/tahun="+$(this).val();
       console.log(url);
         window.location = url;
     });

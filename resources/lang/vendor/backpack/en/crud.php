@@ -14,15 +14,15 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Save and new item',
-    'save_action_save_and_edit' => 'Save and edit this item',
-    'save_action_save_and_back' => 'Save and back',
+    'save_action_save_and_new' => '',
+    'save_action_save_and_edit' => '',
+    'save_action_save_and_back' => 'Simpan dan Kembali',
     'save_action_changed_notification' => 'Default behaviour after saving has been changed.',
 
     // Create form
     'add'                 => 'Tambah',
     'back_to_all'         => 'Kembali ke semua ',
-    'cancel'              => 'Cancel',
+    'cancel'              => 'Batal',
     'add_a_new'           => 'Tambah',
 
     // Edit form

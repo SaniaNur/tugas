@@ -15,7 +15,7 @@ return [
     'toggle_navigation'    => 'Toggle navigation',
     'administration'       => 'ADMINISTRATION',
     'user'                 => 'USER',
-    'logout'               => 'Logout',
+    'logout'               => 'Keluar',
     'login'                => 'Login',
     'register'             => 'Register',
     'name'                 => 'Name',

@@ -163,7 +163,7 @@
       });
     }); --}}
     $('#btncari').click(function(){
-      var url = "/tugas/public/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
+      var url = "{{ url ('/')}}/{{$crud->getRoute()}}/"+$('#pilihBulan').val()+"/"+$('#pilihTahun').val();
       console.log(url);
         window.location = url;
     });

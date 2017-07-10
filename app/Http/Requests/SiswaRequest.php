@@ -31,7 +31,8 @@ class SiswaRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
             'kelas'=>'required',
             'alamat'=>'required',
             'namaIbu'=>'required',
-            'noHp' => ' bail|required|min:10|max:12'
+            'noHp' => ' bail|required|min:10|max:12',
+            'password' => 'required|min:6'
             // 'name' => 'required|min:5|max:255'
         ];
     }
@@ -65,6 +66,8 @@ class SiswaRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
             'noHp.required' => 'No.Hp Harus Diisi',
             'noHp.min' => 'Masukkan No.Hp Lebih Dari 9',
             'noHp.max' => 'Masukkan No.Hp Kurang Dari 13',
+            'password.required' => 'Anda Belum Memasukkan Password',
+            'password.min' => 'Masukkan Password Minimal 6 Digit'
         ];
     }
 }

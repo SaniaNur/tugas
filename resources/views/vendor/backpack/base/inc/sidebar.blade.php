@@ -11,10 +11,10 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
           <li class="text-center">
-                    <img src="{{asset("/binaryAdmin/assets/img/ar.png")}}" class="user-image img-responsive"/>
+                    <img src="{{asset("/binaryAdmin/assets/img/ar.png")}}" class="user-image img-responsive" style="width:150px; margin:auto" />
                     </li>
                 
-          <li class="header">Main Navigation</li>
+          <li class="header" style="margin-top: 20px">Main Navigation</li>
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->
