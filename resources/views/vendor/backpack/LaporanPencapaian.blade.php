@@ -76,6 +76,17 @@
                                                     </div>
                                                     <button id="btncari" class="btn btn-default">cari</button>
         </div>
+        @if($bulan_params==null || $bulan_params=='null')
+        @php
+        $bulan_params=\Carbon\Carbon::now()->month;
+        @endphp
+        @endif
+        @if($tahun_params==null || $tahun_params=='null')
+        @php
+        $tahun_params=\Carbon\Carbon::now()->year;
+        @endphp
+        @endif
+        <h2 style="text-align:center">Laporan Hafalan Bulan : {{$bln[$bulan_params]}} Tahun : {{$tahun_params}}</h2>
 
         <div class="box-body table-responsive">
             
@@ -190,7 +201,17 @@
             }
             return extended;
         }
-      
+        var tahun = "{{Route::current()->parameter('tahun')}}";
+        var month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        var bulan = month[{{Route::current()->parameter('bulan')}}-1];
+        
+
+        if(tahun=="null" || tahun==""){
+            tahun=new Date().getFullYear();
+        }
+        if(bulan==null){
+            bulan=month[new Date().getMonth()];
+        }
         var table = $("#dataTables-example").DataTable({
             "pageLength": 25,
             /* Disable initial sort */
@@ -221,11 +242,22 @@
           
              // show the export datatable buttons
             dom: '<"p-l-0 col-md-6"l>B<"p-r-0 col-md-6"f>rt<"col-md-6 p-l-0"i><"col-md-6 p-r-0"p>',
-            buttons: dtButtons([
+            buttons: [dtButtons([
                 'pdfHtml5',
-                'print',
                 'colvis'
-            ]),
+            ]),{
+            extend:"print",
+            customize: function(win){
+              $(win.document.body).prepend(
+                  '<div style="width:100%; text-align: center">'
+                  +'<h1> SMA Ar-Rosyidah </h1>'
+                  +'<h2>Laporan Hafalan Bulan:'+bulan+' Tahun:'+tahun+'</h2>'
+                )
+            },
+            title: function(){
+              return ""
+            }
+            }]
         });
 
         // move the datatable buttons in the top-right corner and make them smaller

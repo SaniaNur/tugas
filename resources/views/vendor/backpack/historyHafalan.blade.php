@@ -95,7 +95,7 @@
                                         <div class="box-body">
                                           <div class="chart">
                                             <!-- <canvas id="barChart" style="height:230px"></canvas> -->
-                                             <canvas id="myChart" width="400" height="100"></canvas>
+                                             <canvas id="myChart" style="height:55vh; width:80vw"></canvas>
                                           </div>
                                         </div>
                                         <!-- /.box-body -->

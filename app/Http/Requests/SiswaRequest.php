@@ -25,7 +25,7 @@ class SiswaRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-            'NIS'=>'required',
+            'NIS'=>'required|unique:siswa,NIS',
             'no_guru'=>'required',
             'nama'=>'required',
             'kelas'=>'required',
@@ -58,6 +58,7 @@ class SiswaRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'NIS.required' => 'NIS Harus Diisi',
+            'NIS.unique'=>'NIS sudah ada',
             'no_guru.required' => 'No. Guru Harus Diisi',
             'nama.required' => 'Nama Harus Diisi',
             'kelas.required' => 'Kelas Harus Diisi',

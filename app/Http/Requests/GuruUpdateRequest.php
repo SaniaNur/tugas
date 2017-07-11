@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 
-class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class GuruUpdateRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,12 @@ class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 
     {
         return [
-            'no_guru'=>'required|unique:guru,no_guru',
+            'no_guru'=>'required',
             // 'no_guru' => Rule::unique('guru')->ignore($this->no_guru, 'no_guru'),
             'nama'=>'required',
             'alamat'=>'required',
             'noHp' => ' bail|required|min:10|max:12',
-            'password' => 'required|min:6'
+           
         ];
     }
    /**
@@ -56,14 +56,12 @@ class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'no_guru.required' => 'No. Guru Harus Diisi',
-            'no_guru.unique' => 'No. Guru sudah ada',
             'nama.required' => 'Nama Harus Diisi',
             'alamat.required' => 'Alamat Harus Diisi',
             'noHp.required' => 'No.Hp Harus Diisi',
             'noHp.min' => 'Masukkan No.Hp Lebih Dari 9',
             'noHp.max' => 'Masukkan No.Hp Kurang Dari 13',
-            'password.required' => 'Anda Belum Memasukkan Password',
-            'password.min' => 'Masukkan Password Minimal 6 Digit'
+            
         ];
     }
 }

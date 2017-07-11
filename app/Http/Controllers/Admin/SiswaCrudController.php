@@ -7,7 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\SiswaRequest as StoreRequest;
-use App\Http\Requests\SiswaRequest as UpdateRequest;
+use App\Http\Requests\SiswaUpdateRequest as UpdateRequest;
 use App\User;
 use App\Models\SiswaUpdate as Siswa;
 
@@ -95,7 +95,7 @@ class SiswaCrudController extends CrudController
                 'name' => 'kelas',
                 'label' => "Kelas",
                 'type' => 'select_from_array',
-                'options' => ['X' => 'Kelas X', 'XI IPA 1' => 'Kelas XI IPA 1', 'XI IPA 2' => 'Kelas XI IPA 2'],
+                'options' => ['X' => 'Kelas X', 'XI' => 'Kelas XI', 'XII' => 'Kelas XII'],
                 'allows_null' => false,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
             ], 'both');

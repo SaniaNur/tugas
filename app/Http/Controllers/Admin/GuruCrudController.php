@@ -7,7 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\GuruRequest as StoreRequest;
-use App\Http\Requests\GuruRequest as UpdateRequest;
+use App\Http\Requests\GuruUpdateRequest as UpdateRequest;
 use App\User;
 use App\Models\GuruUpdate as Guru;
 

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use Illuminate\Validation\Rule;
 
-class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class SiswaUpdateRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +23,20 @@ class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      * @return array
      */
     public function rules()
-
     {
         return [
-            'no_guru'=>'required|unique:guru,no_guru',
-            // 'no_guru' => Rule::unique('guru')->ignore($this->no_guru, 'no_guru'),
+            'NIS'=>'required',
+            'no_guru'=>'required',
             'nama'=>'required',
+            'kelas'=>'required',
             'alamat'=>'required',
-            'noHp' => ' bail|required|min:10|max:12',
-            'password' => 'required|min:6'
+            'namaIbu'=>'required',
+            'noHp' => ' bail|required|min:10|max:12'
+            // 'name' => 'required|min:5|max:255'
         ];
     }
-   /**
+
+    /**
      * Get the validation attributes that apply to the request.
      *
      * @return array
@@ -55,15 +56,16 @@ class GuruRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function messages()
     {
         return [
+            'NIS.required' => 'NIS Harus Diisi',
             'no_guru.required' => 'No. Guru Harus Diisi',
-            'no_guru.unique' => 'No. Guru sudah ada',
             'nama.required' => 'Nama Harus Diisi',
+            'kelas.required' => 'Kelas Harus Diisi',
             'alamat.required' => 'Alamat Harus Diisi',
+            'namaIbu.required' => 'Nama Ibu Harus Diisi',
             'noHp.required' => 'No.Hp Harus Diisi',
             'noHp.min' => 'Masukkan No.Hp Lebih Dari 9',
             'noHp.max' => 'Masukkan No.Hp Kurang Dari 13',
-            'password.required' => 'Anda Belum Memasukkan Password',
-            'password.min' => 'Masukkan Password Minimal 6 Digit'
+            
         ];
     }
 }

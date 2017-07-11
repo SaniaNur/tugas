@@ -176,7 +176,7 @@
           return extended;
       }
       @endif
-
+      
 	  	var table = $("#crudTable").DataTable({
         "pageLength": "{{ $crud->getDefaultPageLength() }}",
         /* Disable initial sort */
