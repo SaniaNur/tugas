@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2017 at 05:24 PM
+-- Generation Time: Jul 14, 2017 at 02:35 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -40,6 +40,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `jenisKelamin`, `alamat`, `noHp`) VALUES
+('10', 108, 'Ghany', 'Laki-laki', 'jogja', '081726738278'),
 ('11', 78, 'Atika Sholihah', 'Perempuan', 'Magetan', '08123452345'),
 ('12', 79, 'I''anatul Mufarokhah', 'Perempuan', 'Magetan', '085753645364'),
 ('13', 80, 'Izzatul Laili Yazida', 'Perempuan', 'Magetan', '088767896789'),
@@ -49,6 +50,7 @@ INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `jenisKelamin`, `alamat`, `noH
 ('17', 84, 'Suroto', 'Laki-laki', 'Magetan', '082211122288'),
 ('45', 102, 'dani', 'Laki-laki', 'tuban', '081986382873'),
 ('65', 106, 'tata', 'Perempuan', 'yayasan', '1234567890'),
+('78', 110, 'Doni', 'Laki-laki', 'jogja', '08123456789'),
 ('88', 99, 'Nayla', 'Perempuan', 'Yogyakarta', '09876544261');
 
 -- --------------------------------------------------------
@@ -158,7 +160,16 @@ INSERT INTO `inputhafalan` (`id_hafalan`, `noJuz`, `NIS`, `no_guru`, `jenis`, `n
 (66, 1, '7777', '11', 'ziadah', 1, 5, '2017-07-10', 56, 5),
 (67, 1, '7777', '11', 'murojaah', 3, 3, '2017-07-10', 76, 0),
 (68, 2, '9898', '88', 'ziadah', 11, 13, '2017-07-11', 66, 5),
-(69, 2, '9898', '88', 'ziadah', 11, 11, '2017-07-06', 45, 1);
+(69, 2, '9898', '88', 'ziadah', 11, 11, '2017-07-06', 45, 1),
+(81, 2, '4949', '10', 'murojaah', 5.5, 8, '2017-07-12', 76, 0),
+(82, 2, '4949', '10', 'ziadah', 5, 9, '2017-07-12', 79, 3),
+(83, 2, '4949', '10', 'ziadah', 1, 6, '2017-07-11', 46, 6),
+(84, 2, '4949', '10', 'murojaah', 3, 4, '2017-07-11', 56, 0),
+(85, 1, '4949', '10', 'ziadah', 1, 20, '2016-08-12', 23, 20),
+(86, 1, '4949', '10', 'murojaah', 2, 4, '2016-08-19', 66, 0),
+(87, 1, '9999', '78', 'ziadah', 5, 8, '2017-07-12', 45, 4),
+(88, 1, '9999', '78', 'murojaah', 4, 4, '2017-07-12', 78, 0),
+(89, 5, '2222', '15', 'ziadah', 1, 20, '2017-07-12', 46, 20);
 
 -- --------------------------------------------------------
 
@@ -228,12 +239,14 @@ INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `jenisKelamin`, `kelas
 ('3335', 96, '16', 'Vita Nur Azizah', 'Perempuan', 'X', 'Magetan', '085764783748', 'Luku'),
 ('3336', 97, '15', 'Hasan Basri', 'Laki-laki', 'X', 'Magetan', '089956784757', 'lala'),
 ('3337', 98, '17', 'Junaidi Syahputra', 'Laki-laki', 'X', 'Magetan', '088855567788', 'Nuri'),
+('4949', 109, '10', 'Tari', 'Perempuan', 'XI', 'godean', '08198987676', 'tata'),
 ('5656', 104, '45', 'fafa', 'Perempuan', 'XI', 'asas', '1234567890', 'ssas'),
 ('7676', 103, '45', 'fani', 'Perempuan', 'XII', 'sads', '1234567890', 'tata'),
 ('7777', 107, '11', 'roni', 'Laki-laki', 'X', 'tuban', '08886376377', 'yuli'),
 ('8787', 100, '88', 'Dania', 'Perempuan', 'X', 'Yogyakarta', '0812435672', 'Hana'),
 ('9090', 105, '11', 'Joni', 'Laki-laki', 'X', 'fyf', '0987654321', 'iuiu'),
-('9898', 101, '88', 'jaja', 'Laki-laki', 'X', 'yogya', '0987654321', 'jani');
+('9898', 101, '88', 'jaja', 'Laki-laki', 'X', 'yogya', '0987654321', 'jani'),
+('9999', 111, '78', 'yola', 'Perempuan', 'XI', 'jogja', '08123457729', 'hari');
 
 --
 -- Triggers `siswa`
@@ -359,15 +372,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
 (4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'XjeGxELkRDMKCrZWZwNoODaX0HAAD95qsKqjfAU5fjNUA4W4EanGQb37UrvG', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
-(52, 'Admin', 'admin', '$2y$10$NpXGtCq8dU62SpHnp2ytaegMaIHBHDKnvYgLR.VpE.WSglI/WZQ3y', 'rsoJ0EpZdjxgitcN4mLLTiCN90x8yGXZmtLO4ggm56l6gq1rugmOrX2zsNhF', '2017-05-30 00:53:39', '2017-05-30 00:53:39', 'Admin'),
-(78, 'Atika Sholihah', '11', '$2y$10$KJGAMWJFNW6i09SXHXEupu15UhIiRXIwIZGpjJyruybI6zocN5.h.', 'mlPS3qaFNsYOH0oRB7hqmt4dKIJzCAV0K1rUqeubS2SLlgyvrdg3dykTJq88', '2017-07-05 05:32:46', '2017-07-06 23:59:35', 'Guru'),
+(52, 'Admin', 'admin', '$2y$10$NpXGtCq8dU62SpHnp2ytaegMaIHBHDKnvYgLR.VpE.WSglI/WZQ3y', 'DoSMPE5qxsXnFQjTUdiwzQxyTYO5UUGkC4bjDeThwl7fS7QzBLq2t0IJ2vZD', '2017-05-30 00:53:39', '2017-05-30 00:53:39', 'Admin'),
+(78, 'Atika Sholihah', '11', '$2y$10$KJGAMWJFNW6i09SXHXEupu15UhIiRXIwIZGpjJyruybI6zocN5.h.', 'kf2KKVuysgdL050RMzpTjrDOjgwP3rlQ3RTCBNBuSBEPxWTm3fHusJYgiPOV', '2017-07-05 05:32:46', '2017-07-06 23:59:35', 'Guru'),
 (79, 'I''anatul Mufarokhah', '12', '$2y$10$qFeur2o6YUbVL.DpWIq0KuAbNrU2zLBXzosMMHKSVSRKa47T5D4AO', '6lhEFKIqKnB0goMIZyS2QA2C59O1rxcIPVCpYMW5wHerVfVadLziCltFsVIY', '2017-07-05 05:33:49', '2017-07-05 05:33:49', 'Guru'),
 (80, 'Izzatul Laili Yazida', '13', '$2y$10$J4kx1FXFDIN/UhscJTrB4.hfDcCiDbkc95Igz6KsJoSdHxNKbYqva', 'xv9OX5WdRP766dwiaiqeNVaIWoMci6RHFv84EWyEwtL5Jgsqkq3EBVMiDJRE', '2017-07-05 05:34:40', '2017-07-05 05:34:40', 'Guru'),
 (81, 'Sarah Rahmatillah', '14', '$2y$10$H89EiM/ujLcCx5ezOriPSeWw4q..cnE8Yf0aDFiBWOPH/aU22Ov7e', NULL, '2017-07-05 05:35:33', '2017-07-05 05:35:33', 'Guru'),
 (82, 'Aiji Nurrokhman', '15', '$2y$10$t2srpRtc1jHWZtAtwNrZteEXYiJLn/Wy7msZNqv8XnkiePwvDQ2L.', NULL, '2017-07-05 05:36:10', '2017-07-05 05:36:10', 'Guru'),
 (83, 'Qotrunnada', '16', '$2y$10$ilJQ0EKxEGtBCxKy0nvsn.BYB5lqRMXjqhDMqYIBy8v/dgKaEI4HS', 'TODi5cG4v5vevKS74MeSdulqTOwoX28ySVms8DbLZTlyaRPSdjKohjvLn2a5', '2017-07-05 05:37:11', '2017-07-05 05:37:11', 'Guru'),
 (84, 'Suroto', '17', '$2y$10$rcd0DTY5je.lSFzG/XBvhe4sE.T.OWvjJ2r8Zn.GfZJxyxOyBpb02', NULL, '2017-07-05 05:37:37', '2017-07-05 05:37:37', 'Guru'),
-(85, 'Ahmad ma''ruf', '2222', '$2y$10$P4tB9ZCixud6kmOODo.g9O6iFxe9YEspPGVfSqb3PXKVYgLi.I34K', '7tOPu4po8mVMOAlXCuteWF760G7upHW6MitNoWnADDPn1iCRFV4eshldQTXD', '2017-07-05 05:40:58', '2017-07-11 08:19:06', 'Siswa'),
+(85, 'Ahmad ma''ruf', '2222', '$2y$10$uBc7dojn/5xkHY6Yiw.HqecsObcwAP0l5C6Snd./.pw5muHi1YEWe', 'dJH3Z33mnsKqdGF2tLasEJ8DpnwoAw5Dpv0V6HvdzBUNX5t6rifc1ajHMPER', '2017-07-05 05:40:58', '2017-07-11 08:19:06', 'Siswa'),
 (87, 'Bunga Pangestu', '2224', '$2y$10$4k8utCi1uDweltdoGU6.NugrIIZjxwIIPmcqNU8iqRNtkWg9NOIlO', 'QDlNMT0FfSRjpmI5vr76maExkc1gEulkT1Yx69ag7NhjwTRjR5TSvBdPTM1n', '2017-07-05 05:43:42', '2017-07-11 08:19:23', 'Siswa'),
 (88, 'Qurota Aini', '2225', '$2y$10$ai/RtFuTZKu2FRUWgVP2NeltlK3Zv336U1PTOUGua6vxWclcaI/3e', 'MCMQXEpfdSFLnEcOgDkbGBTz6ukJNuBgvqU7Vpw3NtExJF5XwBwSTFNODX24', '2017-07-05 05:44:51', '2017-07-11 08:19:31', 'Siswa'),
 (89, 'Rahma Sari', '2226', '$2y$10$gBhXJljE/vNuQQz/WfsIs.1SMp3sdSbFLB2E8rYFmnhas2IycAtpK', NULL, '2017-07-05 05:45:47', '2017-07-11 08:19:41', 'Siswa'),
@@ -388,7 +401,11 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `cr
 (104, 'fafa', '5656', '$2y$10$F5luWGjQWtwQCx3IoRzbiujCATAG7F7lEuH3hZ9BgDlVMNp5s.a/O', NULL, '2017-07-10 21:51:59', '2017-07-11 08:20:11', 'Siswa'),
 (105, 'Joni', '9090', '$2y$10$ZQbrLp0Qz4sSww2QINAowuxhEnu1Fn.2b8elahYKv4xV8RUi5yJeW', 'DA5EaX3sdpzQnpoRe82mlebDkApT6UDImzupDes4KzXovnhIMFaNmv0YD9ki', '2017-07-10 22:14:40', '2017-07-10 22:14:40', 'Siswa'),
 (106, 'tata', '65', '$2y$10$jnN9Ru6skNh8UPAKpKwJ0edG5rrP5G2/rQATcB8QbRuePaavvWx1.', NULL, '2017-07-10 22:26:20', '2017-07-10 22:26:20', 'Guru'),
-(107, 'roni', '7777', '$2y$10$ce2FnkTn0.5S4Txkzf7LXuh2l6Qu4Fsh8cICRzWKotw3cDjhwdXpi', 'M9wsojVdt7pBNH7AfwxieKptr6Z48XMNLjzJFy3h9oEy8sTWGaQZXh6navA3', '2017-07-10 22:27:45', '2017-07-10 22:27:45', 'Siswa');
+(107, 'roni', '7777', '$2y$10$ce2FnkTn0.5S4Txkzf7LXuh2l6Qu4Fsh8cICRzWKotw3cDjhwdXpi', 'wpKAty4WlPJfAj4oR2uCd0y5ofj959LgkGo67UFeKaAISpkcudBowWYCZDiN', '2017-07-10 22:27:45', '2017-07-10 22:27:45', 'Siswa'),
+(108, 'Ghany', '10', '$2y$10$hLqRu7YKWTf8.DQnhlRa8OtKdPZ0ZTPXWuc57n0vZvDnofRB8TtQe', 'zEWwMmkAl29EydyGjBN0w4eEPUZ2ePKvth62zCy6UmyA4tm9g22wG52MPAhU', '2017-07-11 18:21:43', '2017-07-11 18:21:43', 'Guru'),
+(109, 'Tari', '4949', '$2y$10$xzWCaozWhybx4TCiNLbUB.T8/pIRESD3aFmP.TufxQjAIFQxjbrXq', 'aAfIvl5DRPYOZaNOSO5wthUyvgmMMrfZgtuyqRCr4RL3m0KTFDz3NgpDA5j3', '2017-07-11 18:22:48', '2017-07-11 18:22:48', 'Siswa'),
+(110, 'Doni', '78', '$2y$10$ZvQ7LY/gRXihATs6RxnjY.yQ/I2F1S81gy0DYE.iZI3nIIBf3q5kC', '5T0qiLh7KFSSCDHe56qpJRNZzQXIfRIcJq0nBN3yBdOFYiv1M6mhdmypZGUI', '2017-07-11 19:16:03', '2017-07-11 19:16:03', 'Guru'),
+(111, 'yola', '9999', '$2y$10$Kr46/z/iZEDLhWY20FG38uOE9/9I2oXM81IZ5NVtJRjYllJaZQG12', 'mDeQJaSJNMefuC9gwf8rMKLuT4qcFG8fUwZ4SulfcACMZDdMkzlHmicQMMod', '2017-07-11 19:16:59', '2017-07-11 19:16:59', 'Siswa');
 
 -- --------------------------------------------------------
 
@@ -479,7 +496,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `inputhafalan`
 --
 ALTER TABLE `inputhafalan`
-  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
@@ -494,7 +511,7 @@ ALTER TABLE `surah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 --
 -- Constraints for dumped tables
 --

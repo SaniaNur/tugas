@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="row">
                         <h2 style="font-weight:400; color:white">Sistem Informasi Monitoring Hafalan
-                            <br>SMA Ar-Rosyida</h2>
+                            <br>SMA Ar-Rosyidah</h2>
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                             <div class="form-top">
                                 <div class="form-top-left">
