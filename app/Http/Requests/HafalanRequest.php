@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-
+use App\Models\Siswa;
 class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
@@ -24,9 +24,13 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      */
     public function rules()
     {
+        $noguru = 0;
+        if($this->NIS != null){
+            $noguru = Siswa::find($this->NIS)->no_guru;
+        }
         return [
             'tanggal'=>'required',
-            'NIS'=>'required',
+            'NIS'=>'required|guruKosong:'.$noguru,
             'jenis'=>'required',
             'noJuz'=>'required|numeric',
             'noHalamanA'=>'required',
@@ -62,7 +66,8 @@ class HafalanRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
             'noJuz.required' => 'Juz Harus Diisi',
             'noHalamanA.required' => 'Dari Halaman Harus Diisi',
             'noHalamanB.required' => 'Sampai Halaman Harus Diisi',
-            'nilai.required' => 'Nilai Harus Diisi'
+            'nilai.required' => 'Nilai Harus Diisi',
+            'NIS.guru_kosong'=>'Siswa Tidak Memiliki Guru Pembimbing. Silahkan Ubah Guru Pembimbing Pada Data Siswa',
             
             //
         ];

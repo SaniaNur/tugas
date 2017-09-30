@@ -24,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
             }
             return false;
         });
+
+        Validator::extend('guruKosong', function ($attribute, $value, $parameters, $validator) {
+            if($parameters[0]!=""){
+                return true;    
+            }
+            return false;
+        });
     }
 
 

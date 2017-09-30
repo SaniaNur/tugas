@@ -68,7 +68,7 @@ class HafalanCrudController extends CrudController
                'date_picker_options' => [
                 'todayHighlight'=>true,
                   'todayBtn' => 'linked',
-                  'format' => 'dd MM yyyy',
+                  'format' => 'dd mm yyyy',
                   'language' => 'id',
                   'autoclose'=>true
                ],
@@ -273,26 +273,32 @@ class HafalanCrudController extends CrudController
         //udah ada hafalan hari sebelumnyahafalan 
         if($request->jenis == "ziadah"){
             if(Ziadah::where('NIS','=',$request-> NIS)->count()!=0){
-                if(Ziadah:: select('totalHalaman')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()!=null){
-                   $totalKemarin= Ziadah:: select('totalHalaman')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->totalHalaman;
-                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
-                    $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
+                $dataKemarin = Ziadah::where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
+                if($dataKemarin!=null){
+                    $totalKemarin= $dataKemarin->totalHalaman;
+                    $halamanKemarin= $dataKemarin->noHalamanB;
+                    $juzKemarin= $dataKemarin->noJuz;
                     //kalau dia kemarin hafalan selesai sampai halaman 20 bisa jadi hari sekarang masih mengulang atau naik juz
                     if($halamanKemarin==20){
                         //naik juz
                         if($juzKemarin==$request->noJuz){
-                        $hafalan ->totalHalaman=0;   
+                            $hafalan->totalHalaman=0;   
                         }else{
-                             $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+                            $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
                          }
                     }else{
                         //ngulang
-                        if($totalKemarin==0){ 
-                            $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->orderBy('tanggal','desc')->first()->tanggal;
-                            $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
-                            $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','=',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
-                            // dd($tanggalKemarin);
-                        }
+                        // if($totalKemarin==0){ 
+                            while ($totalKemarin == 0) {
+                                    $tanggalKemarin= $dataKemarin->tanggal;
+                                    $dataKemarin= Ziadah::where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first();
+                                    $totalKemarin = $dataKemarin->totalHalaman;
+                                if($dataKemarin != null){
+                                    $halamanKemarin= $dataKemarin->noHalamanB;
+                                }
+                            }
+                        // }
+                            // dd($dataKemarin);
                         //second(perkembangannya=0)
                         if(($request->noHalamanB-$halamanKemarin)<=0){
                             $hafalan ->totalHalaman=0;

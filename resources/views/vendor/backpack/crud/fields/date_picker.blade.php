@@ -19,6 +19,7 @@
             data-bs-datepicker="{{ isset($field['date_picker_options']) ? json_encode($field['date_picker_options']) : '{}'}}"
             type="text"
             @include('crud::inc.field_attributes')
+            data-date-end-date="0d"
             >
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
@@ -63,7 +64,7 @@
                 var $fake = $(this),
                 $field = $fake.parents('.form-group').find('input[type="hidden"]'),
                 $customConfig = $.extend({
-                    format: 'dd/mm/yyyy'
+                    format: 'dd/mm/yyyy',
                 }, $fake.data('bs-datepicker'));
                 $picker = $fake.bootstrapDP($customConfig);
 

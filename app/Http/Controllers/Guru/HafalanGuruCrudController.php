@@ -229,7 +229,7 @@ class HafalanGuruCrudController extends CrudController
         
     }
 
-    public function store(StoreRequest $request)
+     public function store(StoreRequest $request)
     {
         // your additional operations before save here
         //$redirect_location = parent::storeCrud();
@@ -237,41 +237,47 @@ class HafalanGuruCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         //return $redirect_location;
 
+        // dd($request->jenis);
+        
         $hafalan = new Hafalan;
-        $hafalan -> noJuz=$request-> noJuz;
-        $hafalan -> NIS=$request-> NIS;
-        $hafalan -> jenis=$request-> jenis ;
+        $hafalan -> noJuz=$request->noJuz;
+        $hafalan -> NIS=$request->NIS;
+        $hafalan -> jenis=$request->jenis ;
         $hafalan -> noHalamanA=$request->noHalamanA;
         $hafalan -> noHalamanB=$request->noHalamanB;
-        $hafalan -> tanggal=$request-> tanggal;
+        $hafalan -> tanggal=$request->tanggal;
         $hafalan -> no_guru=Siswa::where('NIS','=',$request-> NIS)-> first()-> guru-> no_guru;
         $hafalan -> nilai=$request->nilai;
-        
-        if($request->jenis == "ziadah"){
 
+        //udah ada hafalan hari sebelumnyahafalan 
+        if($request->jenis == "ziadah"){
             if(Ziadah::where('NIS','=',$request-> NIS)->count()!=0){
-                $a = Ziadah:: select('totalHalaman')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
-                
-                if($a != null){
-                    $totalKemarin= $a->totalKemarinlHalaman;
-                    $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noHalamanB;
-                    $juzKemarin= Ziadah:: select('noJuz')->where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first()->noJuz;
+                $dataKemarin = Ziadah::where('NIS','=',$request-> NIS)->where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
+                if($dataKemarin!=null){
+                    $totalKemarin= $dataKemarin->totalHalaman;
+                    $halamanKemarin= $dataKemarin->noHalamanB;
+                    $juzKemarin= $dataKemarin->noJuz;
                     //kalau dia kemarin hafalan selesai sampai halaman 20 bisa jadi hari sekarang masih mengulang atau naik juz
                     if($halamanKemarin==20){
                         //naik juz
                         if($juzKemarin==$request->noJuz){
-                        $hafalan ->totalHalaman=0;   
+                            $hafalan->totalHalaman=0;   
                         }else{
-                             $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
+                            $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
                          }
                     }else{
                         //ngulang
-                        if($totalKemarin==0){ 
-                            $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->orderBy('tanggal','desc')->first()->tanggal;
-                            $tanggalKemarin= Ziadah:: select('tanggal')->where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first()->tanggal;
-                            $halamanKemarin= Ziadah:: select('noHalamanB')->where('NIS','=',$request-> NIS)->where('tanggal','=',$tanggalKemarin)->orderBy('tanggal','desc')->first()->noHalamanB;
-                            // dd($tanggalKemarin);
-                        }
+                        // if($totalKemarin==0){ 
+                            while ($totalKemarin == 0) {
+                                    $tanggalKemarin= $dataKemarin->tanggal;
+                                    $dataKemarin= Ziadah::where('NIS','=',$request-> NIS)->where('tanggal','<',$tanggalKemarin)->orderBy('tanggal','desc')->first();
+                                    $totalKemarin = $dataKemarin->totalHalaman;
+                                if($dataKemarin != null){
+                                    $halamanKemarin= $dataKemarin->noHalamanB;
+                                }
+                            }
+                        // }
+                            // dd($dataKemarin);
                         //second(perkembangannya=0)
                         if(($request->noHalamanB-$halamanKemarin)<=0){
                             $hafalan ->totalHalaman=0;
@@ -279,52 +285,69 @@ class HafalanGuruCrudController extends CrudController
                             $hafalan ->totalHalaman=$request->noHalamanB-$halamanKemarin;
                         }
                     }
+                 
                 }else{
-                   $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1; 
+                    $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
                 }
                 
             }else{
                 //blm ada hafalan
                 $hafalan->totalHalaman=$request->noHalamanB-$request->noHalamanA+1;
             }
-        
         }else{
             $hafalan->totalHalaman = 0;
         }
-        //udah ada hafalan hari sebelumnyahafalan 
-        
 
         $sukses= $hafalan -> save();
         //kurang inputin tanggal kemarin
-         if($request->jenis == "ziadah"){
-            $tanggalBesok= Ziadah:: select('tanggal')->where('tanggal','>',$request->tanggal)->orderBy('tanggal','asc')->first();
-            //inputin hari kemarin (ngecek dulu hari ini udh ada hafalannya atau blm)
-            if($tanggalBesok!=null){
-                $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',$request-> NIS)->where('tanggal',$tanggalBesok->tanggal)->first();
-                //
-                if($perbaruiHafalan!=null){
-                    //ngecek sebelumnya ada perkembangan atau tidak
-                    // dd($perbaruiHafalan->noHalamanB-$request->noHalamanB);
-                    if($perbaruiHafalan->totalHalaman != 0){
-                         if(($perbaruiHafalan->noHalamanB-$request->noHalamanB)<=0){
-                            $perbaruiHafalan ->totalHalaman=0;
-                        }else{
-                            $perbaruiHafalan ->totalHalaman=$perbaruiHafalan->noHalamanB-$request->noHalamanB;
-                        }
+        if($request->jenis == "ziadah"){
+        $tanggalBesok= Ziadah:: select('tanggal')->where('tanggal','>',$request->tanggal)->orderBy('tanggal','asc')->first();
+        //inputin hari kemarin (ngecek dulu hari ini udh ada hafalannya atau blm)
+        if($tanggalBesok!=null){
+            $perbaruiHafalan= Hafalan:: where('jenis','ziadah')->where('NIS','=',$request-> NIS)->where('tanggal',$tanggalBesok->tanggal)->first();
+            //
+            if($perbaruiHafalan!=null){
+                //ngecek sebelumnya ada perkembangan atau tidak
+                // dd($perbaruiHafalan->noHalamanB-$request->noHalamanB);
+                if($perbaruiHafalan->totalHalaman != 0){
+                     if(($perbaruiHafalan->noHalamanB-$request->noHalamanB)<=0){
+                        $perbaruiHafalan ->totalHalaman=0;
                     }else{
-                        $hafalanKemarin= Ziadah::where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
-                        if(($request->noHalamanB-$hafalanKemarin->noHalamanB)<=0){
-                            $perbaruiHafalan ->totalHalaman=0;
-                        }else{
-                            $perbaruiHafalan ->totalHalaman=$request->noHalamanB-$hafalanKemarin->noHalamanB;
-                        }
+                        $perbaruiHafalan ->totalHalaman=$perbaruiHafalan->noHalamanB-$request->noHalamanB;
                     }
-                   
-                    $perbaruiHafalan->save();
+                }else{
+                    $hafalanKemarin= Ziadah::where('tanggal','<',$request->tanggal)->orderBy('tanggal','desc')->first();
+                    if(($request->noHalamanB-$hafalanKemarin->noHalamanB)<=0){
+                        $perbaruiHafalan ->totalHalaman=0;
+                    }else{
+                        $perbaruiHafalan ->totalHalaman=$request->noHalamanB-$hafalanKemarin->noHalamanB;
+                    }
                 }
-                }    
+               
+                $perbaruiHafalan->save();
+            }   
+            } 
         }
-         
+        
+       
+        // if($hafalan->jenis=='ziadah'){
+        // $total=\App\Models\TotalPendapatan::where('tahun', substr($hafalan->tanggal,0,4))->where('bulan',substr($hafalan->tanggal,5,2))->where('NIS','=',$hafalan->NIS)->first();
+        // //dd($total==null);
+        // if($total==null){
+        //     $pendapatan = new \App\Models\TotalPendapatan;
+        //     $pendapatan->NIS = $request->NIS;
+        //     $pendapatan->bulan = substr($hafalan->tanggal,5,2);
+        //     $pendapatan->tahun = substr($hafalan->tanggal,0,4);
+        //     $pendapatan->totalPendapatan = $request->noHalamanB - $request->noHalamanA +1 ;
+        //     $sukses = $pendapatan -> save();
+        // }else{
+        //     $total ->NIS = $request->NIS;
+        //     $total ->bulan = substr($hafalan->tanggal,5,2);
+        //     $total ->tahun = substr($hafalan->tanggal,0,4);
+        //     $total ->totalPendapatan = $total ->totalPendapatan + $request->noHalamanB - $request->noHalamanA +1;
+        //     $sukses= $total->save();
+        // }
+        // }
         if($sukses){
           \Alert::success('Data Berhasil')->flash();  
         }

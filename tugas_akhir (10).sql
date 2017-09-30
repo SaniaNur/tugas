@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2017 at 12:16 PM
+-- Generation Time: Sep 30, 2017 at 03:46 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -34,6 +34,13 @@ CREATE TABLE `guru` (
   `alamat` varchar(100) NOT NULL,
   `noHp` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `guru`
+--
+
+INSERT INTO `guru` (`no_guru`, `id_user`, `nama`, `jenisKelamin`, `alamat`, `noHp`) VALUES
+('99999', 57, 'gani', 'Laki-laki', 'hgu', '0987654321');
 
 -- --------------------------------------------------------
 
@@ -89,6 +96,26 @@ CREATE TABLE `inputhafalan` (
   `totalHalaman` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `inputhafalan`
+--
+
+INSERT INTO `inputhafalan` (`id_hafalan`, `noJuz`, `NIS`, `no_guru`, `jenis`, `noHalamanA`, `noHalamanB`, `tanggal`, `nilai`, `totalHalaman`) VALUES
+(1, 1, '7777', '99999', 'ziadah', 1, 5, '2017-09-25', 78, 5),
+(2, 1, '7777', '99999', 'murojaah', 1, 3, '2017-09-27', 77, 0),
+(3, 1, '7777', '99999', 'ziadah', 4, 5, '2017-09-29', 66, 0),
+(4, 1, '7777', '99999', 'murojaah', 2, 3, '2017-09-29', 44, 0),
+(5, 1, '7777', '99999', 'ziadah', 2, 9, '2017-09-27', 67, 4),
+(6, 1, '7777', '99999', 'murojaah', 4, 4, '2017-09-28', 88, 0),
+(7, 1, '7777', '99999', 'ziadah', 4, 6, '2017-09-30', 98, 0),
+(9, 1, '8888', '99999', 'murojaah', 1, 3, '2017-09-11', 69, 0),
+(10, 1, '8888', '99999', 'murojaah', 4, 9, '2017-09-13', 88, 6),
+(11, 1, '8888', '99999', 'murojaah', 2, 2, '2017-09-13', 78, 0),
+(15, 1, '8888', '99999', 'ziadah', 4, 4, '2017-09-14', 67, 1),
+(16, 1, '8888', '99999', 'murojaah', 4, 10, '2017-09-12', 90, 7),
+(17, 1, '8888', '99999', 'ziadah', 5, 12, '2017-09-18', 78, 0),
+(18, 1, '8888', '99999', 'ziadah', 6, 13, '2017-09-16', 89, 9);
+
 -- --------------------------------------------------------
 
 --
@@ -130,7 +157,7 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `siswa` (
   `NIS` char(4) NOT NULL,
   `id_user` int(5) NOT NULL,
-  `no_guru` varchar(20) NOT NULL,
+  `no_guru` varchar(20) DEFAULT NULL,
   `nama` varchar(40) NOT NULL,
   `jenisKelamin` enum('Laki-laki','Perempuan','','') NOT NULL,
   `kelas` enum('X','XI','XII') NOT NULL,
@@ -138,6 +165,14 @@ CREATE TABLE `siswa` (
   `noHp` varchar(12) NOT NULL,
   `namaIbu` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`NIS`, `id_user`, `no_guru`, `nama`, `jenisKelamin`, `kelas`, `alamat`, `noHp`, `namaIbu`) VALUES
+('7777', 56, '99999', 'ww', 'Laki-laki', 'X', 'hgjf', '1234567890', 'jhgfh'),
+('8888', 58, '99999', 'a', 'Laki-laki', 'X', 'bytf', '0987654321', 'uyguf');
 
 --
 -- Triggers `siswa`
@@ -263,7 +298,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
 (4, 'nur', 'nur@mail.com', '$2y$10$PGeAyQ01RMrY/drZvjuYtuYZ9Uw40bQPZcJd2NC79/BWWbmvO6uG2', 'XjeGxELkRDMKCrZWZwNoODaX0HAAD95qsKqjfAU5fjNUA4W4EanGQb37UrvG', '2017-05-03 02:01:03', '2017-05-03 02:01:03', 'Admin'),
-(52, 'Admin', 'admin', '$2y$10$NpXGtCq8dU62SpHnp2ytaegMaIHBHDKnvYgLR.VpE.WSglI/WZQ3y', 'jZ0OZFf8H8QARFpUzdBBFMc5Rzk6PdVcncyvwyHXoHIaRdw3qPa5D9v8SExl', '2017-05-30 00:53:39', '2017-05-30 00:53:39', 'Admin');
+(52, 'Admin', 'admin', '$2y$10$NpXGtCq8dU62SpHnp2ytaegMaIHBHDKnvYgLR.VpE.WSglI/WZQ3y', 'OD18q8KHlty82xkWyokP0ViVbALB8qweAMRm7svaPWBFwlXqVRIvd32BPTXr', '2017-05-30 00:53:39', '2017-05-30 00:53:39', 'Admin'),
+(54, 'gg', '4444', '$2y$10$5LLnHm90rBwWbwF/oOffcOASLvq6WCCy6.MquoU50NIaUJg9C5T4K', NULL, '2017-08-26 05:59:36', '2017-08-26 05:59:36', 'Siswa'),
+(56, 'ww', '7777', '$2y$10$vaTzY3JeKnHBBZGrojEVpesw4OaoftwfJhxt/YzaDLck/Uy6eMg6.', NULL, '2017-09-26 08:53:17', '2017-09-26 09:08:56', 'Siswa'),
+(57, 'gani', '999999', '$2y$10$kUUUreK/qOyqOj07QVQUR.G/nnEbdifMSMidn54.g/ayuUWNegy46', 'ldK726Hu1ev9or97rsLqWlXzRZAvRoO6KdkET2ugeuAgYLKPlhY72j3E3WIC', '2017-09-26 09:08:45', '2017-09-26 09:08:45', 'Guru'),
+(58, 'a', '8888', '$2y$10$oj25AFDPZxDDB1fAjZW7eeR/Hbk7qKsYNSha/6v6Db0q5EsIphUT6', NULL, '2017-09-26 12:17:09', '2017-09-26 12:17:09', 'Siswa');
 
 -- --------------------------------------------------------
 
@@ -354,7 +393,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `inputhafalan`
 --
 ALTER TABLE `inputhafalan`
-  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_hafalan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
@@ -369,7 +408,7 @@ ALTER TABLE `surah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 --
 -- Constraints for dumped tables
 --
@@ -391,7 +430,7 @@ ALTER TABLE `inputhafalan`
 -- Constraints for table `siswa`
 --
 ALTER TABLE `siswa`
-  ADD CONSTRAINT `guru_hafalan` FOREIGN KEY (`no_guru`) REFERENCES `guru` (`no_guru`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `guru_hafalan` FOREIGN KEY (`no_guru`) REFERENCES `guru` (`no_guru`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `user_siswa` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

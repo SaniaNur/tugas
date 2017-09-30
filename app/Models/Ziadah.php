@@ -15,9 +15,9 @@ class Ziadah extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'inputhafalan';
+    protected $table = 'hafalanziadah';
     protected $primaryKey = 'id_hafalan';
-    // public $timestamps = false;
+    public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = ['noJuz','NIS','no_guru','jenis','noHalamanA','noHalamanB','tanggal','nilai'];
     // protected $hidden = [];
